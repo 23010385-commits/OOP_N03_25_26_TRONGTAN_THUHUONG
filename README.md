@@ -1,4 +1,5 @@
 Project – Ứng dụng Quản lý Học Guitar 🎸
+
 Yêu cầu chính
 
 Giao diện: Java Spring Boot (REST API hoặc Web).
@@ -62,4 +63,17 @@ Có chức năng backup và restore dữ liệu.
 
 1.2 UML Sequence Diagram
 
+![0c1bc6a7-45ed-4a82-b1bb-fae5ae85b6ad](https://github.com/user-attachments/assets/bb52c924-c9e0-41f9-ae7b-99e6de1f1b4f)
+
+1.3 UML Sequence Diagram
+
+![c380c7c8-989a-4a9b-b3fa-cc0032a6460b](https://github.com/user-attachments/assets/c9175f59-66cb-4a36-8c28-c330d14e82ac)
+
+1.4 UML Sequence Diagram
+
+![5d0403f4-7a53-4126-91e6-95619befe0c9](https://github.com/user-attachments/assets/636f2570-be09-4999-a862-ab07563cc833)
+
+1.5 UML Sequence Diagram
+
+![a4fc2910-f900-411f-952e-8234c6b73b63](https://github.com/user-attachments/assets/f0b7ac22-cc76-4148-bfa9-ca2cfcc93c2c)
 
