@@ -1,66 +1,60 @@
-1. Student đăng ký khóa học (Enroll Course)
+Project – Ứng dụng Quản lý Học Guitar 🎸
+Yêu cầu chính
 
-Mục tiêu: Sinh viên chọn 1 khóa học và hệ thống ghi nhận đăng ký.
+Giao diện: Java Spring Boot (REST API hoặc Web).
 
-Các bước:
+Chức năng: Quản lý học viên, khóa học guitar, bài học.
 
-Student chọn khóa học muốn học → gửi yêu cầu enrollCourse(courseId).
+Dữ liệu: Quản lý trong bộ nhớ bằng Collection (ArrayList, Map, …).
 
-CourseService nhận yêu cầu → kiểm tra khóa học có tồn tại không.
+Lưu trữ: Ghi & đọc từ file nhị phân (ObjectOutputStream / ObjectInputStream).
+Bạn đã gửi
+Chức năng chi tiết
+1. Quản lý Học viên
 
-CourseService gọi đến Course để lấy thông tin khóa học.
+Thêm, sửa, xóa học viên.
 
-Nếu hợp lệ, CourseService tạo mới Enrollment (ghi nhận sinh viên đã đăng ký).
+Liệt kê danh sách học viên.
 
-CourseService trả kết quả cho Student: “Đăng ký thành công”.
+Lọc học viên theo level (Beginner, Intermediate, Advanced).
 
-2. Teacher thêm bài học vào khóa học (Add Lesson)
+Xem tiến độ học tập (các bài học đã hoàn thành).
 
-Mục tiêu: Giáo viên thêm bài học mới (Lesson) vào 1 Course.
+2. Quản lý Khóa học Guitar
 
-Các bước:
+Thêm, sửa, xóa khóa học.
 
-Teacher chọn khóa học cần thêm bài học → gửi yêu cầu addLesson(courseId, lesson).
+Mỗi khóa học có danh sách bài học (Lesson).
 
-CourseService kiểm tra giáo viên có quyền dạy khóa học này không.
+Xem nội dung khóa học.
 
-Nếu hợp lệ, CourseService gọi đến Course để thêm bài học mới.
+3. Quản lý Bài học (Lesson)
 
-Course khởi tạo Lesson và lưu vào danh sách bài học.
+Thêm, sửa, xóa bài học.
 
-CourseService trả kết quả cho Teacher: “Thêm bài học thành công”.
+Bài học có: lessonId, title, duration, levelRequired.
 
-3. Student xem tiến trình học (Show Progress)
+Có thể lọc bài học theo độ khó hoặc thời lượng.
 
-Mục tiêu: Sinh viên muốn xem mình đã học đến đâu.
+4. Gán học viên vào khóa học
 
-Các bước:
+Mỗi học viên có thể tham gia nhiều khóa học.
 
-Student gửi yêu cầu showProgress(courseId).
+Mỗi khóa học có nhiều học viên.
 
-CourseService nhận yêu cầu → tìm Enrollment của Student trong Course.
+Học viên được gán vào khóa học phù hợp với level.
 
-CourseService lấy danh sách Lesson của Course.
+5. Quản lý Giáo viên (tùy chọn thêm)
 
-Dựa trên thông tin Enrollment (các lesson đã hoàn thành), CourseService tính % tiến trình.
+Thêm, sửa, xóa giáo viên.
 
-CourseService trả kết quả tiến trình cho Student (ví dụ: “3/5 lessons completed”).
+Gán giáo viên vào khóa học.
 
-4. Student hoàn thành 1 bài học (Complete Lesson) (tùy chọn thêm cho đẹp báo cáo)
+6. Lưu trữ dữ liệu
 
-Mục tiêu: Ghi nhận khi Student học xong 1 Lesson.
+Toàn bộ dữ liệu (học viên, khóa học, bài học, giáo viên) được lưu xuống file nhị phân.
 
-Các bước:
-
-Student gửi yêu cầu completeLesson(courseId, lessonId).
-
-CourseService nhận yêu cầu → tìm Enrollment tương ứng.
-
-CourseService đánh dấu lesson đó là “completed” trong Enrollment.
-
-Cập nhật tiến trình học.
-
-CourseService trả về thông báo “Bài học đã hoàn thành”.
+Có chức năng backup và restore dữ liệu.
 
 1.1 UML Class Diagram
 
