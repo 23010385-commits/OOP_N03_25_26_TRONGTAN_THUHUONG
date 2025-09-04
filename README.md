@@ -21,7 +21,7 @@
 ## Quản lý bài học (Lesson)
 - Thêm, sửa, xóa bài học.
 - Liệt kê các bài học, lọc theo cấp độ (Basic, Advanced).
-  ó
+
 ## Quản lý khóa học (Course)
 - Thêm, sửa, xóa khóa học.
 - Gán học viên vào khóa học.
