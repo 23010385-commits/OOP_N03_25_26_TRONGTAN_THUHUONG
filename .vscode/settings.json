@@ -1,8 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "ourProject/src/test",
-        "ourProject/src/models",
-        "ourProject/src"
-    ],
-    "java.project.referencedLibraries": []
-}
