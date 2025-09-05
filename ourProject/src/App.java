@@ -1,22 +1,17 @@
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        System.out.println("===== RUNNING TESTS =====");
 
+        // Gọi TestUser
+        System.out.println("\n--- Test User ---");
+        TestUser.main(null);
 
-        int n = 10;
-        long startTime = System.nanoTime();
-        int result = factorial(n);
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+        // Gọi TestTime
+        System.out.println("\n--- Test Time ---");
+        TestTime.main(null);
 
-        System.out.println("factorial(" + n + ") = " + result);
-        System.out.println("User time (nanoseconds): " + duration);
-
-
-    }
-
-    public static int factorial(int n) {
-        if (n == 0) return 1;
-        return n * factorial(n - 1);
+        // Gọi TestRecursion
+        System.out.println("\n--- Test Recursion ---");
+        TestRecursion.main(null);
     }
 }
