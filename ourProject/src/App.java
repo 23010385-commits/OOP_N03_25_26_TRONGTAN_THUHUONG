@@ -1,11 +1,12 @@
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World");
 
-        
+        // Tạo đối tượng Lesson
+        Lesson l1 = new Lesson(1, "Hop am C", "Gioi thieu hop am co ban C", 30);
+        Lesson l2 = new Lesson(2, "Dem nhac co ban", "Nhip dieu 4/4 don gian", 40);
 
-        testLesson.test();
-
-      
+        // Gọi phương thức showInfo để hiển thị
+        l1.showInfo();
+        l2.showInfo();
     }
 }
