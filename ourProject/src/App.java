@@ -8,5 +8,12 @@ public class App {
         // Gọi phương thức showInfo để hiển thị
         l1.showInfo();
         l2.showInfo();
+
+        HocVien hv1 = new HocVien(1, "Nguyen Van A", 12);
+        HocVien hv2 = new HocVien(2, "Tran Thi B", 13);
+
+        // Hiển thị thông tin học viên
+        hv1.showInfo();
+        hv2.showInfo();
     }
 }
