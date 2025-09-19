@@ -1,5 +1,3 @@
-
-
 import java.util.List;
 
 public class KhoaHoc {
@@ -40,7 +38,7 @@ public class KhoaHoc {
                 "id=" + id +
                 ", tenKhoaHoc='" + tenKhoaHoc + '\'' +
                 ", moTa='" + moTa + '\'' +
-                ", giaoVien=" + (giaoVien != null ? giaoVien.getTen() : "Chua co") +
+                ", giaoVien=" + (giaoVien != null ? giaoVien.getTen() : "Chưa có") +
                 ", soHocVien=" + (hocVien != null ? hocVien.size() : 0) +
                 '}';
     } 
