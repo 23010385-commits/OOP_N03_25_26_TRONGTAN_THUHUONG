@@ -1,52 +1,46 @@
-package models;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HocVien {
-    // Thuộc tính
-    private String ten;                    
-    private int tuoi;                         
-    private ArrayList<Lesson> learnedLessons; 
+    private int hocVienID;
+    private String ten;
+    private String email;
+    private String soDienThoai;
 
-    // Hàm tạo
-    public HocVien(String ten, int tuoi) {
+    // Danh sach cac khoa hoc da dang ky
+    private List<KhoaHoc> khoaHocDaDangKy;
+
+    // Ham tao
+    public HocVien(int id, String ten, String email, String sdt) {
+        this.hocVienID = id;
         this.ten = ten;
-        this.tuoi = tuoi;
-        this.learnedLessons = new ArrayList<>(); // khởi tạo rỗng
+        this.email = email;
+        this.soDienThoai = sdt;
+        this.khoaHocDaDangKy = new ArrayList<>();
     }
 
-    // getter và setter
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    public int getTuoi() {
-        return tuoi;
-    }
-
-    public void setTuoi(int tuoi) {
-        this.tuoi = tuoi;
-    }
-
-    // Đăng ký học 1 bài học
-    public void enrollLesson(Lesson lesson) {
-        learnedLessons.add(lesson);
-        System.out.println(ten + " da dang ki bai hoc: " + lesson.getTitle());
-    }
-
-    // Hiển thị tiến độ học
-    public void showProgress() {
-        System.out.println("Tien do hoc tap cua " + ten + ":");
-        if (learnedLessons.isEmpty()) {
-            System.out.println("Chua hoc bai nao.");
+    // Phuong thuc dang ky khoa hoc
+    public void dangKyKhoaHoc(KhoaHoc khoaHoc) {
+        if (!khoaHocDaDangKy.contains(khoaHoc)) {
+            khoaHocDaDangKy.add(khoaHoc);
+            System.out.println(ten + " da dang ky khoa hoc: " + khoaHoc.getTenKhoaHoc());
         } else {
-            for (Lesson l : learnedLessons) {
-                System.out.println(l.toString());
-            }
+            System.out.println(ten + " da dang ky khoa hoc nay roi!");
         }
+    }
+
+    // Xem danh sach khoa hoc da dang ky
+    public void showKhoaHocDaDangKy() {
+        System.out.println("Hoc vien " + ten + " da dang ky cac khoa hoc:");
+        for (KhoaHoc c : khoaHocDaDangKy) {
+            System.out.println("- " + c.getTenKhoaHoc());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Hoc vien #" + hocVienID + ": " + ten + "\nEmail: " + email + "\nSo dien thoai: " + soDienThoai + "\n";
     }
 }
