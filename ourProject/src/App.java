@@ -1,19 +1,40 @@
+import java.util.Date;
+
 public class App {
     public static void main(String[] args) {
+        // tao bai hoc
+        Baihoc bh1 = new Baihoc(1, "Java OOP", "Huong doi tuong co ban");
+        Baihoc bh2 = new Baihoc(2, "Java Collection", "List, Map, Set");
 
-        // Tạo đối tượng Lesson
-        Lesson l1 = new Lesson(1, "Hop am C", "Gioi thieu hop am co ban C", 30);
-        Lesson l2 = new Lesson(2, "Dem nhac co ban", "Nhip dieu 4/4 don gian", 40);
+        // tao khoa hoc
+        Khoahoc khoahoc = new Khoahoc();
+        khoahoc.themBaihoc(bh1);
+        khoahoc.themBaihoc(bh2);
 
-        // Gọi phương thức showInfo để hiển thị
-        l1.showInfo();
-        l2.showInfo();
+        // tao hoc vien
+        Hocvien hv = new Hocvien("Nguyen Van A", 1);
 
-        HocVien hv1 = new HocVien(1, "Nguyen Van A", 12);
-        HocVien hv2 = new HocVien(2, "Tran Thi B", 13);
+        // tao giao vien
+        Giaovien gv = new Giaovien("Tran Thi B");
 
-        // Hiển thị thông tin học viên
-        hv1.showInfo();
-        hv2.showInfo();
+        // giao bai hoc cho hoc vien
+        gv.Giaobai(hv, bh1);
+
+        // hoc vien hoc bai
+        hv.hocBai(bh1);
+        hv.thiThu();
+        hv.levelUp();
+
+        // giao bai hoc thu 2
+        gv.Giaobai(hv, bh2);
+        hv.hocBai(bh2);
+
+        // test lay bai hoc theo level
+        Baihoc bhTheoLevel = khoahoc.layBaiHocTheoLevel(1);
+        System.out.println("Bai hoc level 1: " + bhTheoLevel.getNoidung());
+
+        // in thong tin
+        System.out.println("Hoc vien: " + hv.getTen() + " - level: " + hv.getLevel());
+        System.out.println("Giao vien: " + gv.getTen());
     }
 }
