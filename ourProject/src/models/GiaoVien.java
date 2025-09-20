@@ -1,4 +1,8 @@
+package models;
+
 public class GiaoVien {
+
+    // thuoc tinh
     private int id;
     private String ten;
     private int tuoi;
