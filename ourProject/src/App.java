@@ -1,88 +1,40 @@
-import models.HocVien;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Date;
 
 public class App {
-    static ArrayList<HocVien> danhSachHocVien = new ArrayList<>();
-    static Scanner sc = new Scanner(System.in);
-
-    // CREATE - thêm học viên
-    static void themHocVien() {
-        System.out.print("Nhập ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Nhập tên: ");
-        String name = sc.nextLine();
-        System.out.print("Nhập tuổi: ");
-        int age = sc.nextInt();
-
-        HocVien hv = new HocVien(id, name, age);
-        danhSachHocVien.add(hv);
-        System.out.println("✅ Đã thêm học viên!");
-    }
-
-    // READ - xem danh sách học viên
-    static void xemDanhSach() {
-        System.out.println("\nDanh sách học viên:");
-        for (HocVien hv : danhSachHocVien) {
-            System.out.println(hv);
-        }
-    }
-
-    // UPDATE - sửa thông tin học viên
-    static void suaHocVien() {
-        System.out.print("Nhập ID học viên cần sửa: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        for (HocVien hv : danhSachHocVien) {
-            if (hv.getId() == id) { // Sửa lại
-                System.out.print("Nhập tên mới: ");
-                hv.setName(sc.nextLine()); // Sửa lại
-                System.out.print("Nhập tuổi mới: ");
-                hv.setAge(sc.nextInt()); // Sửa lại
-                System.out.println("✅ Đã sửa thông tin!");
-                return;
-            }
-        }
-        System.out.println("❌ Không tìm thấy học viên!");
-    }
-
-    // DELETE - xóa học viên
-    static void xoaHocVien() {
-        System.out.print("Nhập ID học viên cần xóa: ");
-        int id = sc.nextInt();
-
-        boolean removed = danhSachHocVien.removeIf(hv -> hv.getId() == id); // Sửa lại
-        if (removed) {
-            System.out.println("✅ Đã xóa học viên!");
-        } else {
-            System.out.println("❌ Không tìm thấy học viên!");
-        }
-    }
-
     public static void main(String[] args) {
-        while (true) {
-            System.out.println("\n=== MENU QUẢN LÝ HỌC VIÊN ===");
-            System.out.println("1. Thêm học viên");
-            System.out.println("2. Xem danh sách học viên");
-            System.out.println("3. Sửa thông tin học viên");
-            System.out.println("4. Xóa học viên");
-            System.out.println("0. Thoát");
-            System.out.print("Chọn: ");
+        // tao bai hoc
+        Baihoc bh1 = new Baihoc(1, "Java OOP", "Huong doi tuong co ban");
+        Baihoc bh2 = new Baihoc(2, "Java Collection", "List, Map, Set");
 
-            int choice = sc.nextInt();
-            switch (choice) {
-                case 1 -> themHocVien();
-                case 2 -> xemDanhSach();
-                case 3 -> suaHocVien();
-                case 4 -> xoaHocVien();
-                case 0 -> {
-                    System.out.println("👋 Tạm biệt!");
-                    return;
-                }
-                default -> System.out.println("❌ Lựa chọn không hợp lệ!");
-            }
-        }
+        // tao khoa hoc
+        Khoahoc khoahoc = new Khoahoc();
+        khoahoc.themBaihoc(bh1);
+        khoahoc.themBaihoc(bh2);
+
+        // tao hoc vien
+        Hocvien hv = new Hocvien("Nguyen Van A", 1);
+
+        // tao giao vien
+        Giaovien gv = new Giaovien("Tran Thi B");
+
+        // giao bai hoc cho hoc vien
+        gv.Giaobai(hv, bh1);
+
+        // hoc vien hoc bai
+        hv.hocBai(bh1);
+        hv.thiThu();
+        hv.levelUp();
+
+        // giao bai hoc thu 2
+        gv.Giaobai(hv, bh2);
+        hv.hocBai(bh2);
+
+        // test lay bai hoc theo level
+        Baihoc bhTheoLevel = khoahoc.layBaiHocTheoLevel(1);
+        System.out.println("Bai hoc level 1: " + bhTheoLevel.getNoidung());
+
+        // in thong tin
+        System.out.println("Hoc vien: " + hv.getTen() + " - level: " + hv.getLevel());
+        System.out.println("Giao vien: " + gv.getTen());
     }
 }
