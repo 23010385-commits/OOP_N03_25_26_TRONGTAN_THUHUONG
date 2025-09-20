@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
+package models;
 
 public class Teaching {
     private GiaoVien giaovien;
     private KhoaHoc khoahoc;
-    private List<Baihoc> baihocs;
+    private List<Lesson> baihocs;
 
     public Teaching(GiaoVien giaovien, KhoaHoc khoahoc) {
         this.giaovien = giaovien;
@@ -13,24 +12,24 @@ public class Teaching {
     }
 
     // CRUD cho bài học trong Teaching
-    public void addBaihoc(Baihoc baihoc) {
+    public void addBaihoc(Lesson baihoc) {
         baihocs.add(baihoc);
     }
 
     public void removeBaihoc(int id) {
-        baihocs.removeIf(b -> b.getId() == id);
+        baihocs.removeIf(b -> b.getLessonID() == id);
     }
 
     public void updateBaihoc(int id, String newTen) {
-        for (Baihoc b : baihocs) {
-            if (b.getId() == id) {
-                b.setTen(newTen);
+        for (Lesson b : baihocs) {
+            if (b.getLessonID() == id) {
+                b.setTitle(newTen);
                 break;
             }
         }
     }
 
-    public List<Baihoc> getBaihocs() {
+    public List<Lesson> getBaihocs() {
         return baihocs;
     }
 
