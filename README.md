@@ -67,3 +67,19 @@
 
 ![a4fc2910-f900-411f-952e-8234c6b73b63](https://github.com/user-attachments/assets/f0b7ac22-cc76-4148-bfa9-ca2cfcc93c2c)
 
+## 3.3 UML Activity Diagram
+### 3.3.1. Khóa học
+<img width="464" height="1728" alt="nPJ1Qi9048RlWRp3u4d1qhiUgasa0KNQgk1rkwxkq2GRT5OgfU_UcTZ4LepqKEXjTtR-VsU-dMIm8xKbdwLXG4YfWQ4ct2CT84QrsQeCRY1wNiGmjav1udGOX4714YHqEH-DXlCHl8S1GEaaYzu3AWTxD3beoqcjEMyhVQjVfaojAe1CteNC0QakR6fDOJtGLcbRPk8QsdDssG1X3jOLa9g" src="https://github.com/user-attachments/assets/24a5b110-d6bf-4516-b31e-9cdf95fa92a6" />
+
+
+### 3.3.2. Giáo viên
+<img width="477" height="1620" alt="giao vien" src="https://github.com/user-attachments/assets/fc812fc2-844a-4858-a85a-d2218cd6fa41" />
+
+
+### 3.3.3. Học viên
+<img width="466" height="1620" alt="hoc vien" src="https://github.com/user-attachments/assets/63136c2b-bdfd-43eb-bcb3-6d2018133f76" />
+
+
+### 3.3.4. Bài học
+<img width="489" height="1620" alt="bai hoc" src="https://github.com/user-attachments/assets/4d0dc1c3-b013-4460-9e5d-056345dc7ba5" />
+
