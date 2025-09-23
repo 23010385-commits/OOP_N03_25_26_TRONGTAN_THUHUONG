@@ -1,5 +1,4 @@
 package test;
-
 import models.Lesson;
 
 public class LessonTest {

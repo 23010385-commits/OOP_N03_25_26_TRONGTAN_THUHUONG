@@ -1,15 +1,20 @@
+package test;
+import models.GiaoVien;
+
 public class GiaoVienTest {
     public static void main(String[] args) {
-        // tao giao vien
-        GiaoVien gv1 = new GiaoVien(1, "Tran Thi B", "tranb@gmail.com", "0987654321");
+        // Tạo giáo viên với đủ thông tin
+        GiaoVien gv = new GiaoVien(101, "Nguyen Van A", 35, "Toan");
 
-        // in thong tin giao vien
-        System.out.println("Thong tin giao vien:");
-        System.out.println(gv1);
+        System.out.println("=== Test GiaoVien ===");
+        gv.showInfo();
 
-        // thay doi ten
-        gv1.setTen("Le Van C");
-        System.out.println("Thong tin sau khi doi ten:");
-        System.out.println(gv1);
+        // test setter
+        gv.setTen("Tran Thi B");
+        gv.setTuoi(40);
+        gv.setChuyenMon("Van");
+
+        System.out.println("--- Sau khi thay doi ---");
+        gv.showInfo();
     }
 }
