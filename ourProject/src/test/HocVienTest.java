@@ -1,3 +1,6 @@
+package test;
+import models.HocVien;
+
 public class HocVienTest {
     public static void main(String[] args) {
         // Tao hoc vien moi
