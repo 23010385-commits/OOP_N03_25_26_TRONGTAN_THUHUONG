@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Teaching {
     private GiaoVien giaovien;
     private KhoaHoc khoahoc;

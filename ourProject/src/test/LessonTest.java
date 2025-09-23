@@ -2,8 +2,7 @@ package test;
 import models.Lesson;
 
 public class LessonTest {
-
-    public static void test(){
+    public static void main(String[] args) {
 
         Lesson l1 = new Lesson(1, "Gioi thieu ve dan guitar",  "Ten, Cac bo phan cua dan", 30);
     
