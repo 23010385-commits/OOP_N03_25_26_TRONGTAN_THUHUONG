@@ -57,7 +57,7 @@ public class Lesson {
     }
 
     @Override
-public String toString() {
+    public String toString() {
     return "Lesson{" +
             "ID=" + lessonID +
             ", Title='" + title + '\'' +
