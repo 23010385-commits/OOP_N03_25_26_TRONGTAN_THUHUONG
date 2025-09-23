@@ -1,4 +1,8 @@
 import java.util.Date;
+import models.Lesson;
+import models.KhoaHoc;
+import models.HocVien;
+import models.GiaoVien;
 
 public class StudentLesson {
     private int id;
