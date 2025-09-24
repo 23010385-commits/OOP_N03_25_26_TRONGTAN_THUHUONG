@@ -56,4 +56,14 @@ public class Lesson {
         System.out.println();
     }
 
+    @Override
+    public String toString() {
+    return "Lesson{" +
+            "ID=" + lessonID +
+            ", Title='" + title + '\'' +
+            ", Noi dung='" + noiDung + '\'' +
+            ", Thoi luong=" + thoiLuong + " phut" +
+            '}';
+}
+
 }
