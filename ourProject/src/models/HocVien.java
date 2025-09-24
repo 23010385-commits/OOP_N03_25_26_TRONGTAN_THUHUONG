@@ -1,131 +1,95 @@
-
+package models;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
-// Đối tượng Học viên
-class HocVienModel {
-    int id;
-    String name;
-    int age;
-
-    HocVienModel(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    // Thêm các phương thức getter và setter
-    public int getId() {
-        return id;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-
-// CRUD cho Học viên
 public class HocVien {
+
+    // thuoc tinh
     private int id;
-    private String name;
-    private int age;
+    private String ten;
+    private String email;
+    private String soDienThoai;
 
-    public HocVien() {
-        // Constructor mặc định
-    }
+    // danh sach khoa hoc da dang ky
+    private List<KhoaHoc> dsKhoaHoc;
 
-    public HocVien(int id, String name, int age) {
+    // ham tao
+    public HocVien(int id, String ten, String email, String soDienThoai) {
         this.id = id;
-        this.name = name;
-        this.age = age;
+        this.ten = ten;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+        this.dsKhoaHoc = new ArrayList<>();
     }
 
-    // Thêm các phương thức getter và setter cần thiết
+    // getter va setter
     public int getId() {
         return id;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setAge(int age) {
-        this.age = age;
+
+    public void setId(int id) {
+        this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "HocVien{id=" + id + ", name='" + name + "', age=" + age + "}";
+    public String getTen() {
+        return ten;
     }
 
-    static ArrayList<HocVienModel> hocViens = new ArrayList<>();
-    static Scanner sc = new Scanner(System.in);
-
-    // CREATE - Thêm học viên
-    static void createHocVien() {
-        System.out.print("Nhập ID: ");
-        int id = sc.nextInt();
-        sc.nextLine(); // clear buffer
-        System.out.print("Nhập tên: ");
-        String name = sc.nextLine();
-        System.out.print("Nhập tuổi: ");
-        int age = sc.nextInt();
-        hocViens.add(new HocVienModel(id, name, age));
-        System.out.println("✅ Đã thêm học viên!");
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
-    // READ - Xem danh sách
-    static void readHocViens() {
-        System.out.println("Danh sách học viên:");
-        for (HocVienModel hv : hocViens) {
-            System.out.println(hv.id + " - " + hv.name + " - " + hv.age + " tuổi");
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public List<KhoaHoc> getDsKhoaHoc() {
+        return dsKhoaHoc;
+    }
+
+    // phuong thuc dang ky khoa hoc
+    public void dangKyKhoaHoc(KhoaHoc khoaHoc) {
+        if (!dsKhoaHoc.contains(khoaHoc)) {
+            dsKhoaHoc.add(khoaHoc);
+            System.out.println(ten + " da dang ky khoa hoc: " + khoaHoc.getTenKhoaHoc());
+        } else {
+            System.out.println(ten + " da dang ky khoa hoc nay roi!");
         }
     }
 
-    // UPDATE - Sửa học viên
-    static void updateHocVien() {
-        System.out.print("Nhập ID học viên cần sửa: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-        for (HocVienModel hv : hocViens) {
-            if (hv.getId() == id) {
-                System.out.print("Nhập tên mới: ");
-                hv.setName(sc.nextLine());
-                System.out.print("Nhập tuổi mới: ");
-                hv.setAge(sc.nextInt());
-                System.out.println("✅ Đã cập nhật!");
-                return;
+    // phuong thuc hien thi danh sach khoa hoc
+    public void showKhoaHocDaDangKy() {
+        System.out.println("------ Hoc vien " + ten + " ------");
+        if (dsKhoaHoc.isEmpty()) {
+            System.out.println("Chua dang ky khoa hoc nao");
+        } else {
+            for (KhoaHoc kh : dsKhoaHoc) {
+                System.out.println("- " + kh.getTenKhoaHoc());
             }
         }
-        System.out.println("❌ Không tìm thấy học viên!");
+        System.out.println("-------------------------------\n");
     }
 
-    // DELETE - Xóa học viên
-    static void deleteHocVien() {
-        System.out.print("Nhập ID học viên cần xóa: ");
-        int id = sc.nextInt();
-        hocViens.removeIf(hv -> hv.id == id);
-        System.out.println("✅ Đã xóa (nếu có)!");
-    }
-
-    public static void main(String[] args) {
-        while (true) {
-            System.out.println("\n=== MENU QUẢN LÝ HỌC VIÊN ===");
-            System.out.println("1. Thêm học viên");
-            System.out.println("2. Xem danh sách học viên");
-            System.out.println("3. Sửa thông tin học viên");
-            System.out.println("4. Xóa học viên");
-            System.out.println("0. Thoát");
-            System.out.print("Chọn: ");
-            int choice = sc.nextInt();
-            switch (choice) {
-                case 1: createHocVien(); break;
-                case 2: readHocViens(); break;
-                case 3: updateHocVien(); break;
-                case 4: deleteHocVien(); break;
-                case 0: System.exit(0);
-            }
-        }
+    // phuong thuc in thong tin hoc vien
+    public void showInfo() {
+        System.out.println("------ Hoc vien ------");
+        System.out.println("ID    : " + id);
+        System.out.println("Ten   : " + ten);
+        System.out.println("Email : " + email);
+        System.out.println("SDT   : " + soDienThoai);
+        System.out.println("----------------------\n");
     }
 }

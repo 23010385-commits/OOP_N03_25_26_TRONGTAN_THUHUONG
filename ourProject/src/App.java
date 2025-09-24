@@ -1,47 +1,43 @@
-
+import models.HocVien;
 import models.Lesson;
 import models.KhoaHoc;
-import models.HocVien;
 import models.GiaoVien;
 
 public class App {
     public static void main(String[] args) {
-        // tao bai hoc
-        Lesson bh1 = new Lesson(1, "Java OOP", "Huong doi tuong co ban", 60);
-        Lesson bh2 = new Lesson(2, "Java Collection", "List, Map, Set", 45);
+        // Tao giao vien
+        GiaoVien gv = new GiaoVien(1, "Tran Van A", 35, "Nhac co dien");
 
-        // tao khoa hoc
-        KhoaHoc khoahoc = new KhoaHoc(1, "Khoa hoc Java", "Mo ta", null);
-        khoahoc.themBaiHoc(bh1);
-        khoahoc.themBaiHoc(bh2);
+        // Tao bai hoc
+        Lesson l1 = new Lesson(1, "Gioi thieu dan guitar", "Ten cac bo phan cua dan", 30);
+        Lesson l2 = new Lesson(2, "Hop am co ban", "Hoc hop am C, D, G", 45);
 
-        // tao hoc vien
-        HocVien hv = new HocVien(1, "Nguyen Van A", "a@gmail.com", "0123456789");
+    // Tao khoa hoc
+    KhoaHoc khoaHoc = new KhoaHoc(1, "Khoa hoc Guitar co ban", "Hoc cac kien thuc nen tang", gv);
+        khoaHoc.themBaiHoc(l1);
+        khoaHoc.themBaiHoc(l2);
 
-        // tao giao vien
-        GiaoVien gv = new GiaoVien(2, "Tran Thi B", 35, "Java");
+        // Tao hoc vien
+        HocVien hv1 = new HocVien(1, "Nguyen Van B", "b@gmail.com", "0123456789");
+        HocVien hv2 = new HocVien(2, "Le Thi C", "c@gmail.com", "0987654321");
 
-        // giao bai hoc cho hoc vien
-        // Nếu có phương thức giaoBai thì gọi, nếu không thì bỏ qua dòng này
-        // gv.giaoBai(hv, bh1);
+        // Hoc vien dang ky khoa hoc
+        hv1.dangKyKhoaHoc(khoaHoc);
+        hv2.dangKyKhoaHoc(khoaHoc);
 
-        // hoc vien hoc bai
-        // Nếu có phương thức hocBai, thiThu, levelUp thì gọi, nếu không thì bỏ qua dòng này
-        // hv.hocBai(bh1);
-        // hv.thiThu();
-        // hv.levelUp();
+        // In thong tin khoa hoc
+        System.out.println("\n--- Thong tin khoa hoc ---");
+        System.out.println(khoaHoc);
 
-        // giao bai hoc thu 2
-        // gv.giaoBai(hv, bh2);
-        // hv.hocBai(bh2);
+        // In danh sach bai hoc
+        System.out.println("\n--- Danh sach bai hoc ---");
+        for (Lesson l : khoaHoc.getLessons()) {
+            l.showInfo();
+        }
 
-        // test lay bai hoc theo level
-        // Nếu có phương thức layBaiHocTheoLevel thì gọi, nếu không thì bỏ qua dòng này
-        // Lesson bhTheoLevel = khoahoc.layBaiHocTheoLevel(1);
-        // System.out.println("Bai hoc level 1: " + bhTheoLevel.getNoiDung());
-
-        // in thong tin
-        System.out.println("Hoc vien: " + hv.getTen());
-        System.out.println("Giao vien: " + gv.getTen());
+        // Hoc vien xem khoa hoc da dang ky
+        System.out.println("\n--- Khoa hoc da dang ky ---");
+        hv1.showKhoaHocDaDangKy();
+        hv2.showKhoaHocDaDangKy();
     }
 }
