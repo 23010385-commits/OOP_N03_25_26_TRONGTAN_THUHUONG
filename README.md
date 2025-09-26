@@ -49,23 +49,25 @@
 # 3. Sơ đồ khối
 ## 3.1 UML Class Diagram
 
-<img width="1321" height="444" alt="Hoc_guitar-Trang-2 drawio" src="https://github.com/user-attachments/assets/978ac908-2930-475b-9ddd-966c1321e6a8" />
+<img width="2852" height="3176" alt="image" src="https://github.com/user-attachments/assets/1fc46cca-87ae-4f92-b1ae-2c889a9680ca" />
+
 
 ## 3.2 UML Sequence Diagram
-### 3.2.1. Học viên học bài học (Student learns a Lesson)
-![0c1bc6a7-45ed-4a82-b1bb-fae5ae85b6ad](https://github.com/user-attachments/assets/bb52c924-c9e0-41f9-ae7b-99e6de1f1b4f)
+### 3.2.1. Học viên đăng ký khóa
 
-### 3.2.2. Giáo viên dạy học viên (Teacher teaches Student)
+<img width="784" height="462" alt="hocvien_dangky_khoahoc" src="https://github.com/user-attachments/assets/1585dfc8-f5f4-437a-911e-d6c76b1a64ee" />
 
-![c380c7c8-989a-4a9b-b3fa-cc0032a6460b](https://github.com/user-attachments/assets/c9175f59-66cb-4a36-8c28-c330d14e82ac)
+### 3.2.2. Học viên học bài
 
-### 3.2.3. Giáo viên đánh giá học viên (Teacher evaluates Student)
+<img width="620" height="420" alt="hocvien_hocbai" src="https://github.com/user-attachments/assets/ecef2cd0-acbf-4f18-8c66-077bbaa1f4a2" />
 
-![5d0403f4-7a53-4126-91e6-95619befe0c9](https://github.com/user-attachments/assets/636f2570-be09-4999-a862-ab07563cc833)
+### 3.2.3. Học viên hoàn thành bài học
 
-### 3.2.4. Học viên tham gia khóa học (Student enrolls in Course)
+<img width="650" height="382" alt="hocvien_hoanthanh_baihoc" src="https://github.com/user-attachments/assets/c650650a-b612-4649-84fc-bd42d9fd658c" />
 
-![a4fc2910-f900-411f-952e-8234c6b73b63](https://github.com/user-attachments/assets/f0b7ac22-cc76-4148-bfa9-ca2cfcc93c2c)
+### 3.2.4. Giáo viên đánh giá học viên
+
+<img width="678" height="369" alt="giaovien_danhgia_hocvien" src="https://github.com/user-attachments/assets/e7270a08-9af6-4d98-b532-ff789691e1fb" />
 
 ## 3.3 UML Activity Diagram
 ### 3.3.1. Khóa học
