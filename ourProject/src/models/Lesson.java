@@ -66,4 +66,15 @@ public class Lesson {
             '}';
 }
 
+public void Batdau() {
+    System.out.println("Bat dau bai hoc: " + title);
+}
+
+public void Luyentap() {
+    System.out.println("Luyen tap bai hoc: " + title);
+}
+
+public void Hoanthanh() {
+    System.out.println("Hoan thanh bai hoc: " + title);
+}
 }

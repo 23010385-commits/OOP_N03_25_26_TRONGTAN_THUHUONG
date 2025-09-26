@@ -13,10 +13,11 @@ public class KhoaHoc {
     private List<Lesson> lessons;   
 
     // ham tao
-    public KhoaHoc(int id, String tenKhoaHoc, String moTa, GiaoVien gv) {
+    public KhoaHoc(int id, String tenKhoaHoc, String moTa, GiaoVien giaoVien) {
         this.id = id;
         this.tenKhoaHoc = tenKhoaHoc;
         this.moTa = moTa;
+        this.giaoVien = giaoVien;
         this.lessons = new ArrayList<>();
     }
 
@@ -60,7 +61,7 @@ public class KhoaHoc {
     public void addBaihoc(Lesson baihoc) {
         for (Lesson b : lessons) {
             if (b.getLessonID() == baihoc.getLessonID()) {
-                System.out.println("Bài học đã tồn tại.");
+                System.out.println("Bai hoc da ton tai.");
                 return;
             }
         }

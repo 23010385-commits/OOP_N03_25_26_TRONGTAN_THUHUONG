@@ -3,20 +3,20 @@ import models.Lesson;
 
 public class LessonTest {
     public static void main(String[] args) {
+        // Tạo bài học mới
+        Lesson lesson = new Lesson(1, "Guitar Basics", "Learn the basics of guitar", 60);
 
-        Lesson l1 = new Lesson(1, "Gioi thieu ve dan guitar",  "Ten, Cac bo phan cua dan", 30);
-    
+        // Hiển thị thông tin bài học
+        System.out.println("=== Test Lesson ===");
+        lesson.showInfo();
 
-        System.out.println("Thong tin bai hoc ban dau:");
-        System.out.println(l1);
+        // Test phương thức Batdau
+        lesson.Batdau();
 
-        l1.setTitle("GUITAR");
-        l1.setNoiDung("Mo dau");
-        l1.setThoiLuong(60);
+        // Test phương thức Luyentap
+        lesson.Luyentap();
 
-        System.out.println("Thong tin bai hoc sau khi chinh sua:");
-        System.out.println(l1);
-
+        // Test phương thức Hoanthanh
+        lesson.Hoanthanh();
     }
-    
 }
