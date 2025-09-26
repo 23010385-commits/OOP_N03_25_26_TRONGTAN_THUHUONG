@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GiaoVien {
 
     // thuoc tinh
@@ -7,6 +10,7 @@ public class GiaoVien {
     private String ten;
     private int tuoi;
     private String chuyenMon;
+    private List<KhoaHoc> dsKhoaHoc = new ArrayList<>();
 
     // ham tao
     public GiaoVien(int id, String ten, int tuoi, String chuyenMon) {
@@ -57,5 +61,21 @@ public class GiaoVien {
         System.out.println("Tuoi       : " + tuoi);
         System.out.println("Chuyen mon : " + chuyenMon);
         System.out.println("-----------------------\n");
+    }
+
+    public void DanhGia(HocVien hocVien) {
+        System.out.println("Danh gia hoc vien: " + hocVien.getTen());
+    }
+
+    public void themKhoaHoc(KhoaHoc khoaHoc) {
+        dsKhoaHoc.add(khoaHoc);
+        System.out.println("Da them khoa hoc: " + khoaHoc.getTenKhoaHoc());
+    }
+
+    public void showKhoaHocPhuTrach() {
+        System.out.println("Danh sach khoa hoc phu trach:");
+        for (KhoaHoc khoaHoc : dsKhoaHoc) {
+            System.out.println("- " + khoaHoc.getTenKhoaHoc());
+        }
     }
 }

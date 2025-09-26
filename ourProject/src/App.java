@@ -7,15 +7,16 @@ public class App {
     public static void main(String[] args) {
         // Tao giao vien
         GiaoVien gv = new GiaoVien(1, "Tran Van A", 35, "Nhac co dien");
+        gv.showInfo();
 
         // Tao bai hoc
         Lesson l1 = new Lesson(1, "Gioi thieu dan guitar", "Ten cac bo phan cua dan", 30);
         Lesson l2 = new Lesson(2, "Hop am co ban", "Hoc hop am C, D, G", 45);
 
     // Tao khoa hoc
-    KhoaHoc khoaHoc = new KhoaHoc(1, "Khoa hoc Guitar co ban", "Hoc cac kien thuc nen tang", gv);
-        khoaHoc.themBaiHoc(l1);
-        khoaHoc.themBaiHoc(l2);
+    KhoaHoc khoaHoc = new KhoaHoc(1, "Khoa hoc Guitar co ban", "Hoc cac kien thuc nen tang", "Co ban");
+        khoaHoc.addBaihoc(l1);
+        khoaHoc.addBaihoc(l2);
 
         // Tao hoc vien
         HocVien hv1 = new HocVien(1, "Nguyen Van B", "b@gmail.com", "0123456789");
