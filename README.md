@@ -49,7 +49,8 @@
 # 3. Sơ đồ khối
 ## 3.1 UML Class Diagram
 
-<img width="1321" height="444" alt="Hoc_guitar-Trang-2 drawio" src="https://github.com/user-attachments/assets/978ac908-2930-475b-9ddd-966c1321e6a8" />
+<img width="2852" height="3176" alt="image" src="https://github.com/user-attachments/assets/1fc46cca-87ae-4f92-b1ae-2c889a9680ca" />
+
 
 ## 3.2 UML Sequence Diagram
 ### 3.2.1. Học viên đăng ký khóa
