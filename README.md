@@ -83,5 +83,5 @@
 
 
 ### 3.3.4. Bài học
-<img width="489" height="1620" alt="bai hoc" src="https://github.com/user-attachments/assets/4d0dc1c3-b013-4460-9e5d-056345dc7ba5" />
+<img width="1013" height="453" alt="CRUD_lesson" src="https://github.com/user-attachments/assets/fe337b40-38a1-4a95-8c0a-05c6e9271a50" />
 
