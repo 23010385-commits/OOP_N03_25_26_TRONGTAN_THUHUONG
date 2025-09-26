@@ -1,5 +1,6 @@
 package test;
 import models.GiaoVien;
+import models.KhoaHoc;
 
 public class GiaoVienTest {
     public static void main(String[] args) {
@@ -9,12 +10,27 @@ public class GiaoVienTest {
         System.out.println("=== Test GiaoVien ===");
         gv.showInfo();
 
-        // test setter
+        // Test setter
         gv.setTen("Tran Thi B");
         gv.setTuoi(40);
         gv.setChuyenMon("Van");
 
         System.out.println("--- Sau khi thay doi ---");
         gv.showInfo();
+
+        // Test thêm khóa học
+        KhoaHoc kh1 = new KhoaHoc(1, "Guitar Basics", "Learn the basics of guitar", "Beginner");
+        KhoaHoc kh2 = new KhoaHoc(2, "Advanced Guitar", "Master advanced techniques", "Advanced");
+
+        gv.themKhoaHoc(kh1);
+        gv.themKhoaHoc(kh2);
+
+        System.out.println("--- Danh sach khoa hoc phu trach ---");
+        gv.showKhoaHocPhuTrach();
+
+        // Test trường hợp đặc biệt
+        GiaoVien gv2 = new GiaoVien(102, "", -5, "");
+        System.out.println("--- Test GiaoVien voi thong tin khong hop le ---");
+        gv2.showInfo();
     }
 }
