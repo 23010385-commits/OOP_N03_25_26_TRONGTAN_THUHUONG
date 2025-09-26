@@ -71,7 +71,7 @@
 
 ## 3.3 UML Activity Diagram
 ### 3.3.1. Khóa học
-<img width="464" height="1728" alt="nPJ1Qi9048RlWRp3u4d1qhiUgasa0KNQgk1rkwxkq2GRT5OgfU_UcTZ4LepqKEXjTtR-VsU-dMIm8xKbdwLXG4YfWQ4ct2CT84QrsQeCRY1wNiGmjav1udGOX4714YHqEH-DXlCHl8S1GEaaYzu3AWTxD3beoqcjEMyhVQjVfaojAe1CteNC0QakR6fDOJtGLcbRPk8QsdDssG1X3jOLa9g" src="https://github.com/user-attachments/assets/24a5b110-d6bf-4516-b31e-9cdf95fa92a6" />
+<img width="1036" height="453" alt="CRUD_khoahoc" src="https://github.com/user-attachments/assets/4125071c-a4ac-4bc7-9709-02d5d4e6dbd7" />
 
 
 ### 3.3.2. Giáo viên
