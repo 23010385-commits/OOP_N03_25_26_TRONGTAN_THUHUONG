@@ -10,6 +10,7 @@ public class HocVien {
     private String ten;
     private String email;
     private String soDienThoai;
+    private int level;
 
     // danh sach khoa hoc da dang ky
     private List<KhoaHoc> dsKhoaHoc;
@@ -21,6 +22,7 @@ public class HocVien {
         this.email = email;
         this.soDienThoai = soDienThoai;
         this.dsKhoaHoc = new ArrayList<>();
+        this.level = 1; // Mặc định cấp độ bắt đầu là 1
     }
 
     // getter va setter
@@ -90,6 +92,24 @@ public class HocVien {
         System.out.println("Ten   : " + ten);
         System.out.println("Email : " + email);
         System.out.println("SDT   : " + soDienThoai);
+        System.out.println("Level : " + level);
         System.out.println("----------------------\n");
     }
+
+    public void thuchanh() {
+        System.out.println("Hoc vien dang thuc hanh.");
+    }
+
+    public void levelup() {
+        level++;
+        System.out.println("Hoc vien da len cap: " + level);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }   
 }

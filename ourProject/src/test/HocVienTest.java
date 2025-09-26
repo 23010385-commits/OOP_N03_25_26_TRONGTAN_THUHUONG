@@ -1,4 +1,4 @@
-package Test;
+package test;
 import models.HocVien;
 
 public class HocVienTest {
