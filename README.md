@@ -75,11 +75,11 @@
 
 
 ### 3.3.2. Giáo viên
-<img width="477" height="1620" alt="giao vien" src="https://github.com/user-attachments/assets/fc812fc2-844a-4858-a85a-d2218cd6fa41" />
+<img width="1038" height="453" alt="CRUD_giaovien" src="https://github.com/user-attachments/assets/5a41e8ac-2fdc-4ddd-b50f-ec9256293e6b" />
 
 
 ### 3.3.3. Học viên
-<img width="466" height="1620" alt="hoc vien" src="https://github.com/user-attachments/assets/63136c2b-bdfd-43eb-bcb3-6d2018133f76" />
+<img width="1029" height="453" alt="CRUD_hocvien" src="https://github.com/user-attachments/assets/47b67623-510b-4484-b13e-3d29398af77e" />
 
 
 ### 3.3.4. Bài học
