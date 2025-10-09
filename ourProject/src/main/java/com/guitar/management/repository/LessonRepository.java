@@ -1,7 +1,8 @@
-package Repository;
+package repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import models.Lesson;
 
 public class LessonRepository {
     private List<Lesson> lessonList;
@@ -18,7 +19,7 @@ public class LessonRepository {
     // Read
     public Lesson getLessonById(int id) {
         for (Lesson lesson : lessonList) {
-            if (lesson.getId() == id) {
+            if (lesson.getLessonID() == id) {
                 return lesson;
             }
         }
@@ -26,36 +27,23 @@ public class LessonRepository {
     }
 
     // Update
-    public void updateLesson(Lesson updatedLesson) {
+    public boolean updateLesson(int id, Lesson updatedLesson) {
         for (int i = 0; i < lessonList.size(); i++) {
-            if (lessonList.get(i).getId() == updatedLesson.getId()) {
+            if (lessonList.get(i).getLessonID() == id) {
                 lessonList.set(i, updatedLesson);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     // Delete
-    public void deleteLesson(int id) {
-        lessonList.removeIf(lesson -> lesson.getId() == id);
+    public boolean deleteLesson(int id) {
+        return lessonList.removeIf(lesson -> lesson.getLessonID() == id);
     }
 
     // Get all Lessons
     public List<Lesson> getAllLessons() {
         return new ArrayList<>(lessonList);
-    }
-}
-
-class Lesson {
-    private int id;
-    // other fields, constructors, and methods
-
-    public int getId() {
-        return id;
-    }
-
-    // Optionally, add a setter if needed
-    public void setId(int id) {
-        this.id = id;
     }
 }
