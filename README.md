@@ -49,7 +49,7 @@
 # 3. Sơ đồ khối
 ## 3.1 UML Class Diagram
 
-<img width="2852" height="3176" alt="image" src="https://github.com/user-attachments/assets/1fc46cca-87ae-4f92-b1ae-2c889a9680ca" />
+<img width="3328" height="2024" alt="image" src="https://github.com/user-attachments/assets/d3edcaae-5440-47ac-8599-bc40600faa7c" />
 
 
 ## 3.2 UML Sequence Diagram
