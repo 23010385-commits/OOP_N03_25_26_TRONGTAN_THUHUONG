@@ -1,5 +1,5 @@
-package test;
-import models.Lesson;
+package ourProject.test.java.com.guitar.management.model;
+import ourProject.src.main.java.com.guitar.management.model.Lesson;
 
 public class LessonTest {
     public static void main(String[] args) {

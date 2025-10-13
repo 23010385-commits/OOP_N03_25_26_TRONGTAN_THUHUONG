@@ -1,5 +1,6 @@
-package test;
-import models.HocVien;
+package ourProject.test.java.com.guitar.management.model;
+import ourProject.src.main.java.com.guitar.management.model.HocVien;
+import ourProject.src.main.java.com.guitar.management.model.KhoaHoc;
 
 public class HocVienTest {
     public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class HocVienTest {
         hv1.thuchanh();
 
         // Test dangKyKhoaHoc method
-        models.KhoaHoc khoaHoc = new models.KhoaHoc(1, "Guitar Basics", "Learn the basics of guitar", null);
+        KhoaHoc khoaHoc = new KhoaHoc(1, "Guitar Basics", "Learn the basics of guitar", null);
         hv1.dangKyKhoaHoc(khoaHoc);
         System.out.println("Danh sach khoa hoc da dang ky: " + hv1.getDsKhoaHoc());
     }

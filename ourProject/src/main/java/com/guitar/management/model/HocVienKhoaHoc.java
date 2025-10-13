@@ -1,4 +1,4 @@
-package models;
+package ourProject.src.main.java.com.guitar.management.model;
 
 import java.util.Date;
 

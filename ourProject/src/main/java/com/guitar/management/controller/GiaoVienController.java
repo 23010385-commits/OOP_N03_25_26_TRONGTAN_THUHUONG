@@ -1,4 +1,4 @@
-package com.guitar.management.controller;
+package ourProject.src.main.java.com.guitar.management.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

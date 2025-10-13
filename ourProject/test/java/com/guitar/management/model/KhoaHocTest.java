@@ -1,5 +1,5 @@
-package test;
-import models.KhoaHoc;
+package ourProject.test.java.com.guitar.management.model;
+import ourProject.src.main.java.com.guitar.management.model.KhoaHoc;
 
 public class KhoaHocTest {
 
