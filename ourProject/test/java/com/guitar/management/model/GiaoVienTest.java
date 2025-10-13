@@ -1,6 +1,6 @@
-package test;
-import models.GiaoVien;
-import models.KhoaHoc;
+package ourProject.test.java.com.guitar.management.model;
+import ourProject.src.main.java.com.guitar.management.model.GiaoVien;
+import ourProject.src.main.java.com.guitar.management.model.KhoaHoc;
 
 public class GiaoVienTest {
     public static void main(String[] args) {

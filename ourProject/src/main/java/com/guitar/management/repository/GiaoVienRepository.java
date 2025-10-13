@@ -1,8 +1,8 @@
-package repository;
+package ourProject.src.main.java.com.guitar.management.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.GiaoVien;
+import ourProject.src.main.java.com.guitar.management.model.GiaoVien;
 
 public class GiaoVienRepository {
     private List<GiaoVien> giaoVienList;
