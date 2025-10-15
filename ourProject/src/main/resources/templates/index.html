@@ -13,7 +13,7 @@
   <!-- 🧭 Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Carousel</a>
+  <a class="navbar-brand" th:href="@{/}">Carousel</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -21,8 +21,8 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/link}">Link</a></li>
           <li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a></li>
         </ul>
         <form class="d-flex">
@@ -47,7 +47,7 @@
         <div class="carousel-caption text-start">
           <h1>Khóa học Guitar cơ bản</h1>
           <p>Bắt đầu hành trình âm nhạc của bạn hôm nay!</p>
-          <p><a class="btn btn-primary btn-lg" href="#">Sign up today</a></p>
+          <p><a class="btn btn-primary btn-lg" th:href="@{/lesson/add}">Sign up today</a></p>
         </div>
       </div>
       <div class="carousel-item">
@@ -55,7 +55,7 @@
         <div class="carousel-caption">
           <h1>Giảng viên chuyên nghiệp</h1>
           <p>Được hướng dẫn bởi nghệ sĩ có kinh nghiệm thực tế.</p>
-          <p><a class="btn btn-primary btn-lg" href="#">Learn more</a></p>
+          <p><a class="btn btn-primary btn-lg" th:href="@{/giaovien}">Learn more</a></p>
         </div>
       </div>
       <div class="carousel-item">
@@ -63,7 +63,7 @@
         <div class="carousel-caption text-end">
           <h1>Buổi học trực quan</h1>
           <p>Buổi học trực quan</p>
-          <p><a class="btn btn-primary btn-lg" href="#">Browse gallery</a></p>
+          <p><a class="btn btn-primary btn-lg" th:href="@{/gallery}">Browse gallery</a></p>
         </div>
       </div>
     </div>
@@ -89,7 +89,10 @@
       <h2 class="fw-normal mt-3">Giảng viên</h2>
       <p>Đội ngũ giảng viên chuyên nghiệp, có nhiều năm kinh nghiệm giảng dạy và biểu diễn guitar. 
          Mỗi khóa học đều có người hướng dẫn tận tình giúp học viên tiến bộ nhanh chóng.</p>
-      <p><a class="btn btn-secondary" href="#">Xem danh sách »</a></p>
+      <p>
+        <a class="btn btn-secondary me-2" th:href="@{/giaovien}">Xem danh sách »</a>
+        <a class="btn btn-outline-secondary" th:href="@{/giaovien/add}">Thêm mới</a>
+      </p>
     </div>
 
     <!-- Học viên -->
@@ -99,7 +102,10 @@
       <h2 class="fw-normal mt-3">Học viên</h2>
       <p>Hàng trăm học viên đang theo học các khóa guitar từ cơ bản đến nâng cao. 
          Mỗi học viên đều được theo dõi tiến độ và tham gia biểu diễn định kỳ.</p>
-      <p><a class="btn btn-secondary" href="#">Quản lý học viên »</a></p>
+      <p>
+        <a class="btn btn-secondary me-2" th:href="@{/hocvien}">Quản lý học viên »</a>
+        <a class="btn btn-outline-secondary" th:href="@{/hocvien/add}">Thêm mới</a>
+      </p>
     </div>
 
     <!-- Khóa học -->
@@ -109,7 +115,10 @@
       <h2 class="fw-normal mt-3">Khóa học</h2>
       <p>Các khóa học đa dạng: Guitar đệm hát, Guitar cổ điển, và Kỹ năng biểu diễn. 
          Học viên có thể đăng ký online và học theo lịch linh hoạt.</p>
-      <p><a class="btn btn-secondary" href="#">Xem khóa học »</a></p>
+      <p>
+        <a class="btn btn-secondary me-2" th:href="@{/khoahoc}">Xem khóa học »</a>
+        <a class="btn btn-outline-secondary" th:href="@{/khoahoc/add}">Thêm mới</a>
+      </p>
     </div>
   </div>
 </div>

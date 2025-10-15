@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chỉnh sửa Giảng viên</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container mt-5">
+		<h2>Chỉnh sửa Giảng viên</h2>
+		<form action="/giaovien/update" method="post" class="mt-4">
+			<input type="hidden" id="id" name="id" value="<!-- ${giaoVien.id} -->">
+
+			<div class="mb-3">
+				<label for="ten" class="form-label">Tên</label>
+				<input type="text" class="form-control" id="ten" name="ten" value="<!-- ${giaoVien.ten} -->" required>
+			</div>
+
+			<div class="mb-3">
+				<label for="tuoi" class="form-label">Tuổi</label>
+				<input type="number" class="form-control" id="tuoi" name="tuoi" value="<!-- ${giaoVien.tuoi} -->" min="16">
+			</div>
+
+			<div class="mb-3">
+				<label for="chuyenMon" class="form-label">Chuyên môn</label>
+				<input type="text" class="form-control" id="chuyenMon" name="chuyenMon" value="<!-- ${giaoVien.chuyenMon} -->">
+			</div>
+
+			<button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+			<a href="/giaovien" class="btn btn-secondary ms-2">Hủy</a>
+		</form>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
