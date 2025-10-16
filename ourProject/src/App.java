@@ -1,9 +1,9 @@
-package ourProject.src;
+package com.guitar.management;
 
-import ourProject.src.main.java.com.guitar.management.model.HocVien;
-import ourProject.src.main.java.com.guitar.management.model.Lesson;
-import ourProject.src.main.java.com.guitar.management.model.KhoaHoc;
-import ourProject.src.main.java.com.guitar.management.model.GiaoVien;
+import com.guitar.management.model.HocVien;
+import com.guitar.management.model.Lesson;
+import com.guitar.management.model.KhoaHoc;
+import com.guitar.management.model.GiaoVien;
 
 public class App {
     public static void main(String[] args) {

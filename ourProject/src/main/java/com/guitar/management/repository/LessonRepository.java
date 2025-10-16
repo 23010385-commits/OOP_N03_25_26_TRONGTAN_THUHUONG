@@ -1,8 +1,8 @@
-package ourProject.src.main.java.com.guitar.management.repository;
+package com.guitar.management.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import ourProject.src.main.java.com.guitar.management.model.Lesson;
+import com.guitar.management.model.Lesson;
 
 public class LessonRepository {
     private List<Lesson> lessonList;

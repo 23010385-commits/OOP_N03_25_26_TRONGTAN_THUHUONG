@@ -1,4 +1,4 @@
-package ourProject.src.main.java.com.guitar.management.model;
+package com.guitar.management.model;
 
 public class Lesson {
 
