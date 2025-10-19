@@ -1,7 +1,9 @@
-import models.HocVien;
-import models.Lesson;
-import models.KhoaHoc;
-import models.GiaoVien;
+package com.guitar.management;
+
+import com.guitar.management.model.HocVien;
+import com.guitar.management.model.Lesson;
+import com.guitar.management.model.KhoaHoc;
+import com.guitar.management.model.GiaoVien;
 
 public class App {
     public static void main(String[] args) {
