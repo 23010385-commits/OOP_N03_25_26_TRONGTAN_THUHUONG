@@ -1,0 +1,47 @@
+package com.guitar.management.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.guitar.management.model.Lesson;
+
+class LessonRepositoryTest {
+
+	private LessonRepository repo;
+
+	@BeforeEach
+	void setUp() {
+		repo = new LessonRepository();
+	}
+
+	@Test
+	void addAndGetById() {
+		Lesson l = new Lesson(1, "Intro", "nd", 60);
+		repo.addLesson(l);
+		Lesson found = repo.getLessonById(1);
+		assertNotNull(found);
+		assertEquals("Intro", found.getTitle());
+	}
+
+	@Test
+	void updateLesson_returnsTrueAndUpdates() {
+		Lesson l = new Lesson(1, "Old", "nd", 45);
+		repo.addLesson(l);
+		Lesson updated = new Lesson(1, "Updated", "nd2", 30);
+		boolean ok = repo.updateLesson(1, updated);
+		assertTrue(ok);
+		assertEquals("Updated", repo.getLessonById(1).getTitle());
+	}
+
+	@Test
+	void deleteLesson_returnsTrueAndRemoves() {
+		Lesson l = new Lesson(1, "ToDel", "d", 10);
+		repo.addLesson(l);
+		boolean removed = repo.deleteLesson(1);
+		assertTrue(removed);
+		assertNull(repo.getLessonById(1));
+	}
+}
+
