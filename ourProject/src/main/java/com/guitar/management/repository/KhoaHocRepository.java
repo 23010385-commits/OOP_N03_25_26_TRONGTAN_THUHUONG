@@ -19,7 +19,7 @@ public class KhoaHocRepository {
     // Read
     public KhoaHoc getKhoaHocById(int id) {
         for (KhoaHoc khoaHoc : khoaHocList) {
-            if (khoaHoc.getId() == id) {
+            if (khoaHoc.getId() != null && Integer.valueOf(id).equals(khoaHoc.getId())) {
                 return khoaHoc;
             }
         }
@@ -29,7 +29,9 @@ public class KhoaHocRepository {
     // Update
     public void updateKhoaHoc(KhoaHoc updatedKhoaHoc) {
         for (int i = 0; i < khoaHocList.size(); i++) {
-            if (khoaHocList.get(i).getId() == updatedKhoaHoc.getId()) {
+            Integer existingId = khoaHocList.get(i).getId();
+            Integer updatedId = updatedKhoaHoc.getId();
+            if (existingId != null && updatedId != null && existingId.equals(updatedId)) {
                 khoaHocList.set(i, updatedKhoaHoc);
                 return;
             }
@@ -38,7 +40,7 @@ public class KhoaHocRepository {
 
     // Delete
     public void deleteKhoaHoc(int id) {
-        khoaHocList.removeIf(khoaHoc -> khoaHoc.getId() == id);
+        khoaHocList.removeIf(khoaHoc -> khoaHoc.getId() != null && Integer.valueOf(id).equals(khoaHoc.getId()));
     }
 
     // Get all KhoaHoc
