@@ -13,6 +13,11 @@ public class GiaoVien {
     private List<KhoaHoc> dsKhoaHoc = new ArrayList<>();
 
     // ham tao
+    // No-arg constructor required for Spring's data binding (@ModelAttribute)
+    public GiaoVien() {
+        // default constructor
+    }
+
     public GiaoVien(int id, String ten, int tuoi, String chuyenMon) {
         this.id = id;
         this.ten = ten;
