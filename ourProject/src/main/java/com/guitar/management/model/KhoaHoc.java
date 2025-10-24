@@ -6,14 +6,14 @@ import java.util.List;
 public class KhoaHoc {
 
     // thuoc tinh
-    private int id;
+    private Integer id;
     private String tenKhoaHoc;
     private String moTa;
     private GiaoVien giaoVien;
     private List<Lesson> lessons;   
 
     // ham tao
-    public KhoaHoc(int id, String tenKhoaHoc, String moTa, GiaoVien giaoVien) {
+    public KhoaHoc(Integer id, String tenKhoaHoc, String moTa, GiaoVien giaoVien) {
         this.id = id;
         this.tenKhoaHoc = tenKhoaHoc;
         this.moTa = moTa;
@@ -22,11 +22,11 @@ public class KhoaHoc {
     }
 
     // getter va setter
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

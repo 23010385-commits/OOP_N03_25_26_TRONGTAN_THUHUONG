@@ -19,7 +19,7 @@ public class HocVienRepository {
     // Read
     public HocVien getHocVienById(int id) {
         for (HocVien hocVien : hocVienList) {
-            if (hocVien.getId() == id) {
+            if (hocVien.getId() != null && Integer.valueOf(id).equals(hocVien.getId())) {
                 return hocVien;
             }
         }
@@ -29,7 +29,9 @@ public class HocVienRepository {
     // Update
     public void updateHocVien(HocVien updatedHocVien) {
         for (int i = 0; i < hocVienList.size(); i++) {
-            if (hocVienList.get(i).getId() == updatedHocVien.getId()) {
+            Integer existingId = hocVienList.get(i).getId();
+            Integer updatedId = updatedHocVien.getId();
+            if (existingId != null && updatedId != null && existingId.equals(updatedId)) {
                 hocVienList.set(i, updatedHocVien);
                 return;
             }
@@ -38,7 +40,7 @@ public class HocVienRepository {
 
     // Delete
     public void deleteHocVien(int id) {
-        hocVienList.removeIf(hocVien -> hocVien.getId() == id);
+        hocVienList.removeIf(hocVien -> hocVien.getId() != null && Integer.valueOf(id).equals(hocVien.getId()));
     }
 
     // Get all HocVien
