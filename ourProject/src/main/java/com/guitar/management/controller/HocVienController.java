@@ -1,53 +1,61 @@
+// File: src/main/java/com/guitar/management/controller/HocVienController.java
 package com.guitar.management.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.guitar.management.model.HocVien;
-import com.guitar.management.repository.HocVienRepository;
+import com.guitar.management.service.HocVienService; // <-- GỌI SERVICE
+import java.util.List;
 
 @Controller
+@RequestMapping("/hocvien")
 public class HocVienController {
 
-    private final HocVienRepository repo = new HocVienRepository();
+    @Autowired
+    private HocVienService hocVienService;
 
-    @GetMapping("/hocvien")
+    // --- 1. READ (ĐỌC) ---
+    @GetMapping("")
     public String listHocVien(Model model) {
-        model.addAttribute("hocvienList", repo.getAllHocVien());
+        List<HocVien> listHocVien = hocVienService.findAll();
+        model.addAttribute("listHocVien", listHocVien);
         return "hocvien/list";
     }
 
-    @GetMapping("/hocvien/add")
-    public String addHocVien(Model model) {
-        model.addAttribute("hocVien", new HocVien(0, "", "", ""));
+    // --- 2. CREATE (TẠO) ---
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("hocVien", new HocVien());
         return "hocvien/add";
     }
 
-    @PostMapping("/hocvien/save")
+    @PostMapping("/save")
     public String saveHocVien(@ModelAttribute HocVien hocVien) {
-        int id = repo.getAllHocVien().size() + 1;
-        hocVien.setId(id);
-        repo.addHocVien(hocVien);
+        hocVienService.save(hocVien);
         return "redirect:/hocvien";
     }
 
-    @GetMapping("/hocvien/edit/{id}")
-    public String editHocVien(@PathVariable int id, Model model) {
-        HocVien hv = repo.getHocVienById(id);
-        model.addAttribute("hocVien", hv);
+    // --- 3. UPDATE (SỬA) ---
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        HocVien hocVien = hocVienService.findById(id);
+        model.addAttribute("hocVien", hocVien);
         return "hocvien/edit";
     }
 
-    @PostMapping("/hocvien/update")
-    public String updateHocVien(@ModelAttribute HocVien hocVien) {
-        repo.updateHocVien(hocVien);
+    @PostMapping("/update/{id}")
+    public String updateHocVien(@PathVariable Long id, @ModelAttribute HocVien hocVien) {
+        hocVien.setId(id);
+        hocVienService.save(hocVien);
         return "redirect:/hocvien";
     }
 
-    @GetMapping("/hocvien/delete/{id}")
-    public String deleteHocVien(@PathVariable int id) {
-        repo.deleteHocVien(id);
+    // --- 4. DELETE (XÓA) ---
+    @GetMapping("/delete/{id}")
+    public String deleteHocVien(@PathVariable Long id) {
+        hocVienService.deleteById(id);
         return "redirect:/hocvien";
     }
 }
