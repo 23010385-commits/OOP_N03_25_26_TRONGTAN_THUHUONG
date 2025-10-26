@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- Footer fragment -->
+<div th:fragment="footer">
+  <footer class="pt-16 pb-8 bg-gradient-to-r from-slate-800 to-zinc-900 text-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h4 class="text-2xl font-bold mb-4 text-emerald-300">Guitar 🎸</h4>
+          <p class="text-slate-300 mb-4">Ứng dụng Quản lý khóa học Guitar — đơn giản, trực quan và thân thiện với người dùng.</p>
+          <p class="text-slate-300"><span class="font-semibold text-slate-100">Email:</span> contact@guitar.edu.vn</p>
+        </div>
+        <div>
+          <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
+          <ul class="space-y-2">
+            <li><a th:href="@{/khoahoc}" class="hover:text-emerald-300 transition">Các khóa học</a></li>
+            <li><a th:href="@{/giaovien}" class="hover:text-emerald-300 transition">Đội ngũ giáo viên</a></li>
+            <li><a th:href="@{/hocvien}" class="hover:text-emerald-300 transition">Danh sách học viên</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 class="text-lg font-semibold text-white mb-4">Theo dõi chúng tôi</h5>
+          <div class="flex space-x-5">
+            <a href="#" class="text-slate-300 hover:text-white transition">Facebook</a>
+            <a href="#" class="text-slate-300 hover:text-white transition">YouTube</a>
+            <a href="#" class="text-slate-300 hover:text-white transition">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-slate-700 text-center">
+        <p class="text-slate-400 text-sm">© 2025 Quản lý khóa học Guitar. Phát triển bởi đội ngũ.</p>
+      </div>
+    </div>
+  </footer>
+</div>

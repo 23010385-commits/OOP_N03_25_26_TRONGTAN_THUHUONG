@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Navbar fragment -->
+<div th:fragment="navbar">
+  <header class="sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex-shrink-0 flex items-center">
+          <a th:href="@{/}" class="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-sky-500">Guitar 🎸</a>
+        </div>
+
+        <div class="hidden md:flex md:items-center md:space-x-6">
+          <a th:href="@{/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:text-emerald-500 transition">Khóa học</a>
+          <a th:href="@{/giaovien}" class="px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:text-emerald-500 transition">Giáo viên</a>
+          <a th:href="@{/hocvien}" class="px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:text-emerald-500 transition">Học viên</a>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <form th:action="@{/search}" method="get" class="hidden sm:flex items-center">
+            <input name="keyword" type="text" placeholder="Tìm kiếm..." class="px-3 py-2 rounded-l-md border border-slate-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-emerald-300 shadow-sm" />
+            <button type="submit" class="px-3 py-2 bg-gradient-to-r from-emerald-500 to-sky-500 text-white rounded-r-md shadow">Tìm</button>
+          </form>
+          <a th:href="@{/login}" class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium bg-gradient-to-r from-emerald-500 to-sky-500 text-white shadow hover:opacity-95 transition">Đăng nhập</a>
+          <div class="md:hidden">
+            <button id="mobile-menu-button" class="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white/95 shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a th:href="@{/khoahoc}" class="block px-3 py-2 rounded-md text-base text-slate-700 hover:bg-slate-50">Khóa học</a>
+      <a th:href="@{/giaovien}" class="block px-3 py-2 rounded-md text-base text-slate-700 hover:bg-slate-50">Giáo viên</a>
+      <a th:href="@{/hocvien}" class="block px-3 py-2 rounded-md text-base text-slate-700 hover:bg-slate-50">Học viên</a>
+      <a th:href="@{/login}" class="block px-3 py-2 rounded-md text-base text-white bg-gradient-to-r from-emerald-500 to-sky-500 text-center">Đăng nhập</a>
+    </div>
+  </header>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btn = document.getElementById('mobile-menu-button');
+      const menu = document.getElementById('mobile-menu');
+      if(btn && menu){ btn.addEventListener('click', ()=> menu.classList.toggle('hidden')); }
+    });
+  </script>
+</div>

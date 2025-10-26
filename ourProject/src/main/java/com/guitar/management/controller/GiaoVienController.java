@@ -14,7 +14,8 @@ public class GiaoVienController {
 
     @GetMapping("/giaovien")
     public String listGiaoVien(Model model) {
-        model.addAttribute("giaovienList", repo.getAllGiaoVien());
+        // use camelCase key to match templates (giaoVienList)
+        model.addAttribute("giaoVienList", repo.getAllGiaoVien());
         return "giaovien/list";
     }
 

@@ -14,4 +14,3 @@ com\guitar\management\repository\LessonRepository.class
 com\guitar\management\GuitarManagementApplication.class
 com\guitar\management\repository\GiaoVienRepository.class
 com\guitar\management\repository\KhoaHocRepository.class
-com\guitar\management\database\DatabaseConnection.class

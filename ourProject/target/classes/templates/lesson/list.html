@@ -1,42 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Bài Học</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-<body>
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Trang chủ</a>
-    </div>
-</nav>
-<div class="container">
-    <h2 class="mb-4">Danh Sách Bài Học</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Mã</th>
-            <th>Tiêu Đề</th>
-            <th>Nội Dung</th>
-            <th>Hành động</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="l : ${lessonList}">
-            <td th:text="${l.lessonID}">ID</td>
-            <td th:text="${l.title}">Tiêu đề</td>
-            <td th:text="${l.noiDung}">Nội dung</td>
-            <td>
-                <a th:href="@{/lesson/edit/{id}(id=${l.lessonID})}" class="btn btn-primary btn-sm">Sửa</a>
-                <a th:href="@{/lesson/delete/{id}(id=${l.lessonID})}" class="btn btn-danger btn-sm">Xóa</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/lesson/add}" class="btn btn-success">Thêm Bài Học</a>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>body{font-family: 'Roboto', sans-serif}</style>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50">
+
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="max-w-7xl mx-auto p-6 flex-1">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold">Danh sách bài học</h1>
+            <a th:href="@{/lesson/add}" class="px-4 py-2 bg-blue-600 text-white rounded">Thêm bài học</a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+            <table class="min-w-full text-left">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-3 text-sm font-medium text-gray-600">Mã</th>
+                        <th class="px-4 py-3 text-sm font-medium text-gray-600">Tiêu đề</th>
+                        <th class="px-4 py-3 text-sm font-medium text-gray-600">Nội dung</th>
+                        <th class="px-4 py-3 text-sm font-medium text-gray-600">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="l : ${lessonList}" class="border-t">
+                        <td class="px-4 py-3" th:text="${l.lessonID}">ID</td>
+                        <td class="px-4 py-3" th:text="${l.title}">Tiêu đề</td>
+                        <td class="px-4 py-3 text-sm text-gray-600" th:text="${l.noiDung}">Nội dung</td>
+                        <td class="px-4 py-3">
+                            <a th:href="@{/lesson/edit/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-yellow-400 rounded mr-2">Sửa</a>
+                            <button onclick="confirmDelete(this)" th:data-url="@{/lesson/delete/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-red-500 text-white rounded">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script>
+        function confirmDelete(btn){ const target = btn.getAttribute('data-url') || btn.getAttribute('th:data-url'); if(confirm('Bạn có chắc muốn xóa bài học này?')){ if(target) window.location.href = target; } }
+    </script>
 </body>
 </html>
