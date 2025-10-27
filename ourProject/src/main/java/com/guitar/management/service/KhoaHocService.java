@@ -65,22 +65,32 @@ public class KhoaHocService {
 
   /**
    * Logic nghiệp vụ "addLessonToCourse"
-   * Kiểm tra duplicate dựa trên title trước khi lưu
+   * - Validate input (title, thoiLuong)
+   * - Kiểm tra trùng tiêu đề (case-insensitive)
    */
   @Transactional
   public Lesson addLessonToCourse(Long khoaHocId, String title, String noiDung, int thoiLuong) {
+    if (title == null || title.trim().isEmpty()) {
+      throw new IllegalArgumentException("Tiêu đề bài học không được để trống");
+    }
+    if (thoiLuong <= 0) {
+      throw new IllegalArgumentException("Thời lượng bài học phải lớn hơn 0");
+    }
+
     KhoaHoc khoaHoc = khoaHocRepository.findById(khoaHocId)
-        .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học"));
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với id: " + khoaHocId));
+
+    String cleanTitle = title.trim();
 
     boolean tonTai = khoaHoc.getLessons().stream()
-        .anyMatch(l -> l.getTitle() != null && l.getTitle().equalsIgnoreCase(title));
+        .anyMatch(l -> l.getTitle() != null && l.getTitle().trim().equalsIgnoreCase(cleanTitle));
 
     if (tonTai) {
-      throw new RuntimeException("Bài học với tiêu đề '" + title + "' đã tồn tại!");
+      throw new RuntimeException("Bài học '" + cleanTitle + "' đã tồn tại!");
     }
 
     Lesson newLesson = new Lesson();
-    newLesson.setTitle(title);
+    newLesson.setTitle(cleanTitle);
     newLesson.setNoiDung(noiDung);
     newLesson.setThoiLuong(thoiLuong);
     newLesson.setKhoaHoc(khoaHoc);
