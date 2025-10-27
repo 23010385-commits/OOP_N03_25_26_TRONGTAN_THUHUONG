@@ -1,4 +1,3 @@
-// File: src/main/java/com/guitar/management/controller/HocVienController.java
 package com.guitar.management.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.guitar.management.model.HocVien;
-import com.guitar.management.service.HocVienService; // <-- GỌI SERVICE
+import com.guitar.management.service.HocVienService; // <-- Gọi SERVICE
 import java.util.List;
 
 @Controller

@@ -9,12 +9,13 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
     private String noiDung;
     private int thoiLuong;
 
     @ManyToOne
-    @JoinColumn(name = "khoa_hoc_id", nullable = false)
+    @JoinColumn(name = "khoa_hoc_id")
     private KhoaHoc khoaHoc;
 
     public Lesson() {
