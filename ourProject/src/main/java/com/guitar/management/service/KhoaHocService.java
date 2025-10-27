@@ -1,23 +1,25 @@
-// File: src/main/java/com/guitar/management/service/KhoaHocService.java
 package com.guitar.management.service;
 
 import com.guitar.management.model.*;
 import com.guitar.management.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
 public class KhoaHocService {
 
-  @Autowired
-  private KhoaHocRepository khoaHocRepository;
-  @Autowired
-  private LessonRepository lessonRepository;
+  private final KhoaHocRepository khoaHocRepository;
+  private final LessonRepository lessonRepository;
+  private final GiaoVienRepository giaoVienRepository;
 
-  // --- THÊM DÒNG NÀY ---
-  @Autowired
-  private GiaoVienRepository giaoVienRepository; // <-- Cần để gán giáo viên
+  public KhoaHocService(KhoaHocRepository khoaHocRepository,
+      LessonRepository lessonRepository,
+      GiaoVienRepository giaoVienRepository) {
+    this.khoaHocRepository = khoaHocRepository;
+    this.lessonRepository = lessonRepository;
+    this.giaoVienRepository = giaoVienRepository;
+  }
 
   // --- CRUD cơ bản ---
   public List<KhoaHoc> findAll() {
@@ -25,34 +27,57 @@ public class KhoaHocService {
   }
 
   public KhoaHoc findById(Long id) {
-    return khoaHocRepository.findById(id).orElse(null);
+    return khoaHocRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với id: " + id));
+  }
+
+  // Hàm save cơ bản (khi không thay đổi giáo viên)
+  @Transactional
+  public KhoaHoc save(KhoaHoc khoaHoc) {
+    if (khoaHoc == null) {
+      throw new IllegalArgumentException("KhoaHoc không được null");
+    }
+    return khoaHocRepository.save(khoaHoc);
+  }
+
+  // Hàm save khi gán giáo viên (dùng khi form gửi giaoVienId)
+  @Transactional
+  public KhoaHoc save(KhoaHoc khoaHoc, Long giaoVienId) {
+    if (khoaHoc == null) {
+      throw new IllegalArgumentException("KhoaHoc không được null");
+    }
+    if (giaoVienId != null) {
+      GiaoVien giaoVien = giaoVienRepository.findById(giaoVienId)
+          .orElseThrow(() -> new RuntimeException("Không tìm thấy giáo viên với id: " + giaoVienId));
+      khoaHoc.setGiaoVien(giaoVien);
+    } else {
+      khoaHoc.setGiaoVien(null);
+    }
+    return khoaHocRepository.save(khoaHoc);
   }
 
   public void deleteById(Long id) {
+    if (!khoaHocRepository.existsById(id)) {
+      throw new RuntimeException("Không tìm thấy khóa học với ID: " + id);
+    }
     khoaHocRepository.deleteById(id);
   }
 
-  // --- SỬA/THAY THẾ HÀM SAVE CŨ BẰNG HÀM NÀY ---
   /**
-   * Hàm save này nhận 2 tham số:
-   * 1. Đối tượng KhoaHoc (từ form)
-   * 2. ID của GiaoVien (từ form)
+   * Logic nghiệp vụ "addLessonToCourse"
+   * Kiểm tra duplicate dựa trên title trước khi lưu
    */
-  public KhoaHoc save(KhoaHoc khoaHoc, Long giaoVienId) {
-    // Gán giáo viên cho khóa học trước khi lưu
-    GiaoVien giaoVien = giaoVienRepository.findById(giaoVienId)
-        .orElseThrow(() -> new RuntimeException("Không tìm thấy giáo viên"));
-    khoaHoc.setGiaoVien(giaoVien);
-    return khoaHocRepository.save(khoaHoc);
-  }
-  // ------------------------------------
-
-  /**
-   * Logic nghiệp vụ "addBaihoc" (từ file KhoaHoc.java cũ)
-   */
+  @Transactional
   public Lesson addLessonToCourse(Long khoaHocId, String title, String noiDung, int thoiLuong) {
     KhoaHoc khoaHoc = khoaHocRepository.findById(khoaHocId)
         .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học"));
+
+    boolean tonTai = khoaHoc.getLessons().stream()
+        .anyMatch(l -> l.getTitle() != null && l.getTitle().equalsIgnoreCase(title));
+
+    if (tonTai) {
+      throw new RuntimeException("Bài học với tiêu đề '" + title + "' đã tồn tại!");
+    }
 
     Lesson newLesson = new Lesson();
     newLesson.setTitle(title);
