@@ -1,130 +1,392 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carousel with Features</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - Quản lý khóa học Guitar 🎸</title>
+    <!-- Tải Tailwind CSS (Vẫn dùng CDN, Spring Boot không ảnh hưởng) --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tải font Roboto (Vẫn dùng CDN) --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Định nghĩa Bảng màu tùy chỉnh theo yêu cầu */
+        :root {
+            --brand-green: #00C853;
+            --brand-blue: #2196F3;
+            --brand-orange: #FF9800;
+            --brand-purple: #9C27B0;
+            --brand-gray-light: #F5F5F5;
+            --brand-gray-dark: #424242;
+            --brand-black: #212121;
+        }
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        /* Áp dụng font Roboto làm font chữ mặc định */
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--brand-black);
+        }
+
+        /* Tùy chỉnh cho thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--brand-gray-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bdbdbd; /* Gray-400 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #757575; /* Gray-600 */
+        }
+
+        /* Lớp cho slide đang hoạt động */
+        .carousel-slide.active {
+            display: block;
+        }
+
+        /* Lớp Nút CTA chính (Màu Xanh Lá) */
+        .btn-cta-green {
+            background-color: var(--brand-green);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-cta-green:hover {
+            background-color: #00a746; /* Shade đậm hơn của green */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
+        }
+
+        /* Hiệu ứng hover cho menu (Màu Xanh Lam) */
+        .menu-link:hover {
+            color: var(--brand-blue);
+        }
+
+        /* Hiệu ứng hover cho Card (Viền Xanh Lá) */
+        .course-card {
+            border: 1px solid #eeeeee; /* Viền xám nhạt */
+            transition: all 0.3s ease;
+        }
+        .course-card:hover {
+            transform: scale(1.03);
+            border-color: var(--brand-green);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Hiệu ứng hover cho Icon Mạng Xã Hội */
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+        .social-icon.facebook:hover { color: #1877F2; } /* Facebook Blue */
+        .social-icon.youtube:hover { color: #FF0000; } /* YouTube Red */
+        .social-icon.instagram:hover { color: var(--brand-purple); } /* Instagram Purple */
+
+    </style>
 </head>
-<body>
+<body class="bg-white">
 
-  <!-- 🧭 Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-  <a class="navbar-brand" th:href="@{/}">Carousel</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- =========== THANH ĐIỀU HƯỚNG (NAVBAR) =========== --><header class="bg-white text-gray-900 shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo --><div class="flex-shrink-0 flex items-center">
+                    <a th:href="@{/}" class="text-3xl font-bold" style="color: var(--brand-green);">
+                        Guitar 🎸
+                    </a>
+                </div>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" th:href="@{/}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/link}">Link</a></li>
-          <li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a></li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
+                <!-- Menu chính (Desktop) --><div class="hidden md:flex md:items-center md:space-x-6">
+                    <a th:href="@{/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Khóa học</a>
+                    <a th:href="@{/giaovien}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giáo viên</a>
+                    <a th:href="@{/gioithieu}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giới thiệu</a>
+                </div>
 
-  <!-- 🖼️ Carousel -->
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 56px;">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
-    </div>
+                <!-- Tìm kiếm và Đăng nhập --><div class="flex items-center space-x-4">
+                    <!-- Thanh tìm kiếm --><form class="hidden sm:flex" th:action="@{/search}" method="get">
+                        <input 
+                            type="text" 
+                            name="keyword"
+                            placeholder="Tìm kiếm khóa học..." 
+                            class="px-3 py-2 rounded-l-md text-sm text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
+                        >
+                        <button type="submit" class="px-3 py-2 rounded-r-md btn-cta-green">
+                            <!-- Icon tìm kiếm (SVG) --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </form>
 
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="https://picsum.photos/id/1003/1200/400" class="d-block w-100" alt="...">
-        <div class="carousel-caption text-start">
-          <h1>Khóa học Guitar cơ bản</h1>
-          <p>Bắt đầu hành trình âm nhạc của bạn hôm nay!</p>
-          <p><a class="btn btn-primary btn-lg" th:href="@{/lesson/add}">Sign up today</a></p>
+                    <!-- Nút Đăng nhập --><a th:href="@{/login}" class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium btn-cta-green">
+                        Đăng nhập
+                    </a>
+                    
+                    <!-- Nút Menu (Mobile) --><div class="md:hidden flex items-center">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-150">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Menu (Mobile) - Ẩn/hiện bằng JS --><div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a th:href="@{/khoahoc}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Khóa học</a>
+            <a th:href="@{/giaovien}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giáo viên</a>
+            <a th:href="@{/gioithieu}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giới thiệu</a>
+            <a th:href="@{/login}" class="block px-3 py-2 rounded-md text-base font-medium btn-cta-green text-center">Đăng nhập</a>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="https://picsum.photos/id/1005/1200/400" class="d-block w-100" alt="...">
-        <div class="carousel-caption">
-          <h1>Giảng viên chuyên nghiệp</h1>
-          <p>Được hướng dẫn bởi nghệ sĩ có kinh nghiệm thực tế.</p>
-          <p><a class="btn btn-primary btn-lg" th:href="@{/giaovien}">Learn more</a></p>
+    </header>
+
+    <!-- =========== KHU VỰC CHÍNH (CAROUSEL) =========== --><main>
+        <section id="carousel" class="relative w-full overflow-hidden" style="height: 65vh; min-height: 450px; max-height: 700px;">
+            <!-- Danh sách các Slide --><div class="relative h-full">
+                
+                <!-- Slide 1 --><div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                    <!-- Ảnh nền mờ --><img th:src="@{/images/doclap.jpg}" 
+                         alt="Tòa nhà biểu tượng Việt Nam" 
+                         class="w-full h-full object-cover opacity-40">
+                    <!-- Lớp nền Gradient --><div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 opacity-90"></div>
+                    <!-- Nội dung text --><div class="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                        <h2 class="text-4xl md:text-6xl font-black text-white mb-4 shadow-lg">"Âm nhạc là tiếng nói của tâm hồn."</h2>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl">Bắt đầu hành trình của bạn và để cây đàn kể câu chuyện của riêng mình.</p>
+                        <a th:href="@{/register}" class="px-8 py-3 rounded-md text-lg font-semibold shadow-lg btn-cta-green">
+                            Đăng ký học ngay
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 --><div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                    <!-- Ảnh nền mờ --><img th:src="@{/images/attachment-TaylorSwift2.jpg}" 
+                         alt="Taylor Swift chơi guitar" 
+                         class="w-full h-full object-cover opacity-40">
+                    <!-- Lớp nền Gradient --><div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 opacity-90"></div>
+                    <!-- Nội dung text --><div class="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                        <h2 class="text-4xl md:text-6xl font-black text-white mb-4 shadow-lg">"Cây đàn guitar là người bạn thân nhất."</h2>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl">Khám phá các khóa học từ cơ bản đến nâng cao, phù hợp với mọi cấp độ.</p>
+                        <a th:href="@{/khoahoc}" class="px-8 py-3 rounded-md text-lg font-semibold shadow-lg btn-cta-green" style="background-color: var(--brand-blue);">
+                            Xem các khóa học
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 --><div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                    <!-- Ảnh nền mờ --><img th:src="@{/images/hq720.jpg}" 
+                         alt="Shawn Mendes biểu diễn" 
+                         class="w-full h-full object-cover opacity-40">
+                    <!-- Lớp nền Gradient --><div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 opacity-90"></div>
+                    <!-- Nội dung text --><div class="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                        <h2 class="text-4xl md:text-6xl font-black text-white mb-4 shadow-lg">"Học hôm nay, chơi ngày mai."</h2>
+                        <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl">Với đội ngũ giáo viên chuyên nghiệp và tận tâm, sẵn sàng hỗ trợ bạn.</p>
+                        <a th:href="@{/giaovien}" class="px-8 py-3 rounded-md text-lg font-semibold shadow-lg btn-cta-green" style="background-color: var(--brand-orange);">
+                            Gặp gỡ giáo viên
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nút điều khiển Prev/Next --><button id="prev-slide" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white hover:bg-white/40 transition duration-150 z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button id="next-slide" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/20 p-2 rounded-full text-white hover:bg-white/40 transition duration-150 z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+
+            <!-- Dấu chấm chỉ báo (Indicators) --><div id="carousel-dots" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+                <button class="carousel-dot w-3 h-3 bg-white/50 rounded-full hover:bg-white transition"></button>
+                <button class="carousel-dot w-3 h-3 bg-white/50 rounded-full hover:bg-white transition"></button>
+                <button class="carousel-dot w-3 h-3 bg-white/50 rounded-full hover:bg-white transition"></button>
+            </div>
+        </section>
+
+        <!-- =========== NỘI DUNG CHÍNH (3 CỘT) =========== --><section class="py-16 sm:py-24" style="background-color: var(--brand-gray-light);">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+                    
+                    <!-- Cột 1: Khóa học cơ bản --><div class="flex flex-col items-center p-8 bg-white rounded-xl course-card">
+                        <img 
+                            src="https://placehold.co/160x160/00C853/FFFFFF?text=C%C6%A1+B%E1%BA%A3n&font=roboto" 
+                            alt="Khóa học cơ bản"
+                            class="w-40 h-40 rounded-full object-cover mb-6 shadow-md"
+                        >
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Khóa học Cơ bản</h3>
+                        <p class="text-gray-600 mb-6">
+                            Dành cho người mới bắt đầu, từ cách cầm đàn, làm quen nốt nhạc đến các hợp âm đầu tiên.
+                        </p>
+                        <a th:href="@{/khoahoc/co-ban}" class="px-6 py-2 rounded-md font-semibold btn-cta-green">
+                            Xem chi tiết
+                        </a>
+                    </div>
+
+                    <!-- Cột 2: Khóa học nâng cao --><div class="flex flex-col items-center p-8 bg-white rounded-xl course-card">
+                        <img 
+                            src="https://placehold.co/160x160/2196F3/FFFFFF?text=N%C3%A2ng+Cao&font=roboto" 
+                            alt="Khóa học nâng cao"
+                            class="w-40 h-40 rounded-full object-cover mb-6 shadow-md"
+                        >
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Khóa học Nâng cao</h3>
+                        <p class="text-gray-600 mb-6">
+                            Nâng tầm kỹ năng với fingerstyle, solo, đệm hát chuyên sâu và lý thuyết âm nhạc ứng dụng.
+                        </p>
+                        <a th:href="@{/khoahoc/nang-cao}" class="px-6 py-2 rounded-md font-semibold btn-cta-green" style="background-color: var(--brand-blue);">
+                            Xem chi tiết
+                        </a>
+                    </div>
+
+                    <!-- Cột 3: Gặp gỡ giáo viên --><div class="flex flex-col items-center p-8 bg-white rounded-xl course-card">
+                        <img 
+                            src="https://placehold.co/160x160/FF9800/FFFFFF?text=Gi%C3%A1o+Vi%C3%AAn&font=roboto" 
+                            alt="Đội ngũ giáo viên"
+                            class="w-40 h-40 rounded-full object-cover mb-6 shadow-md"
+                        >
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Gặp gỡ Giáo viên</h3>
+                        <p class="text-gray-600 mb-6">
+                            Học hỏi trực tiếp từ các nghệ sĩ guitar chuyên nghiệp, giàu kinh nghiệm và tận tâm giảng dạy.
+                        </S>
+                        <a th:href="@{/giaovien}" class="px-6 py-2 rounded-md font-semibold btn-cta-green" style="background-color: var(--brand-orange);">
+                            Xem chi tiết
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =========== CHÂN TRANG (FOOTER) =========== --><footer class="text-gray-300 pt-16 pb-8" style="background-color: var(--brand-gray-dark);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Cột 1: Giới thiệu --><div>
+                    <h4 class="text-2xl font-bold mb-4" style="color: var(--brand-green);">Guitar 🎸</h4>
+                    <p class="text-gray-400 mb-4">
+                        Ứng dụng Quản lý khóa học Guitar hàng đầu, giúp bạn theo dõi tiến trình và chinh phục đam mê.
+                    </p>
+                    <p class="text-gray-400"><span class="font-semibold text-gray-200">Email:</span> contact@guitar.edu.vn</p>
+                    <p class="text-gray-400"><span class="font-semibold text-gray-200">Phone:</span> (+84) 234 567 890</p>
+                </div>
+                
+                <!-- Cột 2: Links nhanh --><div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
+                    <ul class="space-y-2">
+                        <li><a th:href="@{/khoahoc}" class="hover:text-green-400 transition">Các khóa học</a></li>
+                        <li><a th:href="@{/giaovien}" class="hover:text-green-400 transition">Đội ngũ giáo viên</a></li>
+                        <li><a th:href="@{/gioithieu}" class="hover:text-green-400 transition">Giới thiệu về chúng tôi</a></li>
+                        <li><a th:href="@{/chinhsach}" class="hover:text-green-400 transition">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 3: Mạng xã hội --><div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Theo dõi chúng tôi</h5>
+                    <div class="flex space-x-5">
+                        <a href="#" class="text-gray-400 transition social-icon facebook">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.36 9.5 5.32v2.14H6.1v4h3.4v10h4.3v-10h3.8l.4-4z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 transition social-icon youtube">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.94-.262-1.683-1.037-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.893 0 7.605.476c.94.262 1.683 1.037 1.938 2.022zM9.546 15.58V8.42L15.818 12 9.546 15.58z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 transition social-icon instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.227-1.691 4.771-4.919 4.919-1.266.058-1.647.07-4.85.07s-3.584-.012-4.85-.07c-3.227-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.691 4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.193 0-3.535.012-4.782.069-2.695.123-3.89 1.319-4.014 4.014-.058 1.247-.069 1.589-.069 4.782s.011 3.535.069 4.782c.124 2.695 1.319 3.89 4.014 4.014 1.247.058 1.589.069 4.782.069s3.535-.011 4.782-.069c2.695-.124 3.89-1.319 4.014-4.014.058-1.247.069-1.589.069-4.782s-.011-3.535-.069-4.782c-.124-2.695-1.319-3.89-4.014-4.014-1.247-.058-1.589-.069-4.782-.069zm0 3.195c-2.438 0-4.414 1.976-4.414 4.414s1.976 4.414 4.414 4.414 4.414-1.976 4.414-4.414-1.976-4.414-4.414-4.414zm0 7.23c-1.554 0-2.816-1.262-2.816-2.816s1.262-2.816 2.816-2.816 2.816 1.262 2.816 2.816-1.262 2.816-2.816 2.816zm4.814-7.53c-.71 0-1.284.574-1.284 1.284s.574 1.284 1.284 1.284 1.284-.574 1.284-1.284-.574-1.284-1.284-1.284z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Dòng Copyright --><div class="mt-12 pt-8 border-t border-gray-700 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 Quản lý khóa học Guitar. Phát triển bởi 
+                    <span class="font-semibold text-gray-200">Trần</span> & 
+                    <span class="font-semibold text-gray-200">Nguyễn</span>.
+                </p>
+            </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="https://picsum.photos/id/1011/1200/400" class="d-block w-100" alt="...">
-        <div class="carousel-caption text-end">
-          <h1>Buổi học trực quan</h1>
-          <p>Buổi học trực quan</p>
-          <p><a class="btn btn-primary btn-lg" th:href="@{/gallery}">Browse gallery</a></p>
-        </div>
-      </div>
-    </div>
+    </footer>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+    <!-- =========== SCRIPT (JavaScript) =========== --><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- Xử lý Menu Mobile ---
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-  <!-- 💠 3 phần giới thiệu chủ đề Guitar Management -->
-<div class="container marketing my-5">
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
-  <div class="row text-center">
-    <!-- Giảng viên -->
-    <div class="col-lg-4">
-      <img src="https://cdn-icons-png.flaticon.com/512/1973/1973685.png"
-           class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Giảng viên">
-      <h2 class="fw-normal mt-3">Giảng viên</h2>
-      <p>Đội ngũ giảng viên chuyên nghiệp, có nhiều năm kinh nghiệm giảng dạy và biểu diễn guitar. 
-         Mỗi khóa học đều có người hướng dẫn tận tình giúp học viên tiến bộ nhanh chóng.</p>
-      <p>
-        <a class="btn btn-secondary me-2" th:href="@{/giaovien}">Xem danh sách »</a>
-        <a class="btn btn-outline-secondary" th:href="@{/giaovien/add}">Thêm mới</a>
-      </p>
-    </div>
+            // --- Xử lý Carousel ---
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const prevButton = document.getElementById('prev-slide');
+            const nextButton = document.getElementById('next-slide');
 
-    <!-- Học viên -->
-    <div class="col-lg-4">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-           class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Học viên">
-      <h2 class="fw-normal mt-3">Học viên</h2>
-      <p>Hàng trăm học viên đang theo học các khóa guitar từ cơ bản đến nâng cao. 
-         Mỗi học viên đều được theo dõi tiến độ và tham gia biểu diễn định kỳ.</p>
-      <p>
-        <a class="btn btn-secondary me-2" th:href="@{/hocvien}">Quản lý học viên »</a>
-        <a class="btn btn-outline-secondary" th:href="@{/hocvien/add}">Thêm mới</a>
-      </p>
-    </div>
+            let currentSlide = 0;
+            const slideInterval = 5000; // Tự động chuyển slide sau 5 giây
+            let autoSlideTimer;
 
-    <!-- Khóa học -->
-    <div class="col-lg-4">
-      <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png"
-           class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Khóa học">
-      <h2 class="fw-normal mt-3">Khóa học</h2>
-      <p>Các khóa học đa dạng: Guitar đệm hát, Guitar cổ điển, và Kỹ năng biểu diễn. 
-         Học viên có thể đăng ký online và học theo lịch linh hoạt.</p>
-      <p>
-        <a class="btn btn-secondary me-2" th:href="@{/khoahoc}">Xem khóa học »</a>
-        <a class="btn btn-outline-secondary" th:href="@{/khoahoc/add}">Thêm mới</a>
-      </p>
-    </div>
-  </div>
-</div>
+            function goToSlide(n) {
+                // Ẩn slide hiện tại
+                slides[currentSlide].classList.remove('opacity-100');
+                slides[currentSlide].classList.add('opacity-0');
+                dots[currentSlide].classList.remove('bg-white');
+                dots[currentSlide].classList.add('bg-white/50');
+                
+                // Cập nhật slide index
+                currentSlide = (n + slides.length) % slides.length;
+                
+                // Hiển thị slide mới
+                slides[currentSlide].classList.remove('opacity-0');
+                slides[currentSlide].classList.add('opacity-100');
+                dots[currentSlide].classList.remove('bg-white/50');
+                dots[currentSlide].classList.add('bg-white');
+            }
 
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+
+            function startAutoSlide() {
+                autoSlideTimer = setInterval(nextSlide, slideInterval);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(autoSlideTimer);
+            }
+
+            // Gán sự kiện cho nút
+            nextButton.addEventListener('click', () => {
+                nextSlide();
+                stopAutoSlide(); // Dừng tự động khi người dùng tương tác
+                startAutoSlide(); // Khởi động lại
+            });
+
+            prevButton.addEventListener('click', () => {
+                prevSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+
+            // Gán sự kiện cho dấu chấm
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    stopAutoSlide();
+                    startAutoSlide();
+                });
+            });
+
+            // Hiển thị slide đầu tiên và bắt đầu tự động chuyển
+            goToSlide(0);
+            startAutoSlide();
+        });
+    </script>
+
 </body>
 </html>
+

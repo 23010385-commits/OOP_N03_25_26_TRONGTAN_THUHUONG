@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository // <-- Báo cho Spring: "Đây là một 'Bean'!"
 public interface HocVienKhoaHocRepository extends JpaRepository<HocVienKhoaHoc, Long> {
-    // Để trống
+    // Thêm phương thức để kiểm tra xem một học viên đã đăng ký khóa học chưa
+    boolean existsByHocVienIdAndKhoaHocId(Long hocVienId, Long khoaHocId);
 }
