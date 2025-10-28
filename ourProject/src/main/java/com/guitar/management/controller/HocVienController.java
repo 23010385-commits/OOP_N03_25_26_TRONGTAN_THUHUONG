@@ -1,19 +1,22 @@
 package com.guitar.management.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.guitar.management.model.HocVien;
-import com.guitar.management.service.HocVienService; // <-- Gọi SERVICE
+import com.guitar.management.service.HocVienService; // Gọi service
 import java.util.List;
 
 @Controller
 @RequestMapping("/hocvien")
 public class HocVienController {
 
-    @Autowired
-    private HocVienService hocVienService;
+    private final HocVienService hocVienService;
+
+    // -> constructor injection
+    public HocVienController(HocVienService hocVienService) {
+        this.hocVienService = hocVienService;
+    }
 
     // --- 1. READ (ĐỌC) ---
     @GetMapping("")

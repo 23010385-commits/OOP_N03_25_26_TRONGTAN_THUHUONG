@@ -1,7 +1,6 @@
 // File: src/main/java/com/guitar/management/controller/GiaoVienController.java
 package com.guitar.management.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +9,15 @@ import com.guitar.management.service.GiaoVienService; // <-- GỌI SERVICE
 import java.util.List;
 
 @Controller
-@RequestMapping("/giaovien") // Đặt đường dẫn chung
+@RequestMapping("/giaovien")
 public class GiaoVienController {
 
-    // 1. KHÔNG DÙNG "new Repository()" (SAI)
-    // private final GiaoVienRepository repo = new GiaoVienRepository();
+    private final GiaoVienService giaoVienService;
 
-    // 2. YÊU CẦU SPRING "TIÊM" SERVICE VÀO
-    @Autowired
-    private GiaoVienService giaoVienService;
+    // -> constructor injection
+    public GiaoVienController(GiaoVienService giaoVienService) {
+        this.giaoVienService = giaoVienService;
+    }
 
     // --- 1. READ (ĐỌC) ---
     @GetMapping("")
