@@ -1,53 +1,68 @@
+// File: src/main/java/com/guitar/management/controller/GiaoVienController.java
 package com.guitar.management.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.guitar.management.model.GiaoVien;
-import com.guitar.management.repository.GiaoVienRepository;
+import com.guitar.management.service.GiaoVienService; // <-- GỌI SERVICE
+import java.util.List;
 
 @Controller
+@RequestMapping("/giaovien")
 public class GiaoVienController {
 
-    private final GiaoVienRepository repo = new GiaoVienRepository();
+    private final GiaoVienService giaoVienService;
 
-    @GetMapping("/giaovien")
+    // -> constructor injection
+    public GiaoVienController(GiaoVienService giaoVienService) {
+        this.giaoVienService = giaoVienService;
+    }
+
+    // --- 1. READ (ĐỌC) ---
+    @GetMapping("")
     public String listGiaoVien(Model model) {
-        model.addAttribute("giaovienList", repo.getAllGiaoVien());
+        List<GiaoVien> listGiaoVien = giaoVienService.findAll(); // Gọi Service
+        model.addAttribute("listGiaoVien", listGiaoVien);
         return "giaovien/list";
     }
 
-    @GetMapping("/giaovien/add")
-    public String addGiaoVien(Model model) {
-        model.addAttribute("giaoVien", new GiaoVien(0, "", 18, ""));
+    // --- 2. CREATE (TẠO) ---
+    // Bước 2a: Hiển thị form thêm mới
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("giaoVien", new GiaoVien());
         return "giaovien/add";
     }
 
-    @PostMapping("/giaovien/save")
+    // Bước 2b: Xử lý nút "Lưu" từ form
+    @PostMapping("/save")
     public String saveGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        int id = repo.getAllGiaoVien().size() + 1;
-        giaoVien.setId(id);
-        repo.addGiaoVien(giaoVien);
-        return "redirect:/giaovien";
+        giaoVienService.save(giaoVien); // Gọi Service
+        return "redirect:/giaovien"; // Quay về trang danh sách
     }
 
-    @GetMapping("/giaovien/edit/{id}")
-    public String editGiaoVien(@PathVariable int id, Model model) {
-        GiaoVien gv = repo.getGiaoVienById(id);
-        model.addAttribute("giaoVien", gv);
+    // --- 3. UPDATE (SỬA) ---
+    // Bước 3a: Hiển thị form sửa (dùng Long thay vì int)
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        GiaoVien giaoVien = giaoVienService.findById(id); // Gọi Service
+        model.addAttribute("giaoVien", giaoVien);
         return "giaovien/edit";
     }
 
-    @PostMapping("/giaovien/update")
-    public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        repo.updateGiaoVien(giaoVien);
+    // Bước 3b: Xử lý nút "Cập nhật" (tách riêng, không dùng chung hàm /save)
+    @PostMapping("/update/{id}")
+    public String updateGiaoVien(@PathVariable Long id, @ModelAttribute GiaoVien giaoVien) {
+        giaoVien.setId(id); // Gán ID vào đối tượng để Service biết đây là UPDATE
+        giaoVienService.save(giaoVien); // Gọi Service
         return "redirect:/giaovien";
     }
 
-    @GetMapping("/giaovien/delete/{id}")
-    public String deleteGiaoVien(@PathVariable int id) {
-        repo.deleteGiaoVien(id);
+    // --- 4. DELETE (XÓA) ---
+    @GetMapping("/delete/{id}")
+    public String deleteGiaoVien(@PathVariable Long id) {
+        giaoVienService.deleteById(id); // Gọi Service
         return "redirect:/giaovien";
     }
 }

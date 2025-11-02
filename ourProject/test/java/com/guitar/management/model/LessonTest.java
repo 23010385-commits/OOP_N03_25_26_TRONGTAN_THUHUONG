@@ -1,4 +1,5 @@
 package com.guitar.management.model;
+
 import com.guitar.management.model.Lesson;
 
 public class LessonTest {
