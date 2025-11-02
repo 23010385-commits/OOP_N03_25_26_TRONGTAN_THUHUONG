@@ -1,9 +1,0 @@
-# Ignore temporary code-runner files and editor temp files
-src/tempCodeRunnerFile.java
-src/temp*
-# Common editor/IDE files
-.vscode/
-*.log
-target/
-*.class
-.DS_Store

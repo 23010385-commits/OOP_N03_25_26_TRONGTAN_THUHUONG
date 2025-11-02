@@ -1,0 +1,37 @@
+:root{
+  --brand-green:#00C853;
+  --brand-blue:#2196F3;
+  --brand-orange:#FF9800;
+  --brand-purple:#9C27B0;
+  --brand-gray-light:#F5F5F5;
+  --brand-gray-dark:#424242;
+  --brand-black:#212121;
+}
+
+body{font-family:'Roboto',sans-serif;color:var(--brand-black);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--brand-gray-light)}
+::-webkit-scrollbar-thumb{background:#bdbdbd;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#757575}
+
+/* carousel */
+.carousel-slide.active{display:block}
+
+/* CTA */
+.btn-cta-green{background-color:var(--brand-green);color:#fff;transition:all .3s}
+.btn-cta-green:hover{background-color:#00a746;transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,200,83,.4)}
+
+/* menu hover */
+.menu-link:hover{color:var(--brand-blue)}
+
+/* course card */
+.course-card{border:1px solid #eeeeee;transition:all .3s}
+.course-card:hover{transform:scale(1.03);border-color:var(--brand-green);box-shadow:0 10px 20px rgba(0,0,0,.08)}
+
+/* social icons */
+.social-icon:hover{transform:scale(1.2)}
+.social-icon.facebook:hover{color:#1877F2}
+.social-icon.youtube:hover{color:#FF0000}
+.social-icon.instagram:hover{color:var(--brand-purple)}
