@@ -1,15 +1,150 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Register</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Đăng ký - Guitar</title>
+  <meta name="description" content="Đăng ký học guitar — tạo tài khoản học viên nhanh chóng." />
+  <link rel="stylesheet" th:href="@{/css/register.css}" />
+  <link rel="icon" th:href="@{/images/logo.png}" />
 </head>
-<body>
-  <h1>Register</h1>
-  <form th:action="@{/auth/register}" method="post">
-    <label>Username: <input type="text" name="username"/></label><br/>
-    <label>Password: <input type="password" name="password"/></label><br/>
-    <button type="submit">Đăng ký</button>
-  </form>
-</body>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a th:href="@{/}" class="text-2xl font-bold" style="color:var(--brand-green)">Guitar 🎸</a>
+      <a th:href="@{/login}" class="text-sm text-gray-600 hover:underline">Đăng nhập</a>
+    </div>
+  </header>
+
+  <main class="min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6">
+
+      <div id="error-alert" class="error-alert" role="alert"></div>
+      <div id="success-message" class="success-message" role="status"></div>
+
+      <form id="registerForm" th:action="@{/register/hocvien}" method="post" aria-label="Form đăng ký" onsubmit="prepareRegister()">
+        <!-- step indicators -->
+        <div class="step-indicator mb-6" aria-hidden="true">
+          <div id="step-1" class="step">
+            <div class="step-number">1</div>
+            <div class="step-label">Thông tin</div>
+          </div>
+          <div id="step-2" class="step">
+            <div class="step-number">2</div>
+            <div class="step-label">Mật khẩu</div>
+          </div>
+          <div id="step-3" class="step">
+            <div class="step-number">3</div>
+            <div class="step-label">Hoàn tất</div>
+          </div>
+        </div>
+
+        <div class="relative mb-6 w-full bg-gray-100 rounded" style="height:8px;">
+          <div id="progress-fill" style="height:100%; width:0; background:var(--brand-green); border-radius:6px;"></div>
+        </div>
+
+        <!-- Section 1 -->
+        <section id="section-1" class="form-section">
+          <div class="form-group-row">
+            <div>
+              <label for="fullname" class="block text-sm font-medium">Họ và tên</label>
+              <input id="fullname" name="ten" type="text" class="form-input w-full p-2 border rounded" required />
+              <div id="fullname-error" class="error-message"></div>
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium">Email</label>
+              <input id="email" name="email" type="email" class="form-input w-full p-2 border rounded" required />
+              <div id="email-error" class="error-message"></div>
+            </div>
+          </div>
+
+          <div class="form-group-row mt-4">
+            <div>
+              <label for="phone" class="block text-sm font-medium">Số điện thoại</label>
+              <input id="phone" name="sdt" type="text" class="form-input w-full p-2 border rounded" required />
+              <div id="phone-error" class="error-message"></div>
+            </div>
+            <div>
+              <label for="dob" class="block text-sm font-medium">Ngày sinh</label>
+              <input id="dob" name="dob" type="date" class="form-input w-full p-2 border rounded" required />
+              <div id="dob-error" class="error-message"></div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label for="gender" class="block text-sm font-medium">Giới tính</label>
+            <select id="gender" name="gender" class="form-input w-full p-2 border rounded" required>
+              <option value="">-- Chọn --</option>
+              <option value="male">Nam</option>
+              <option value="female">Nữ</option>
+              <option value="other">Khác</option>
+            </select>
+            <div id="gender-error" class="error-message"></div>
+          </div>
+
+          <div class="mt-6 flex justify-end gap-3">
+            <button type="button" onclick="nextStep()" class="btn-cta-green px-4 py-2 rounded" aria-label="Bước tiếp theo">Tiếp theo</button>
+          </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="section-2" class="form-section">
+          <div>
+            <label for="password" class="block text-sm font-medium">Mật khẩu</label>
+            <input id="password" name="password" type="password" class="form-input w-full p-2 border rounded" oninput="checkPasswordStrength()" required />
+            <div id="password-error" class="error-message"></div>
+            <div class="password-strength mt-2"><div id="strength-bar" class="password-strength-bar"></div></div>
+            <div id="strength-text" class="strength-text"></div>
+          </div>
+
+          <div class="mt-4">
+            <label for="confirm-password" class="block text-sm font-medium">Xác nhận mật khẩu</label>
+            <input id="confirm-password" name="confirm-password" type="password" class="form-input w-full p-2 border rounded" required />
+            <div id="confirm-password-error" class="error-message"></div>
+          </div>
+
+          <div class="mt-6 flex justify-between">
+            <button type="button" onclick="prevStep()" class="btn-secondary px-4 py-2 rounded">Trở lại</button>
+            <button type="button" onclick="nextStep()" class="btn-cta-green px-4 py-2 rounded">Tiếp theo</button>
+          </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="section-3" class="form-section">
+          <h3 class="text-lg font-semibold mb-3">Xác nhận thông tin</h3>
+          <ul class="mb-4">
+            <li><strong>Họ tên:</strong> <span id="summary-name">-</span></li>
+            <li><strong>Email:</strong> <span id="summary-email">-</span></li>
+            <li><strong>SĐT:</strong> <span id="summary-phone">-</span></li>
+            <li><strong>Ngày sinh:</strong> <span id="summary-dob">-</span></li>
+            <li><strong>Giới tính:</strong> <span id="summary-gender">-</span></li>
+          </ul>
+
+          <label class="inline-flex items-center mb-4">
+            <input id="terms" name="terms" type="checkbox" class="mr-2" /> Tôi đồng ý với Điều khoản & Chính sách
+          </label>
+
+          <div class="mt-6 flex justify-between">
+            <button type="button" onclick="prevStep()" class="btn-secondary px-4 py-2 rounded">Trở lại</button>
+            <button type="submit" class="btn-cta-green px-4 py-2 rounded" aria-label="Gửi đăng ký">Hoàn tất</button>
+          </div>
+        </section>
+
+        <!-- hidden username (we set it = email before submit) -->
+        <input id="username-hidden" name="username" type="hidden" />
+      </form>
+    </div>
+  </main>
+
+  <script th:src="@{/js/register.js}" defer></script>
+  <script>
+    function prepareRegister(){
+      // set username = email if not provided
+      var email = document.getElementById('email')?.value || '';
+      document.getElementById('username-hidden').value = email;
+      return true;
+    }
+  </script>
+ </body>
 </html>
