@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,15 +83,7 @@
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
 
-    <!-- =========== NAVBAR =========== -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="/" class="text-3xl font-bold" style="color: #00C853;">
-                Guitar 🎸
-            </a>
-            <a href="/" class="text-gray-600 hover:text-gray-900 transition">← Quay lại trang chủ</a>
-        </nav>
-    </header>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <!-- =========== MAIN CONTENT =========== -->
     <main class="min-h-screen flex items-center justify-center py-12 px-4">
@@ -212,14 +204,8 @@
             <!-- Info Section (Demo credentials removed) -->
             <!-- previously showed demo username/password; removed for production -->
 
-            <!-- Footer -->
-            <div class="mt-8 text-center text-gray-500 text-sm">
-                <p>
-                    <a href="#" class="hover:underline">Điều khoản sử dụng</a> · 
-                    <a href="#" class="hover:underline">Chính sách bảo mật</a> · 
-                    <a href="#" class="hover:underline">Liên hệ support</a>
-                </p>
-            </div>
+            <!-- Footer fragment -->
+            <div th:replace="~{fragments/footer :: footer}"></div>
         </div>
     </main>
 

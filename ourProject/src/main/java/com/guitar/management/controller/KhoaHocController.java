@@ -38,6 +38,8 @@ public class KhoaHocController {
         model.addAttribute("khoaHoc", new KhoaHoc());
         // Gửi danh sách giáo viên sang view để người dùng chọn
         model.addAttribute("listGiaoVien", giaoVienService.findAll());
+        // canonical attribute used across templates
+        model.addAttribute("giaoVienList", giaoVienService.findAll());
         return "khoahoc/add";
     }
 
@@ -58,6 +60,7 @@ public class KhoaHocController {
         KhoaHoc khoaHoc = khoaHocService.findById(id);
         model.addAttribute("khoaHoc", khoaHoc);
         model.addAttribute("listGiaoVien", giaoVienService.findAll());
+        model.addAttribute("giaoVienList", giaoVienService.findAll());
         return "khoahoc/edit";
     }
 

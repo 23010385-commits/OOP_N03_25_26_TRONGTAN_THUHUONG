@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.guitar.management.model.GiaoVien;
+import com.guitar.management.model.User;
 import com.guitar.management.service.GiaoVienService; // <-- GỌI SERVICE
+import com.guitar.management.service.UserService;
 import java.util.List;
 
 @Controller
@@ -13,17 +15,21 @@ import java.util.List;
 public class GiaoVienController {
 
     private final GiaoVienService giaoVienService;
+    private final UserService userService;
 
     // -> constructor injection
-    public GiaoVienController(GiaoVienService giaoVienService) {
+    public GiaoVienController(GiaoVienService giaoVienService, UserService userService) {
         this.giaoVienService = giaoVienService;
+        this.userService = userService;
     }
 
     // --- 1. READ (ĐỌC) ---
     @GetMapping("")
     public String listGiaoVien(Model model) {
         List<GiaoVien> listGiaoVien = giaoVienService.findAll(); // Gọi Service
-        model.addAttribute("listGiaoVien", listGiaoVien);
+        // expose canonical 'giaoVienList' for templates; keep 'teachers' as an alias
+        model.addAttribute("giaoVienList", listGiaoVien);
+        model.addAttribute("teachers", listGiaoVien);
         return "giaovien/list";
     }
 
@@ -31,14 +37,28 @@ public class GiaoVienController {
     // Bước 2a: Hiển thị form thêm mới
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("giaoVien", new GiaoVien());
+        GiaoVien gv = new GiaoVien();
+        // initialize nested User so Thymeleaf can bind user.username / user.password
+        gv.setUser(new User());
+        model.addAttribute("giaoVien", gv);
         return "giaovien/add";
     }
 
     // Bước 2b: Xử lý nút "Lưu" từ form
     @PostMapping("/save")
     public String saveGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        giaoVienService.save(giaoVien); // Gọi Service
+        // If nested User provided, use UserService to register (handles hashing and
+        // transactional save)
+        if (giaoVien.getUser() != null && giaoVien.getUser().getUsername() != null
+                && !giaoVien.getUser().getUsername().isBlank() && giaoVien.getUser().getPassword() != null
+                && !giaoVien.getUser().getPassword().isBlank()) {
+            userService.registerNewGiaoVien(giaoVien.getUser().getUsername().trim(),
+                    giaoVien.getUser().getPassword(), giaoVien.getTen(), giaoVien.getTuoi(),
+                    giaoVien.getChuyenMon());
+        } else {
+            // fallback: save GiaoVien only
+            giaoVienService.save(giaoVien);
+        }
         return "redirect:/giaovien"; // Quay về trang danh sách
     }
 
@@ -51,11 +71,13 @@ public class GiaoVienController {
         return "giaovien/edit";
     }
 
-    // Bước 3b: Xử lý nút "Cập nhật" (tách riêng, không dùng chung hàm /save)
-    @PostMapping("/update/{id}")
-    public String updateGiaoVien(@PathVariable Long id, @ModelAttribute GiaoVien giaoVien) {
-        giaoVien.setId(id); // Gán ID vào đối tượng để Service biết đây là UPDATE
-        giaoVienService.save(giaoVien); // Gọi Service
+    // Bước 3b: Xử lý nút "Cập nhật" (POST form includes hidden id)
+    @PostMapping("/update")
+    public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
+        // nếu form gửi id trong giaoVien.id thì save sẽ hiểu đây là UPDATE
+        if (giaoVien.getId() != null) {
+            giaoVienService.save(giaoVien); // Gọi Service (save handles create/update)
+        }
         return "redirect:/giaovien";
     }
 

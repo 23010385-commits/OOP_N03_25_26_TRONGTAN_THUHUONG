@@ -16,7 +16,7 @@ class GiaoVienControllerTest {
 		Model model = new ConcurrentModel();
 		String view = controller.listGiaoVien(model);
 		assertEquals("giaovien/list", view);
-		assertNotNull(model.getAttribute("giaovienList"));
+	assertNotNull(model.getAttribute("giaoVienList"));
 	}
 
 	@Test
