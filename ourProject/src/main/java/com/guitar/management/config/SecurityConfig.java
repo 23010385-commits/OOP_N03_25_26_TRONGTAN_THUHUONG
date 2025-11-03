@@ -12,32 +12,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(
-                                "/", "/login", "/dangnhap", "/register", "/register/**",
-                                "/error", "/css/**", "/js/**", "/images/**", "/khoahoc", "/giaovien")
-                        .permitAll()
-                        .anyRequest().authenticated() // production: authenticated; for dev change to .permitAll()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login") // form action page
-                        .loginProcessingUrl("/login") // Spring Security processing URL (keep /login)
-                        .defaultSuccessUrl("/", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll())
-                .csrf(csrf -> csrf.disable()); // dev only: enable in prod
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .authorizeHttpRequests(authz -> authz
+                                                .requestMatchers(
+                                                                "/", "/login", "/dangnhap", "/register", "/register/**",
+                                                                "/error", "/css/**", "/js/**", "/images/**", "/khoahoc",
+                                                                "/giaovien")
+                                                .permitAll()
+                                                .anyRequest().authenticated() // production: authenticated; for dev
+                                                                              // change to .permitAll()
+                                )
+                                .formLogin(form -> form
+                                                .loginPage("/login") // form action page
+                                                .loginProcessingUrl("/login") // Spring Security processing URL (keep
+                                                                              // /login)
+                                                .defaultSuccessUrl("/", true)
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/login?logout")
+                                                .permitAll())
+                                .csrf(csrf -> csrf.disable()); // dev only: enable in prod
 
-        return http.build();
-    }
+                return http.build();
+        }
 }
