@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,23 +83,8 @@
 </head>
 <body class="bg-white">
 
-    <!-- =========== NAVBAR =========== -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-3xl font-bold" style="color: #00C853;">
-                    Guitar 🎸
-                </a>
-                <div class="hidden md:flex md:items-center md:space-x-6">
-                    <a href="/" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
-                    <a href="/khoahoc" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
-                    <a href="/giaovien" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
-                    <a href="/gioithieu" class="font-bold" style="color: #00C853;">Giới thiệu</a>
-                    <a href="/login" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- =========== NAVBAR (fragment) =========== -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <!-- =========== HERO SECTION =========== -->
     <section class="bg-gradient-to-r from-green-50 to-blue-50 py-20">
@@ -326,34 +311,8 @@
         </div>
     </section>
 
-    <!-- =========== FOOTER =========== -->
-    <footer class="text-gray-300 py-12" style="background-color: #424242;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h4 class="text-2xl font-bold mb-4" style="color: #00C853;">Guitar 🎸</h4>
-                    <p class="text-gray-400">Nền tảng quản lý khóa học Guitar hàng đầu tại Việt Nam</p>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="hover:text-green-400 transition">Trang chủ</a></li>
-                        <li><a href="/khoahoc" class="hover:text-green-400 transition">Khóa học</a></li>
-                        <li><a href="/giaovien" class="hover:text-green-400 transition">Giáo viên</a></li>
-                        <li><a href="/gioithieu" class="hover:text-green-400 transition">Giới thiệu</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên hệ</h5>
-                    <p class="text-gray-400 mb-2">📧 contact@guitar.edu.vn</p>
-                    <p class="text-gray-400">📱 (+84) 234 567 890</p>
-                </div>
-            </div>
-            <div class="mt-12 pt-8 border-t border-gray-700 text-center">
-                <p class="text-gray-400 text-sm">© 2025 Guitar Management. Phát triển bởi Trần & Nguyễn</p>
-            </div>
-        </div>
-    </footer>
+    <!-- =========== FOOTER (fragment) =========== -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

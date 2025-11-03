@@ -1,0 +1,19 @@
+<!-- Navbar fragment -->
+<div th:fragment="navbar">
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a th:href="@{/}" class="text-3xl font-bold" style="color: #00C853;">
+          Guitar 🎸
+        </a>
+      <div class="hidden md:flex md:items-center md:space-x-6">
+                <a th:href="@{/}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+          <a th:href="@{/khoahoc}" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
+          <a th:href="@{/giaovien}" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
+          <a th:href="@{/gioithieu}" class="text-gray-700 hover:text-green-600 transition">Giới thiệu</a>
+          <a th:href="@{/login}" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
+
+      </div>
+    </nav>
+  </header>
+</div>
