@@ -5,6 +5,7 @@ import com.guitar.management.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class KhoaHocService {
@@ -19,6 +20,17 @@ public class KhoaHocService {
     this.khoaHocRepository = khoaHocRepository;
     this.lessonRepository = lessonRepository;
     this.giaoVienRepository = giaoVienRepository;
+  }
+
+  // Null-safe helpers (không thay đổi logic hiện tại)
+  public Optional<KhoaHoc> findOptionalById(Long id) {
+    if (id == null)
+      return Optional.empty();
+    return khoaHocRepository.findById(id);
+  }
+
+  public KhoaHoc findByIdOrNull(Long id) {
+    return findOptionalById(id).orElse(null);
   }
 
   // --- CRUD cơ bản ---

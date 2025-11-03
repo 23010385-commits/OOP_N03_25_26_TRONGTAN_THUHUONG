@@ -18,12 +18,11 @@ public class DataInitializer implements CommandLineRunner {
 
         try {
             userService.registerNewGiaoVien(
-                "teacher1",
-                "password123",
-                "Giao Vien Admin",
-                30,
-                "Quan tri he thong"
-            );
+                    "teacher1",
+                    "password123",
+                    "Giao Vien Admin",
+                    30,
+                    "Quan tri he thong");
             System.out.println(">>> DA TAO TAI KHOAN: teacher1");
         } catch (IllegalArgumentException e) {
             System.out.println(">>> TAI KHOAN teacher1 da ton tai, khong tao moi.");
@@ -31,12 +30,11 @@ public class DataInitializer implements CommandLineRunner {
 
         try {
             userService.registerNewGiaoVien(
-                "teacher2",
-                "password123",
-                "Giao Vien Guitar",
-                28,
-                "Guitar Co dien"
-            );
+                    "teacher2",
+                    "password123",
+                    "Giao Vien Guitar",
+                    28,
+                    "Guitar Co dien");
             System.out.println(">>> DA TAO TAI KHOAN: teacher2");
         } catch (IllegalArgumentException e) {
             System.out.println(">>> TAI KHOAN teacher2 da ton tai, khong tao moi.");
