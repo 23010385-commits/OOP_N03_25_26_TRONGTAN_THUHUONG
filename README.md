@@ -52,7 +52,7 @@ Dự án được xây dựng dựa trên nền tảng Java với trọng tâm l
 
   Chi tiết: Liệt kê khóa học và xem chi tiết các thông tin liên quan (giáo viên, học viên, bài học).
 
-### 55.5. Quản lý Tiến trình Học tập 📈
+### 5.5. Quản lý Tiến trình Học tập 📈
   Theo dõi: Cập nhật trạng thái học của học viên (ví dụ: Đã học, Đang học, Hoàn thành).
 
   Đánh giá: Ghi nhận đánh giá và nhận xét kết quả học tập từ giáo viên.
