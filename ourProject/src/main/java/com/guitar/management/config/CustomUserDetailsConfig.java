@@ -12,10 +12,11 @@ public class CustomUserDetailsConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> userRepository.findByUsername(username.trim())
-            .map(u -> {
-                var authorities = java.util.List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole().name()));
-                return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
-            })
-            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+                .map(u -> {
+                    var authorities = java.util.List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole().name()));
+                    return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(),
+                            authorities);
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }
