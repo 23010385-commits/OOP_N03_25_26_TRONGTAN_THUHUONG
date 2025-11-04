@@ -36,8 +36,8 @@
                         <td class="px-4 py-3" th:text="${l.title}">Tiêu đề</td>
                         <td class="px-4 py-3 text-sm text-gray-600" th:text="${l.noiDung}">Nội dung</td>
                         <td class="px-4 py-3">
-                            <a th:href="@{/lesson/edit/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-yellow-400 rounded mr-2">Sửa</a>
-                            <button onclick="confirmDelete(this)" th:data-url="@{/lesson/delete/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-red-500 text-white rounded">Xóa</button>
+                            <a sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')" th:href="@{/lesson/edit/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-yellow-400 rounded mr-2">Sửa</a>
+                            <button sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')" onclick="confirmDelete(this)" th:data-url="@{/lesson/delete/{id}(id=${l.lessonID})}" class="inline-block px-3 py-1 bg-red-500 text-white rounded">Xóa</button>
                         </td>
                     </tr>
                 </tbody>

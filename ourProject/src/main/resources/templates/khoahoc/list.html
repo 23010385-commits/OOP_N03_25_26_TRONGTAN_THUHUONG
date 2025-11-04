@@ -50,6 +50,21 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7"></path></svg>
                                 <span th:text="${k.lessons != null ? #lists.size(k.lessons) + ' bài học' : '0 bài'}">0 bài</span>
                             </div>
+                            <div class="flex items-center mt-2">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <div>
+                                    <div class="text-xs text-gray-600">Học viên đã tham gia:</div>
+                                    <div class="flex items-center mt-1">
+                                        <ul class="flex -space-x-2">
+                                            <li th:each="hvkh,iterStat : ${k.dsHocVien}" th:if="${iterStat.index &lt; 3}">
+                                                <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-800 rounded text-xs" th:text="${hvkh.hocVien != null ? hvkh.hocVien.ten : 'N/A'}">Tên HV</span>
+                                            </li>
+                                        </ul>
+                                        <span th:if="${#lists.size(k.dsHocVien) > 3}" class="ml-2 text-xs text-gray-500">+<span th:text="${#lists.size(k.dsHocVien) - 3}"></span> khác</span>
+                                        <span th:if="${#lists.size(k.dsHocVien) == 0}" class="text-xs text-gray-500">Chưa có học viên</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mt-auto pt-4 border-t border-gray-100">
@@ -62,9 +77,16 @@
                                         <button onclick="confirmDelete(this)" th:data-url="@{/khoahoc/delete/{id}(id=${k.id})}" class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">Xóa</button>
                                     </span>
                                     <span sec:authorize="hasRole('HOCVIEN')">
-                                        <form th:action="@{'/khoahoc/' + ${k.id} + '/enroll'}" method="post" style="display:inline">
-                                            <button type="submit" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">Tham gia</button>
-                                        </form>
+                                        <span th:if="${enrolledCourseIds != null and enrolledCourseIds.contains(k.id)}">
+                                            <form th:action="@{'/khoahoc/' + ${k.id} + '/unenroll'}" method="post" style="display:inline">
+                                                <button type="submit" class="px-3 py-2 bg-gray-300 text-gray-800 rounded-lg text-sm font-medium hover:bg-gray-400 transition-colors">Hủy tham gia</button>
+                                            </form>
+                                        </span>
+                                        <span th:unless="${enrolledCourseIds != null and enrolledCourseIds.contains(k.id)}">
+                                            <form th:action="@{'/khoahoc/' + ${k.id} + '/enroll'}" method="post" style="display:inline">
+                                                <button type="submit" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">Tham gia</button>
+                                            </form>
+                                        </span>
                                     </span>
                                 </span>
                             </div>

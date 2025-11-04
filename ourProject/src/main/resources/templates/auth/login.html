@@ -204,8 +204,17 @@
             <!-- Info Section (Demo credentials removed) -->
             <!-- previously showed demo username/password; removed for production -->
 
-            <!-- Footer fragment -->
-            <div th:replace="~{fragments/footer :: footer}"></div>
+            <!-- Lightweight footer for login page -->
+            <footer class="mt-8 text-center text-sm text-gray-500">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a th:href="@{/}" class="hover:text-green-600">Trang chủ</a>
+                    <span class="hidden sm:inline">•</span>
+                    <a th:href="@{/khoahoc}" class="hover:text-green-600">Khóa học</a>
+                    <span class="hidden sm:inline">•</span>
+                    <a th:href="@{/gioithieu}" class="hover:text-green-600">Giới thiệu</a>
+                </div>
+                <div class="mt-3 text-xs text-gray-400">© 2025 Guitar Management — Bản quyền thuộc về Guitar</div>
+            </footer>
         </div>
     </main>
 
