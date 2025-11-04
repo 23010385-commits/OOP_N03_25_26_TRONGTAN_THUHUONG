@@ -12,16 +12,6 @@
           <a th:href="@{/giaovien}" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
           <a th:href="@{/gioithieu}" class="text-gray-700 hover:text-green-600 transition">Giới thiệu</a>
 
-          <!-- Admin only: Thêm giáo viên -->
-          <span sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/giaovien/add}" class="text-sm px-3 py-1 bg-indigo-600 text-white rounded">Thêm giáo viên</a>
-          </span>
-
-          <!-- Teacher: add course quick link -->
-          <span sec:authorize="hasRole('GIAOVIEN')">
-            <a th:href="@{/khoahoc/add}" class="text-sm px-3 py-1 bg-blue-600 text-white rounded">Thêm khóa học</a>
-          </span>
-
           <!-- Login / Logout -->
           <span sec:authorize="isAnonymous()">
             <a th:href="@{/login}" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
