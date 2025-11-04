@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,9 @@
     <main class="max-w-7xl mx-auto p-6 flex-1">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-bold">Danh sách bài học</h1>
-            <a th:href="@{/lesson/add}" class="px-4 py-2 bg-blue-600 text-white rounded">Thêm bài học</a>
+            <span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
+                <a th:href="@{/lesson/add}" class="px-4 py-2 bg-blue-600 text-white rounded">Thêm bài học</a>
+            </span>
         </div>
 
         <div class="bg-white rounded-lg shadow overflow-x-auto">

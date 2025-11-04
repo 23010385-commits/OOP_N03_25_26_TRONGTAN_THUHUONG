@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,12 +87,20 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <a th:href="@{'/khoahoc/edit/' + ${khoaHoc.id}}" class="px-6 py-2 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition">
-                        ✏️ Sửa
-                    </a>
-                    <button onclick="if(confirm('Xóa khóa học?')) window.location='/khoahoc/delete/1'" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #d32f2f;">
-                        🗑️ Xóa
-                    </button>
+                    <span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
+                        <a th:href="@{'/khoahoc/edit/' + ${khoaHoc.id}}" class="px-6 py-2 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition">
+                            ✏️ Sửa
+                        </a>
+                        <a th:href="@{'/khoahoc/delete/' + ${khoaHoc.id}}" onclick="return confirm('Xóa khóa học?')" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #d32f2f; text-decoration:none;">
+                            🗑️ Xóa
+                        </a>
+                    </span>
+
+                    <span sec:authorize="hasRole('HOCVIEN')">
+                        <form th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/enroll'}" method="post" style="display:inline">
+                            <button type="submit" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">📝 Tham gia khóa học</button>
+                        </form>
+                    </span>
                 </div>
             </div>
 
@@ -121,9 +129,11 @@
         <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-900">📚 Bài Học</h2>
-                <a href="#add-lesson" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">
-                    + Thêm bài học
-                </a>
+                <span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
+                    <a href="#add-lesson" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">
+                        + Thêm bài học
+                    </a>
+                </span>
             </div>
 
             <!-- Lessons List -->
@@ -159,8 +169,9 @@
 
             <!-- Add Lesson Form -->
             <div id="add-lesson" class="border-t border-gray-200 pt-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">➕ Thêm Bài Học Mới</h3>
-                <form method="POST" th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/lessons'}" class="space-y-4">
+                <div sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">➕ Thêm Bài Học Mới</h3>
+                    <form method="POST" th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/lessons'}" class="space-y-4">
                     
                     <!-- Title -->
                     <div>
@@ -199,13 +210,17 @@
                     </div>
 
                     <!-- Submit -->
-                    <button 
-                        type="submit"
-                        class="w-full py-3 rounded-lg font-semibold text-white transition duration-300"
-                        style="background-color: #00C853;">
-                        ✓ Thêm bài học
-                    </button>
-                </form>
+                        <button 
+                            type="submit"
+                            class="w-full py-3 rounded-lg font-semibold text-white transition duration-300"
+                            style="background-color: #00C853;">
+                            ✓ Thêm bài học
+                        </button>
+                    </form>
+                </div>
+                <div sec:authorize="!hasAnyRole('GIAOVIEN','ADMIN')" class="text-sm text-gray-500 mt-4">
+                    Bạn không có quyền thêm bài học. Chỉ giáo viên và admin mới có thể thêm bài.
+                </div>
             </div>
         </div>
 
