@@ -14,14 +14,37 @@
 
           <!-- Login / Logout -->
           <span sec:authorize="isAnonymous()">
-            <a th:href="@{/login}" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
+            <a id="nav-login-link" th:href="@{/login}" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
           </span>
-          <span sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post" style="display:inline">
+          <span sec:authorize="isAuthenticated()" class="flex items-center gap-3">
+            <span id="nav-greeting" class="text-gray-700">Xin chào, <strong><span sec:authentication="name">User</span></strong></span>
+            <form id="nav-logout-form" th:action="@{/logout}" method="post" style="display:inline">
               <button type="submit" class="px-4 py-2 rounded-md font-semibold" style="background-color: #e53935; color: white;">Đăng xuất</button>
             </form>
           </span>
 
+          <script>
+              // Fallback: client-side visibility guard for login/logout links.
+              // If the server rendered the authenticated greeting, hide the login link.
+              // Otherwise (no greeting), hide the logout form so anonymous users don't see it.
+              document.addEventListener('DOMContentLoaded', function(){
+                  try{
+                      var loginLink = document.getElementById('nav-login-link');
+                      var greeting = document.getElementById('nav-greeting');
+                      var logoutForm = document.getElementById('nav-logout-form');
+
+                      if(greeting && greeting.offsetParent !== null){
+                          // User is authenticated (greeting is visible)
+                          if(loginLink){ loginLink.style.display = 'none'; }
+                          if(logoutForm){ /* leave logout visible when greeting exists */ }
+                      } else {
+                          // Not authenticated (server did not render greeting or it's hidden)
+                          if(logoutForm){ logoutForm.style.display = 'none'; }
+                          if(loginLink){ loginLink.style.display = 'block'; }
+                      }
+                  }catch(e){ /* ignore errors silently */ }
+              });
+          </script>
       </div>
     </nav>
   </header>

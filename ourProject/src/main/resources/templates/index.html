@@ -19,61 +19,8 @@
 </head>
 <body class="bg-white">
 
-  <!-- =========== THANH ĐIỀU HƯỚNG (NAVBAR) =========== --><header class="bg-white text-gray-900 shadow-md sticky top-0 z-50">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo --><div class="flex-shrink-0 flex items-center">
-          <a th:href="@{/}" class="text-3xl font-bold" style="color: var(--brand-green);">
-            Guitar 🎸
-          </a>
-        </div>
-
-        <!-- Menu chính (Desktop) --><div class="hidden md:flex md:items-center md:space-x-6">
-          <a th:href="@{/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Khóa học</a>
-          <a th:href="@{/giaovien}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giáo viên</a>
-          <a th:href="@{/gioithieu}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giới thiệu</a>
-        </div>
-
-        <!-- Tìm kiếm và Đăng nhập --><div class="flex items-center space-x-4">
-          <!-- Thanh tìm kiếm --><form class="hidden sm:flex" th:action="@{/search}" method="get">
-            <input 
-              type="text" 
-              name="keyword"
-              placeholder="Tìm kiếm khóa học..." 
-              class="px-3 py-2 rounded-l-md text-sm text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
-            >
-            <button type="submit" class="px-3 py-2 rounded-r-md btn-cta-green">
-              <!-- Icon tìm kiếm (SVG) --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </form>
-
-          <!-- Nút Đăng nhập -->
-          <a th:href="@{/login}" 
-            class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition">
-            Đăng nhập
-          </a>
-
-                    
-          <!-- Nút Menu (Mobile) --><div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-150">
-              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Menu (Mobile) - Ẩn/hiện bằng JS --><div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a th:href="@{/khoahoc}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Khóa học</a>
-      <a th:href="@{/giaovien}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giáo viên</a>
-      <a th:href="@{/gioithieu}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giới thiệu</a>
-      <a th:href="@{/login}" class="block px-3 py-2 rounded-md text-base font-medium btn-cta-green text-center">Đăng nhập</a>
-    </div>
-  </header>
+  <!-- Use shared navbar fragment so login/logout visibility is consistent -->
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <!-- =========== KHU VỰC CHÍNH (CAROUSEL) =========== -->
 <main>
