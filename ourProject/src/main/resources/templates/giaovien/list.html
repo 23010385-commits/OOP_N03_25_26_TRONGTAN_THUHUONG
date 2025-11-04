@@ -15,7 +15,7 @@
     <main class="max-w-6xl mx-auto p-6 flex-1">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-bold">Danh sách giáo viên</h1>
-            <span sec:authorize="hasRole('ADMIN')">
+            <span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
                 <a th:href="@{/giaovien/add}" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">
                     Thêm giáo viên
                 </a>
@@ -67,9 +67,11 @@
                                     Xem chi tiết
                                 </a>
                                 
-                                <span sec:authorize="hasRole('ADMIN')" class="flex gap-2">
+                                <span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')" class="flex gap-2">
                                     <a th:href="@{/giaovien/edit/{id}(id=${g.id})}" class="px-3 py-2 bg-yellow-400 text-yellow-900 rounded-lg text-sm font-medium hover:bg-yellow-500 transition-colors">Sửa</a>
-                                    <button onclick="confirmDelete(this)" th:data-url="@{/giaovien/delete/{id}(id=${g.id})}" class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">Xóa</button>
+                                    <form th:action="@{/giaovien/delete/{id}(id=${g.id})}" method="post" style="display:inline" onsubmit="return confirm('Bạn có chắc muốn xóa giáo viên này?');">
+                                        <button type="submit" class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">Xóa</button>
+                                    </form>
                                 </span>
                             </div>
                         </div>

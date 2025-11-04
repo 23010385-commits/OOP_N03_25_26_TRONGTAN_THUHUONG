@@ -4,6 +4,7 @@ package com.guitar.management.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.guitar.management.model.GiaoVien;
 import com.guitar.management.model.User;
 import com.guitar.management.service.GiaoVienService; // <-- GỌI SERVICE
@@ -36,6 +37,7 @@ public class GiaoVienController {
     // --- 2. CREATE (TẠO) ---
     // Bước 2a: Hiển thị form thêm mới
     @GetMapping("/add")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showAddForm(Model model) {
         GiaoVien gv = new GiaoVien();
         // initialize nested User so Thymeleaf can bind user.username / user.password
@@ -46,6 +48,7 @@ public class GiaoVienController {
 
     // Bước 2b: Xử lý nút "Lưu" từ form
     @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String saveGiaoVien(@ModelAttribute GiaoVien giaoVien) {
         // If nested User provided, use UserService to register (handles hashing and
         // transactional save)
@@ -65,6 +68,7 @@ public class GiaoVienController {
     // --- 3. UPDATE (SỬA) ---
     // Bước 3a: Hiển thị form sửa (dùng Long thay vì int)
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showEditForm(@PathVariable Long id, Model model) {
         GiaoVien giaoVien = giaoVienService.findById(id); // Gọi Service
         model.addAttribute("giaoVien", giaoVien);
@@ -73,6 +77,7 @@ public class GiaoVienController {
 
     // Bước 3b: Xử lý nút "Cập nhật" (POST form includes hidden id)
     @PostMapping("/update")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
         // nếu form gửi id trong giaoVien.id thì save sẽ hiểu đây là UPDATE
         if (giaoVien.getId() != null) {
@@ -82,7 +87,8 @@ public class GiaoVienController {
     }
 
     // --- 4. DELETE (XÓA) ---
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String deleteGiaoVien(@PathVariable Long id) {
         giaoVienService.deleteById(id); // Gọi Service
         return "redirect:/giaovien";
