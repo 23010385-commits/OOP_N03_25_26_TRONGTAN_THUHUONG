@@ -97,9 +97,16 @@
                     </span>
 
                     <span sec:authorize="hasRole('HOCVIEN')">
-                        <form th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/enroll'}" method="post" style="display:inline">
-                            <button type="submit" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">📝 Tham gia khóa học</button>
-                        </form>
+                        <span th:if="${isEnrolled}">
+                            <form th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/unenroll'}" method="post" style="display:inline">
+                                <button type="submit" class="px-6 py-2 rounded-lg font-semibold text-white bg-gray-400 hover:bg-gray-500">✖ Hủy tham gia</button>
+                            </form>
+                        </span>
+                        <span th:unless="${isEnrolled}">
+                            <form th:action="@{'/khoahoc/' + ${khoaHoc.id} + '/enroll'}" method="post" style="display:inline">
+                                <button type="submit" class="px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">📝 Tham gia khóa học</button>
+                            </form>
+                        </span>
                     </span>
                 </div>
             </div>
