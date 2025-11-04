@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="mt-6 flex gap-3">
-					<span sec:authorize="hasRole('ADMIN')">
+					<span sec:authorize="hasAnyRole('GIAOVIEN','ADMIN')">
 						<button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Lưu</button>
 					</span>
 					<a th:href="@{/giaovien}" class="px-4 py-2 bg-gray-200 rounded">Hủy</a>
