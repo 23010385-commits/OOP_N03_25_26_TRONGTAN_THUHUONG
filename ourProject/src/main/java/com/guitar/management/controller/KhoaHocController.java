@@ -4,6 +4,7 @@ package com.guitar.management.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.guitar.management.model.KhoaHoc;
 import com.guitar.management.service.KhoaHocService; // <-- GỌI SERVICE
 import com.guitar.management.service.GiaoVienService; // Cần để lấy danh sách GV
@@ -34,6 +35,7 @@ public class KhoaHocController {
 
     // --- 2. CREATE (TẠO) ---
     @GetMapping("/add")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showAddForm(Model model) {
         model.addAttribute("khoaHoc", new KhoaHoc());
         // Gửi danh sách giáo viên sang view để người dùng chọn
@@ -44,6 +46,7 @@ public class KhoaHocController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String saveKhoaHoc(@ModelAttribute KhoaHoc khoaHoc,
             @RequestParam(name = "giaoVienId", required = false) Long giaoVienId) {
         if (giaoVienId != null) {
@@ -56,6 +59,7 @@ public class KhoaHocController {
 
     // --- 3. UPDATE (SỬA) ---
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showEditForm(@PathVariable Long id, Model model) {
         KhoaHoc khoaHoc = khoaHocService.findById(id);
         model.addAttribute("khoaHoc", khoaHoc);
@@ -65,6 +69,7 @@ public class KhoaHocController {
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String updateKhoaHoc(@PathVariable Long id, @ModelAttribute KhoaHoc khoaHoc,
             @RequestParam(name = "giaoVienId", required = false) Long giaoVienId) {
         khoaHoc.setId(id);
@@ -78,6 +83,7 @@ public class KhoaHocController {
 
     // --- 4. DELETE (XÓA) ---
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String deleteKhoaHoc(@PathVariable Long id) {
         khoaHocService.deleteById(id);
         return "redirect:/khoahoc";
@@ -95,6 +101,7 @@ public class KhoaHocController {
 
     // --- THÊM BÀI HỌC TRONG TRANG CHI TIẾT ---
     @PostMapping("/{id}/lessons")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String addLessonToCourse(@PathVariable("id") Long khoaHocId,
             @RequestParam String title,
             @RequestParam(required = false) String noiDung,
@@ -103,6 +110,19 @@ public class KhoaHocController {
         try {
             khoaHocService.addLessonToCourse(khoaHocId, title, noiDung, thoiLuong);
             redirect.addFlashAttribute("successMessage", "Thêm bài học thành công");
+        } catch (RuntimeException ex) {
+            redirect.addFlashAttribute("errorMessage", ex.getMessage());
+        }
+        return "redirect:/khoahoc/detail/" + khoaHocId;
+    }
+
+    // --- HỌC VIÊN THAM GIA KHÓA HỌC ---
+    @PostMapping("/{id}/enroll")
+    @PreAuthorize("hasRole('HOCVIEN')")
+    public String enrollCurrentStudent(@PathVariable("id") Long khoaHocId, RedirectAttributes redirect) {
+        try {
+            khoaHocService.enrollCurrentStudentToCourse(khoaHocId);
+            redirect.addFlashAttribute("successMessage", "Đăng ký khóa học thành công");
         } catch (RuntimeException ex) {
             redirect.addFlashAttribute("errorMessage", ex.getMessage());
         }

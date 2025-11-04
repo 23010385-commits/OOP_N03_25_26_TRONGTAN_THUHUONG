@@ -4,6 +4,9 @@ import com.guitar.management.model.*;
 import com.guitar.management.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,13 +16,22 @@ public class KhoaHocService {
   private final KhoaHocRepository khoaHocRepository;
   private final LessonRepository lessonRepository;
   private final GiaoVienRepository giaoVienRepository;
+  private final HocVienRepository hocVienRepository;
+  private final HocVienKhoaHocRepository hocVienKhoaHocRepository;
+  private final UserRepository userRepository;
 
   public KhoaHocService(KhoaHocRepository khoaHocRepository,
       LessonRepository lessonRepository,
-      GiaoVienRepository giaoVienRepository) {
+      GiaoVienRepository giaoVienRepository,
+      HocVienRepository hocVienRepository,
+      HocVienKhoaHocRepository hocVienKhoaHocRepository,
+      UserRepository userRepository) {
     this.khoaHocRepository = khoaHocRepository;
     this.lessonRepository = lessonRepository;
     this.giaoVienRepository = giaoVienRepository;
+    this.hocVienRepository = hocVienRepository;
+    this.hocVienKhoaHocRepository = hocVienKhoaHocRepository;
+    this.userRepository = userRepository;
   }
 
   // Null-safe helpers (không thay đổi logic hiện tại)
@@ -108,5 +120,41 @@ public class KhoaHocService {
     newLesson.setKhoaHoc(khoaHoc);
 
     return lessonRepository.save(newLesson);
+  }
+
+  /**
+   * Enroll the currently authenticated student into the given course.
+   * Throws RuntimeException on failure (no authenticated user, not a student,
+   * already enrolled, etc.).
+   */
+  @Transactional
+  public void enrollCurrentStudentToCourse(Long khoaHocId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null || auth.getName() == null) {
+      throw new RuntimeException("Không có người dùng đăng nhập");
+    }
+
+    String username = auth.getName();
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản người dùng: " + username));
+
+    HocVien hocVien = hocVienRepository.findByUserId(user.getId())
+        .orElseThrow(() -> new RuntimeException("Hồ sơ học viên không tồn tại cho user: " + username));
+
+    KhoaHoc khoaHoc = khoaHocRepository.findById(khoaHocId)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với id: " + khoaHocId));
+
+    boolean already = hocVienKhoaHocRepository.existsByHocVienIdAndKhoaHocId(hocVien.getId(), khoaHocId);
+    if (already) {
+      throw new RuntimeException("Bạn đã đăng ký khóa học này rồi");
+    }
+
+    HocVienKhoaHoc hvkh = new HocVienKhoaHoc();
+    hvkh.setHocVien(hocVien);
+    hvkh.setKhoaHoc(khoaHoc);
+    hvkh.setNgayDangKy(new Date());
+    hvkh.setTrangThai("Dang hoc");
+
+    hocVienKhoaHocRepository.save(hvkh);
   }
 }
