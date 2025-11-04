@@ -33,8 +33,9 @@
 
 					<div>
 						<label class="block text-sm font-medium text-gray-700">Giảng viên phụ trách</label>
-						<select th:field="*{giaoVien.id}" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
-							<option th:each="gv : ${giaoVienList}" th:value="${gv.id}" th:text="${gv.ten}">-- Chọn giảng viên --</option>
+						<select name="giaoVienId" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+							<option value="" selected>-- Chọn giảng viên --</option>
+							<option th:each="gv : ${giaoVienList}" th:value="${gv.id}" th:text="${gv.ten}"></option>
 						</select>
 						<div class="text-sm text-gray-500 mt-1">Nếu không có giảng viên nào trong danh sách, hãy thêm giáo viên trước.</div>
 					</div>

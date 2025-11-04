@@ -19,7 +19,7 @@
 		</div>
 
 		<div class="bg-white p-6 rounded-lg shadow">
-			<form th:action="@{/khoahoc/update}" th:object="${khoaHoc}" method="post" onsubmit="return validate(this)">
+			<form th:action="@{/khoahoc/update/{id}(id=${khoaHoc.id})}" th:object="${khoaHoc}" method="post" onsubmit="return validate(this)">
 				<input type="hidden" th:field="*{id}">
 				<div class="grid grid-cols-1 gap-4">
 					<div>
@@ -33,8 +33,9 @@
 
 					<div>
 						<label class="block text-sm font-medium text-gray-700">Giảng viên phụ trách</label>
-						<select th:field="*{giaoVien.id}" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
-							<option th:each="gv : ${giaoVienList}" th:value="${gv.id}" th:text="${gv.ten}" th:selected="${khoaHoc.giaoVien != null and gv.id == khoaHoc.giaoVien.id}">-- Chọn giảng viên --</option>
+						<select name="giaoVienId" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+							<option value="" th:selected="${khoaHoc.giaoVien == null}">-- Chọn giảng viên --</option>
+							<option th:each="gv : ${giaoVienList}" th:value="${gv.id}" th:text="${gv.ten}" th:selected="${khoaHoc.giaoVien != null and gv.id == khoaHoc.giaoVien.id}"></option>
 						</select>
 					</div>
 				</div>

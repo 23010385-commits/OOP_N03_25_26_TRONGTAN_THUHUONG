@@ -38,6 +38,13 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         
+        <!-- Thymeleaf extras for Spring Security 6 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+        
         <!-- ✅ Spring Boot Starter Data JPA (Database ORM) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
