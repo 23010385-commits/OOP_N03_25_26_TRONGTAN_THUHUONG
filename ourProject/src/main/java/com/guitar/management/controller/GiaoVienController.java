@@ -1,53 +1,83 @@
+// File: src/main/java/com/guitar/management/controller/GiaoVienController.java
 package com.guitar.management.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.guitar.management.model.GiaoVien;
-import com.guitar.management.repository.GiaoVienRepository;
+import com.guitar.management.service.GiaoVienService;
+import java.util.List;
 
 @Controller
+@RequestMapping("/giaovien")
 public class GiaoVienController {
 
-    private final GiaoVienRepository repo = new GiaoVienRepository();
+    private final GiaoVienService giaoVienService;
 
-    @GetMapping("/giaovien")
+    // -> constructor injection
+    public GiaoVienController(GiaoVienService giaoVienService) {
+        this.giaoVienService = giaoVienService;
+    }
+
+    // --- ĐÃ SỬA LỖI ---
+    @GetMapping("/home")
+    public String home(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                model.addAttribute("username", userDetails.getUsername());
+            } else {
+                model.addAttribute("username", String.valueOf(principal));
+            }
+        } else {
+            model.addAttribute("username", "Giáo viên");
+        }
+        return "giaovien/home";
+    }
+
+    // --- 1. READ (ĐỌC) ---
+    @GetMapping("")
     public String listGiaoVien(Model model) {
-        model.addAttribute("giaovienList", repo.getAllGiaoVien());
+        List<GiaoVien> listGiaoVien = giaoVienService.findAll();
+        model.addAttribute("listGiaoVien", listGiaoVien);
         return "giaovien/list";
     }
 
-    @GetMapping("/giaovien/add")
-    public String addGiaoVien(Model model) {
-        model.addAttribute("giaoVien", new GiaoVien(0, "", 18, ""));
+    // --- 2. CREATE (TẠO) ---
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("giaoVien", new GiaoVien());
         return "giaovien/add";
     }
 
-    @PostMapping("/giaovien/save")
+    @PostMapping("/save")
     public String saveGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        int id = repo.getAllGiaoVien().size() + 1;
-        giaoVien.setId(id);
-        repo.addGiaoVien(giaoVien);
+        giaoVienService.save(giaoVien);
         return "redirect:/giaovien";
     }
 
-    @GetMapping("/giaovien/edit/{id}")
-    public String editGiaoVien(@PathVariable int id, Model model) {
-        GiaoVien gv = repo.getGiaoVienById(id);
-        model.addAttribute("giaoVien", gv);
+    // --- 3. UPDATE (SỬA) ---
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        GiaoVien giaoVien = giaoVienService.findById(id);
+        model.addAttribute("giaoVien", giaoVien);
         return "giaovien/edit";
     }
 
-    @PostMapping("/giaovien/update")
-    public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        repo.updateGiaoVien(giaoVien);
+    @PostMapping("/update/{id}")
+    public String updateGiaoVien(@PathVariable Long id, @ModelAttribute GiaoVien giaoVien) {
+        giaoVien.setId(id);
+        giaoVienService.save(giaoVien);
         return "redirect:/giaovien";
     }
 
-    @GetMapping("/giaovien/delete/{id}")
-    public String deleteGiaoVien(@PathVariable int id) {
-        repo.deleteGiaoVien(id);
+    // --- 4. DELETE (XÓA) ---
+    @GetMapping("/delete/{id}")
+    public String deleteGiaoVien(@PathVariable Long id) {
+        giaoVienService.deleteById(id);
         return "redirect:/giaovien";
     }
 }

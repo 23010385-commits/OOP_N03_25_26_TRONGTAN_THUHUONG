@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ Giáo viên - Quản lý khóa học Guitar 🎸</title>
+    
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tải font Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS tùy chỉnh (BẮT BUỘC) -->
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+</head>
+<body class="bg-gray-100">
+
+    <!-- =========== NAVBAR (Tự động tải từ fragments) =========== -->
+    <header th:replace="~{fragments/navbar-giaovien :: navbar}"></header>
+
+    <!-- =========== NỘI DUNG CHÍNH =========== -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+
+        <!-- Tiêu đề chào mừng -->
+        <div class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                Chào mừng trở lại, Giáo Viên! 👋
+            </h1>
+            <p class="text-lg text-gray-600">
+                Quản lý các khóa học và học viên của bạn tại đây.
+            </p>
+        </div>
+
+        <!-- Lưới chức năng (Đã kết nối với CRUD KhoaHoc của bạn) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card 1: Quản lý Khóa Học (Link đến list.html) -->
+            <a th:href="@{/khoahoc}" class="dashboard-card block">
+                <div class="text-5xl mb-4">📚</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                    Quản lý Khóa Học
+                </h3>
+                <p class="text-gray-600 mb-5">
+                    Xem, sửa, xóa và quản lý chi tiết các khóa học hiện có của bạn.
+                </p>
+                <div class="text-center">
+                    <span class="btn-cta btn-green">
+                        Xem Danh Sách
+                    </span>
+                </div>
+            </a>
+
+            <!-- Card 2: Tạo Khóa Học Mới (Link đến add.html) -->
+            <a th:href="@{/khoahoc/add}" class="dashboard-card block">
+                <div class="text-5xl mb-4">➕</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                    Tạo Khóa Học Mới
+                </h3>
+                <p class="text-gray-600 mb-5">
+                    Thêm một khóa học mới vào hệ thống, bao gồm mô tả, cấp độ và bài học.
+                </p>
+                <div class="text-center">
+                    <span class="btn-cta btn-blue">
+                        Tạo Khóa Học
+                    </span>
+                </div>
+            </a>
+
+            <!-- Card 3: Quản lý Giáo Viên (Link đến GiaoVienController) -->
+            <a th:href="@{/giaovien}" class="dashboard-card block">
+                <div class="text-5xl mb-4">👨‍🏫</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                    Quản lý Giáo Viên
+                </h3>
+                <p class="text-gray-600 mb-5">
+                    (Chức năng Admin) Xem và chỉnh sửa danh sách giáo viên trong hệ thống.
+                </p>
+                <div class="text-center">
+                    <span class="btn-cta" style="background-color: var(--brand-orange);">
+                        Quản lý
+                    </span>
+                </div>
+            </a>
+            
+        </div>
+
+    </main>
+
+    <!-- =========== FOOTER (Tự động tải từ fragments) =========== -->
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

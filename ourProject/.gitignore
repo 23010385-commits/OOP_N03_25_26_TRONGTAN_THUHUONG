@@ -1,0 +1,21 @@
+# =================================
+# Tệp Bỏ qua của Java / Maven
+# =================================
+
+# 1. Bỏ qua Thư mục Build
+# (Quan trọng nhất)
+/target/
+
+# 2. Bỏ qua các file Log
+*.log
+
+# 3. Bỏ qua file của IDE
+.vscode/
+.idea/
+*.iml
+
+# 4. Bỏ qua các file hệ thống
+.DS_Store
+
+# 5. Bỏ qua các file Môi trường (Chứa mật khẩu)
+.env
