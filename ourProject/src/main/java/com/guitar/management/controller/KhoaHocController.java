@@ -1,6 +1,10 @@
 package com.guitar.management.controller;
 
 import com.guitar.management.model.KhoaHoc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.guitar.management.service.GiaoVienService;
 import com.guitar.management.service.KhoaHocService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +22,7 @@ public class KhoaHocController {
 
     private final KhoaHocService khoaHocService;
     private final GiaoVienService giaoVienService;
+    private static final Logger logger = LoggerFactory.getLogger(KhoaHocController.class);
 
     public KhoaHocController(KhoaHocService khoaHocService, GiaoVienService giaoVienService) {
         this.khoaHocService = khoaHocService;
@@ -29,8 +34,20 @@ public class KhoaHocController {
         List<KhoaHoc> listKhoaHoc;
         if (level != null && !level.trim().isEmpty()) {
             listKhoaHoc = khoaHocService.findAllByLevel(level);
+            // initialize lazy collections for rendering
+            khoaHocService.initializeList(listKhoaHoc);
         } else {
             listKhoaHoc = khoaHocService.findAll();
+            // initialize lazy collections for rendering
+            khoaHocService.initializeList(listKhoaHoc);
+        }
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user = (auth != null && auth.getName() != null) ? auth.getName() : "anonymous";
+            logger.info("Serving /khoahoc for user='{}' role(s)={} - returning {} courses", user,
+                    (auth != null ? auth.getAuthorities() : "[]"), (listKhoaHoc != null ? listKhoaHoc.size() : 0));
+        } catch (Exception e) {
+            logger.warn("Unable to log authentication info", e);
         }
         model.addAttribute("listKhoaHoc", listKhoaHoc);
         try {
@@ -102,6 +119,13 @@ public class KhoaHocController {
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String deleteKhoaHoc(@PathVariable Long id) {
+        khoaHocService.deleteById(id);
+        return "redirect:/khoahoc";
+    }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
+    public String deleteKhoaHocPost(@PathVariable Long id) {
         khoaHocService.deleteById(id);
         return "redirect:/khoahoc";
     }

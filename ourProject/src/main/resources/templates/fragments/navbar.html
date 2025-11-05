@@ -3,11 +3,27 @@
   <header class="bg-white shadow-md sticky top-0 z-50">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
-        <a th:href="@{/}" class="text-3xl font-bold" style="color: #00C853;">
-          Guitar 🎸
-        </a>
+        <!-- Brand link: route users to role-specific home pages -->
+        <span sec:authorize="hasRole('HOCVIEN')">
+          <a th:href="@{/hocvien/home}" class="text-3xl font-bold" style="color: #00C853;">Guitar 🎸</a>
+        </span>
+        <span sec:authorize="hasRole('GIAOVIEN')">
+          <a th:href="@{/giaovien/home}" class="text-3xl font-bold" style="color: #00C853;">Guitar 🎸</a>
+        </span>
+        <span sec:authorize="isAnonymous() or hasRole('ADMIN')">
+          <a th:href="@{/}" class="text-3xl font-bold" style="color: #00C853;">Guitar 🎸</a>
+        </span>
       <div class="hidden md:flex md:items-center md:space-x-6">
-                <a th:href="@{/}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+        <!-- role-aware home link -->
+        <span sec:authorize="hasRole('HOCVIEN')">
+          <a th:href="@{/hocvien/home}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+        </span>
+        <span sec:authorize="hasRole('GIAOVIEN')">
+          <a th:href="@{/giaovien/home}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+        </span>
+        <span sec:authorize="isAnonymous() or hasRole('ADMIN')">
+          <a th:href="@{/}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+        </span>
           <a th:href="@{/khoahoc}" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
           <a th:href="@{/giaovien}" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
           <a th:href="@{/gioithieu}" class="text-gray-700 hover:text-green-600 transition">Giới thiệu</a>

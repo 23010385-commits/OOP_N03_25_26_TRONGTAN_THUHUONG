@@ -10,7 +10,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-gray-50">
 
-	<div th:replace="fragments/navbar :: navbar"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 	<main class="max-w-3xl mx-auto p-6 flex-1">
 		<div class="mb-6 flex items-center justify-between">
@@ -48,7 +48,7 @@
 		</div>
 	</main>
 
-	<div th:replace="fragments/footer :: footer"></div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
 
 	<script>
 		function validate(form){

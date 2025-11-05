@@ -99,4 +99,18 @@ public class LessonController {
             return "redirect:/khoahoc/detail/" + khId;
         return "redirect:/lesson";
     }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
+    public String deleteLessonPost(@PathVariable Long id) {
+        Lesson existing = lessonService.findById(id);
+        Long khId = null;
+        if (existing != null && existing.getKhoaHoc() != null) {
+            khId = existing.getKhoaHoc().getId();
+        }
+        lessonService.deleteById(id);
+        if (khId != null)
+            return "redirect:/khoahoc/detail/" + khId;
+        return "redirect:/lesson";
+    }
 }
