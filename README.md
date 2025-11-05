@@ -14,7 +14,7 @@
    Nguyễn Trọng Tấn - Mã số: 23010385
 
 ## 3. Thông tin
-Link Repo:*********
+Link Repo:https://github.com/23010385-commits/OOP_N03_25_26_TRONGTAN_THUHUONG.git
 
 Link Demo:***********
 
@@ -72,7 +72,7 @@ Báo cáo: Thống kê báo cáo tiến trình theo từng học viên hoặc th
 ## 7. Hướng Dẫn Cài Đặt và Chạy 🚀
   Clone Repository:
 
-  git clone [Đường dẫn GitHub của bạn]cd ten-project-cua-ban
+  git clone https://github.com/23010385-commits/OOP_N03_25_26_TRONGTAN_THUHUONG.git
   Yêu cầu: Đảm bảo đã cài đặt JDK (Java Development Kit) phiên bản phù hợp (ví dụ: Java 17+).
 
   Mở Project: Mở dự án bằng IDE (ví dụ: IntelliJ IDEA hoặc Eclipse).
@@ -80,7 +80,7 @@ Báo cáo: Thống kê báo cáo tiến trình theo từng học viên hoặc th
   Chạy Ứng dụng: Chạy class chính chứa phương thức main() hoặc sử dụng cấu hình Spring Boot để khởi động.
 
 ## 8. Hướng Dẫn Sử Dụng (TBD - Chi tiết hơn sau khi hoàn thiện)
-  Truy cập: Mở giao diện thông qua Spring Boot (thường là http://localhost:[Port]/ - nếu dùng giao diện web) hoặc cửa sổ ứng dụng Desktop.
+  Truy cập: Mở giao diện thông qua Spring Boot (thường là http://localhost:[8080]/ - nếu dùng giao diện web) hoặc cửa sổ ứng dụng Desktop.
 
   Đăng nhập: (Nếu có) Sử dụng tài khoản mặc định (ví dụ: admin/admin).
 
@@ -89,7 +89,8 @@ Báo cáo: Thống kê báo cáo tiến trình theo từng học viên hoặc th
 # 9. Sơ đồ khối
 ## 9.1 UML Class Diagram
 
-<img width="2560" height="1557" alt="image" src="https://github.com/user-attachments/assets/4d9b5713-34a7-4f9d-8cea-580bbd4a2a1f" />
+<img width="921" height="481" alt="diagram_tong" src="https://github.com/user-attachments/assets/fcb371e3-9f6c-4961-b35a-8642e752be27" />
+
 
 
 ## 9.2 UML Sequence Diagram
