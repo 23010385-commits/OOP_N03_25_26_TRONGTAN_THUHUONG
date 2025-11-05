@@ -1,40 +1,32 @@
-// File: src/main/java/com/guitar/management/model/KhoaHoc.java
 package com.guitar.management.model;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
 
-@Entity
-@Table(name = "khoa_hoc")
 public class KhoaHoc {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    // thuoc tinh
+    private int id;
     private String tenKhoaHoc;
     private String moTa;
-
-    @ManyToOne
-    @JoinColumn(name = "giao_vien_id")
     private GiaoVien giaoVien;
+    private List<Lesson> lessons;   
 
-    @OneToMany(mappedBy = "khoaHoc", cascade = CascadeType.ALL)
-    private List<Lesson> lessons = new ArrayList<>();
+    // ham tao
+    public KhoaHoc(int id, String tenKhoaHoc, String moTa, GiaoVien giaoVien) {
+        this.id = id;
+        this.tenKhoaHoc = tenKhoaHoc;
+        this.moTa = moTa;
+        this.giaoVien = giaoVien;
+        this.lessons = new ArrayList<>();
+    }
 
-    @OneToMany(mappedBy = "khoaHoc")
-    private Set<HocVienKhoaHoc> dsHocVien = new HashSet<>();
-
-    public KhoaHoc() {
-    } // Hàm tạo rỗng
-
-    // --- Getters & Setters (Xóa hết logic) ---
-    public Long getId() {
+    // getter va setter
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -66,15 +58,42 @@ public class KhoaHoc {
         return lessons;
     }
 
-    public void setLessons(List<Lesson> lessons) {
-        this.lessons = lessons;
+    public void addBaihoc(Lesson baihoc) {
+        for (Lesson b : lessons) {
+            if (b.getLessonID() == baihoc.getLessonID()) {
+                System.out.println("Bai hoc da ton tai.");
+                return;
+            }
+        }
+        lessons.add(baihoc);
     }
 
-    public Set<HocVienKhoaHoc> getDsHocVien() {
-        return dsHocVien;
+    public void removeBaihoc(int id) {
+        lessons.removeIf(b -> b.getLessonID() == id);
     }
 
-    public void setDsHocVien(Set<HocVienKhoaHoc> dsHocVien) {
-        this.dsHocVien = dsHocVien;
+    public void updateBaihoc(int id, String newTen) {
+        for (Lesson b : lessons) {
+            if (b.getLessonID() == id) {
+                b.setTitle(newTen);
+                break;
+            }
+        }
+    }
+
+    // phuong thuc hien thi noi dung khoa hoc
+    public void showNoiDungKhoaHoc() {
+        System.out.println("------ Khoa hoc: " + tenKhoaHoc + " ------");
+        System.out.println("Mo ta     : " + moTa);
+        System.out.println("Giao vien : " + (giaoVien != null ? giaoVien.getTen() : "Chua co"));
+        if (lessons.isEmpty()) {
+            System.out.println("Chua co bai hoc nao trong khoa hoc");
+        } else {
+            System.out.println("Danh sach bai hoc:");
+            for (Lesson l : lessons) {
+                System.out.println("- " + l.getTitle() + " (" + l.getThoiLuong() + " phut)");
+            }
+        }
+        System.out.println("----------------------------------------\n");
     }
 }
