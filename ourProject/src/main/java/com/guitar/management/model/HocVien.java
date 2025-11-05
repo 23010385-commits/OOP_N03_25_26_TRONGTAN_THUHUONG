@@ -1,38 +1,36 @@
-// File: src/main/java/com/guitar/management/model/HocVien.java
 package com.guitar.management.model;
 
-import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table(name = "hoc_vien")
 public class HocVien {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    // thuoc tinh
+    private int id;
     private String ten;
-    @Column(unique = true)
     private String email;
     private String soDienThoai;
     private int level;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    // danh sach khoa hoc da dang ky
+    private List<KhoaHoc> dsKhoaHoc;
 
-    @OneToMany(mappedBy = "hocVien")
-    private Set<HocVienKhoaHoc> dsDangKy = new HashSet<>();
+    // ham tao
+    public HocVien(int id, String ten, String email, String soDienThoai) {
+        this.id = id;
+        this.ten = ten;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+        this.dsKhoaHoc = new ArrayList<>();
+        this.level = 1; // Mặc định cấp độ bắt đầu là 1
+    }
 
-    public HocVien() {
-    } // Hàm tạo rỗng
-
-    // --- Getters & Setters (Xóa hết logic) ---
-    public Long getId() {
+    // getter va setter
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -60,27 +58,58 @@ public class HocVien {
         this.soDienThoai = soDienThoai;
     }
 
+    public List<KhoaHoc> getDsKhoaHoc() {
+        return dsKhoaHoc;
+    }
+
+    // phuong thuc dang ky khoa hoc
+    public void dangKyKhoaHoc(KhoaHoc khoaHoc) {
+        if (!dsKhoaHoc.contains(khoaHoc)) {
+            dsKhoaHoc.add(khoaHoc);
+            System.out.println(ten + " da dang ky khoa hoc: " + khoaHoc.getTenKhoaHoc());
+        } else {
+            System.out.println(ten + " da dang ky khoa hoc nay roi!");
+        }
+    }
+
+    // phuong thuc hien thi danh sach khoa hoc
+    public void showKhoaHocDaDangKy() {
+        System.out.println("------ Hoc vien " + ten + " ------");
+        if (dsKhoaHoc.isEmpty()) {
+            System.out.println("Chua dang ky khoa hoc nao");
+        } else {
+            for (KhoaHoc kh : dsKhoaHoc) {
+                System.out.println("- " + kh.getTenKhoaHoc());
+            }
+        }
+        System.out.println("-------------------------------\n");
+    }
+
+    // phuong thuc in thong tin hoc vien
+    public void showInfo() {
+        System.out.println("------ Hoc vien ------");
+        System.out.println("ID    : " + id);
+        System.out.println("Ten   : " + ten);
+        System.out.println("Email : " + email);
+        System.out.println("SDT   : " + soDienThoai);
+        System.out.println("Level : " + level);
+        System.out.println("----------------------\n");
+    }
+
+    public void thuchanh() {
+        System.out.println("Hoc vien dang thuc hanh.");
+    }
+
+    public void levelup() {
+        level++;
+        System.out.println("Hoc vien da len cap: " + level);
+    }
+
     public int getLevel() {
         return level;
     }
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<HocVienKhoaHoc> getDsDangKy() {
-        return dsDangKy;
-    }
-
-    public void setDsDangKy(Set<HocVienKhoaHoc> dsDangKy) {
-        this.dsDangKy = dsDangKy;
-    }
+    }   
 }
