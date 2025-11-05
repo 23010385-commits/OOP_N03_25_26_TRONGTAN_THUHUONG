@@ -4,6 +4,9 @@ import com.guitar.management.model.*;
 import com.guitar.management.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,13 +16,22 @@ public class KhoaHocService {
   private final KhoaHocRepository khoaHocRepository;
   private final LessonRepository lessonRepository;
   private final GiaoVienRepository giaoVienRepository;
+  private final HocVienRepository hocVienRepository;
+  private final HocVienKhoaHocRepository hocVienKhoaHocRepository;
+  private final UserRepository userRepository;
 
   public KhoaHocService(KhoaHocRepository khoaHocRepository,
       LessonRepository lessonRepository,
-      GiaoVienRepository giaoVienRepository) {
+      GiaoVienRepository giaoVienRepository,
+      HocVienRepository hocVienRepository,
+      HocVienKhoaHocRepository hocVienKhoaHocRepository,
+      UserRepository userRepository) {
     this.khoaHocRepository = khoaHocRepository;
     this.lessonRepository = lessonRepository;
     this.giaoVienRepository = giaoVienRepository;
+    this.hocVienRepository = hocVienRepository;
+    this.hocVienKhoaHocRepository = hocVienKhoaHocRepository;
+    this.userRepository = userRepository;
   }
 
   // Null-safe helpers (không thay đổi logic hiện tại)
@@ -36,6 +48,27 @@ public class KhoaHocService {
   // --- CRUD cơ bản ---
   public List<KhoaHoc> findAll() {
     return khoaHocRepository.findAll();
+  }
+
+  /**
+   * Lấy danh sách khóa học lọc theo level (basic|advanced) — đơn giản dựa trên từ
+   * khoá trong
+   * tiêu đề/mô tả: 'sơ cấp' cho basic, 'nâng cao' cho advanced.
+   */
+  public List<KhoaHoc> findAllByLevel(String level) {
+    if (level == null || level.trim().isEmpty())
+      return findAll();
+    String key = level.trim().toLowerCase();
+    String keyword;
+    if (key.equals("basic") || key.equals("so-cap") || key.equals("sơ-cấp") || key.equals("sơ cấp")) {
+      keyword = "sơ cấp";
+    } else if (key.equals("advanced") || key.equals("nang-cao") || key.equals("nâng-cao") || key.equals("nâng cao")) {
+      keyword = "nâng cao";
+    } else {
+      // fallback: use raw level value as keyword
+      keyword = level;
+    }
+    return khoaHocRepository.findByTenKhoaHocContainingIgnoreCaseOrMoTaContainingIgnoreCase(keyword, keyword);
   }
 
   public KhoaHoc findById(Long id) {
@@ -108,5 +141,96 @@ public class KhoaHocService {
     newLesson.setKhoaHoc(khoaHoc);
 
     return lessonRepository.save(newLesson);
+  }
+
+  /**
+   * Enroll the currently authenticated student into the given course.
+   * Throws RuntimeException on failure (no authenticated user, not a student,
+   * already enrolled, etc.).
+   */
+  @Transactional
+  public void enrollCurrentStudentToCourse(Long khoaHocId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null || auth.getName() == null) {
+      throw new RuntimeException("Không có người dùng đăng nhập");
+    }
+
+    String username = auth.getName();
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản người dùng: " + username));
+
+    HocVien hocVien = hocVienRepository.findByUserId(user.getId())
+        .orElseThrow(() -> new RuntimeException("Hồ sơ học viên không tồn tại cho user: " + username));
+
+    KhoaHoc khoaHoc = khoaHocRepository.findById(khoaHocId)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với id: " + khoaHocId));
+
+    boolean already = hocVienKhoaHocRepository.existsByHocVienIdAndKhoaHocId(hocVien.getId(), khoaHocId);
+    if (already) {
+      throw new RuntimeException("Bạn đã đăng ký khóa học này rồi");
+    }
+
+    HocVienKhoaHoc hvkh = new HocVienKhoaHoc();
+    hvkh.setHocVien(hocVien);
+    hvkh.setKhoaHoc(khoaHoc);
+    hvkh.setNgayDangKy(new Date());
+    hvkh.setTrangThai("Dang hoc");
+
+    hocVienKhoaHocRepository.save(hvkh);
+  }
+
+  /**
+   * Hủy đăng ký khóa học cho học viên hiện tại
+   */
+  @Transactional
+  public void unenrollCurrentStudentFromCourse(Long khoaHocId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null || auth.getName() == null) {
+      throw new RuntimeException("Không có người dùng đăng nhập");
+    }
+
+    String username = auth.getName();
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản người dùng: " + username));
+
+    HocVien hocVien = hocVienRepository.findByUserId(user.getId())
+        .orElseThrow(() -> new RuntimeException("Hồ sơ học viên không tồn tại cho user: " + username));
+
+    boolean exists = hocVienKhoaHocRepository.existsByHocVienIdAndKhoaHocId(hocVien.getId(), khoaHocId);
+    if (!exists) {
+      throw new RuntimeException("Bạn chưa đăng ký khóa học này");
+    }
+
+    // Xóa bản ghi đăng ký
+    hocVienKhoaHocRepository.deleteByHocVienIdAndKhoaHocId(hocVien.getId(), khoaHocId);
+  }
+
+  /**
+   * Lấy tập các courseId mà học viên hiện tại đã đăng ký — dùng để render UI
+   */
+  public java.util.Set<Long> getEnrolledCourseIdsForCurrentUser() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null || auth.getName() == null) {
+      return java.util.Collections.emptySet();
+    }
+
+    String username = auth.getName();
+    java.util.Optional<User> maybeUser = userRepository.findByUsername(username);
+    if (maybeUser.isEmpty())
+      return java.util.Collections.emptySet();
+
+    User user = maybeUser.get();
+    java.util.Optional<HocVien> maybeHv = hocVienRepository.findByUserId(user.getId());
+    if (maybeHv.isEmpty())
+      return java.util.Collections.emptySet();
+
+    HocVien hv = maybeHv.get();
+    java.util.List<HocVienKhoaHoc> list = hocVienKhoaHocRepository.findByHocVienId(hv.getId());
+    java.util.Set<Long> ids = new java.util.HashSet<>();
+    for (HocVienKhoaHoc r : list) {
+      if (r.getKhoaHoc() != null && r.getKhoaHoc().getId() != null)
+        ids.add(r.getKhoaHoc().getId());
+    }
+    return ids;
   }
 }

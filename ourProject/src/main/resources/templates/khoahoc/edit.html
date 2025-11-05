@@ -1,273 +1,61 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sửa Khóa Học - Guitar 🎸</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-        .form-input {
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            border-color: #00C853;
-            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
-            outline: none;
-        }
-        .error-message {
-            color: #d32f2f;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        .error-message.show {
-            display: block;
-        }
-        .input-error {
-            border-color: #d32f2f !important;
-            background-color: #ffebee;
-        }
-        .btn-submit {
-            background-color: #00C853;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-submit:hover {
-            background-color: #00a746;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
-        }
-        .btn-cancel {
-            background-color: #f5f5f5;
-            color: #424242;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-        .btn-delete {
-            background-color: #d32f2f;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-delete:hover {
-            background-color: #b71c1c;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .form-group-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-        @media (max-width: 768px) {
-            .form-group-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        .required::after {
-            content: " *";
-            color: #d32f2f;
-        }
-        .section-divider {
-            border-top: 2px solid #e0e0e0;
-            margin: 2rem 0;
-            padding-top: 2rem;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chỉnh sửa Khóa học</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+	<style>body{font-family: 'Roboto', sans-serif}</style>
 </head>
-<body class="bg-gray-50">
+<body class="min-h-screen flex flex-col bg-gray-50">
 
-    <!-- =========== NAVBAR =========== -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-3xl font-bold" style="color: #00C853;">
-                    Guitar 🎸
-                </a>
-                <div class="hidden md:flex md:items-center md:space-x-6">
-                    <a href="/" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
-                    <a href="/khoahoc" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
-                    <a href="/login" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
-    <!-- =========== BREADCRUMB =========== -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center space-x-2 text-sm">
-                <a href="/" class="text-gray-600 hover:text-gray-900">Trang chủ</a>
-                <span class="text-gray-400">/</span>
-                <a href="/khoahoc" class="text-gray-600 hover:text-gray-900">Danh sách khóa học</a>
-                <span class="text-gray-400">/</span>
-                <span class="text-gray-900 font-semibold">Sửa</span>
-            </div>
-        </div>
-    </div>
+	<main class="max-w-3xl mx-auto p-6 flex-1">
+		<div class="mb-6 flex items-center justify-between">
+			<h1 class="text-2xl font-bold">Chỉnh sửa khóa học</h1>
+			<a th:href="@{/khoahoc}" class="text-sm text-gray-600">Quay lại</a>
+		</div>
 
-    <!-- =========== MAIN CONTENT =========== -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- Header -->
-        <div class="mb-8 fade-in">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Sửa Khóa Học</h1>
-            <p class="text-gray-600">Cập nhật thông tin khóa học</p>
-        </div>
+		<div class="bg-white p-6 rounded-lg shadow">
+			<form th:action="@{/khoahoc/update}" th:object="${khoaHoc}" method="post" onsubmit="return validate(this)">
+				<input type="hidden" th:field="*{id}">
+				<div class="grid grid-cols-1 gap-4">
+					<div>
+						<label class="block text-sm font-medium text-gray-700">Tên khóa học</label>
+						<input type="text" th:field="*{tenKhoaHoc}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
+					</div>
+					<div>
+						<label class="block text-sm font-medium text-gray-700">Mô tả</label>
+						<textarea th:field="*{moTa}" rows="4" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
+					</div>
 
-        <!-- Form Card -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
-            
-            <!-- Form -->
-            <form id="editCourseForm" method="POST" th:action="@{'/khoahoc/update/' + ${khoaHoc.id}}" th:object="${khoaHoc}">
-                
-                <!-- ========== THÔNG TIN CƠ BẢN ========== -->
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Thông Tin Cơ Bản</h2>
+					<div>
+						<label class="block text-sm font-medium text-gray-700">Giảng viên phụ trách</label>
+						<select th:field="*{giaoVien.id}" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+							<option th:each="gv : ${giaoVienList}" th:value="${gv.id}" th:text="${gv.ten}" th:selected="${khoaHoc.giaoVien != null and gv.id == khoaHoc.giaoVien.id}">-- Chọn giảng viên --</option>
+						</select>
+					</div>
+				</div>
 
-                <!-- Tên Khóa Học -->
-                <div class="mb-6">
-                    <label for="tenKhoaHoc" class="block text-sm font-medium text-gray-700 mb-2 required">Tên khóa học</label>
-                    <input 
-                        type="text" 
-                        id="tenKhoaHoc" 
-                        name="tenKhoaHoc"
-                        th:field="*{tenKhoaHoc}"
-                        placeholder="Tên khóa học" 
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        required>
-                    <div class="error-message" id="tenKhoaHoc-error"></div>
-                </div>
+				<div class="mt-6 flex gap-3">
+					<button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Lưu thay đổi</button>
+					<a th:href="@{/khoahoc}" class="px-4 py-2 bg-gray-200 rounded">Hủy</a>
+				</div>
+			</form>
+		</div>
+	</main>
 
-                <!-- Mô Tả -->
-                <div class="mb-6">
-                    <label for="moTa" class="block text-sm font-medium text-gray-700 mb-2 required">Mô tả</label>
-                    <textarea 
-                        id="moTa" 
-                        name="moTa"
-                        th:field="*{moTa}"
-                        placeholder="Mô tả chi tiết..." 
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        rows="5"
-                        required></textarea>
-                    <div class="error-message" id="moTa-error"></div>
-                </div>
+	<div th:replace="fragments/footer :: footer"></div>
 
-                <!-- ========== THÔNG TIN CHI TIẾT ========== -->
-                <div class="section-divider">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Thông Tin Chi Tiết</h2>
-                </div>
-
-                <!-- Giáo viên -->
-                <div class="mb-6">
-                    <label for="giaoVien" class="block text-sm font-medium text-gray-700 mb-2 required">Giáo viên</label>
-                    <select 
-                        id="giaoVien" 
-                        name="giaoVienId"
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        required>
-                        <option value="">-- Chọn giáo viên --</option>
-                        <option value="1" th:selected="${khoaHoc.giaoVien?.id == 1}">Nguyễn Văn A</option>
-                        <option value="2" th:selected="${khoaHoc.giaoVien?.id == 2}">Trần Thị B</option>
-                        <option value="3" th:selected="${khoaHoc.giaoVien?.id == 3}">Lê Văn C</option>
-                    </select>
-                    <div class="error-message" id="giaoVien-error"></div>
-                </div>
-
-                <!-- Info Box -->
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-                    <p class="text-sm text-blue-800">
-                        <span class="font-semibold">ℹ️ Lưu ý:</span> 
-                        Các thay đổi sẽ được cập nhật ngay lập tức.
-                    </p>
-                </div>
-
-                <!-- Buttons -->
-                <div class="flex gap-4 mb-6">
-                    <button 
-                        type="submit" 
-                        class="flex-1 py-3 rounded-lg font-semibold btn-submit">
-                        ✓ Cập nhật
-                    </button>
-                    <a 
-                        href="/khoahoc" 
-                        class="flex-1 py-3 rounded-lg font-semibold btn-cancel text-center">
-                        ← Hủy
-                    </a>
-                </div>
-
-                <!-- Delete Button -->
-                <button 
-                    type="button"
-                    onclick="if(confirm('Bạn chắc chắn muốn xóa khóa học này?')) { document.getElementById('deleteForm').submit(); }"
-                    class="w-full py-3 rounded-lg font-semibold btn-delete">
-                    🗑️ Xóa khóa học
-                </button>
-
-            </form>
-
-            <!-- Hidden Delete Form -->
-            <form id="deleteForm" method="POST" th:action="@{'/khoahoc/delete/' + ${khoaHoc.id}}" style="display: none;">
-            </form>
-
-        </div>
-
-    </main>
-
-    <!-- =========== FOOTER =========== -->
-    <footer class="text-gray-300 py-8 mt-16" style="background-color: #424242;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-sm">© 2025 Guitar Management</p>
-        </div>
-    </footer>
-
-    <!-- =========== SCRIPTS =========== -->
-    <script>
-        document.getElementById('editCourseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const tenKhoaHoc = document.getElementById('tenKhoaHoc').value.trim();
-            const moTa = document.getElementById('moTa').value.trim();
-            const giaoVien = document.getElementById('giaoVien').value;
-
-            let isValid = true;
-
-            if (tenKhoaHoc.length < 5) {
-                document.getElementById('tenKhoaHoc-error').textContent = 'Tên phải ít nhất 5 ký tự';
-                document.getElementById('tenKhoaHoc-error').classList.add('show');
-                isValid = false;
-            }
-
-            if (moTa.length < 10) {
-                document.getElementById('moTa-error').textContent = 'Mô tả phải ít nhất 10 ký tự';
-                document.getElementById('moTa-error').classList.add('show');
-                isValid = false;
-            }
-
-            if (!giaoVien) {
-                document.getElementById('giaoVien-error').textContent = 'Vui lòng chọn giáo viên';
-                document.getElementById('giaoVien-error').classList.add('show');
-                isValid = false;
-            }
-
-            if (isValid) {
-                this.submit();
-            }
-        });
-    </script>
-
+	<script>
+		function validate(form){
+			const name = form.querySelector('[name="tenKhoaHoc"]');
+			if(name && name.value.trim().length < 2){ alert('Tên khóa học quá ngắn'); name.focus(); return false; }
+			return true;
+		}
+	</script>
 </body>
 </html>
+

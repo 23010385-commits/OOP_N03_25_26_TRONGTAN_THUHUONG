@@ -1,0 +1,39 @@
+package com.guitar.management.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.ui.ConcurrentModel;
+import org.springframework.ui.Model;
+
+import com.guitar.management.model.HocVien;
+
+class HocVienControllerTest {
+
+	@Test
+	void listHocVien_populatesModelAndReturnsView() {
+		HocVienController controller = new HocVienController();
+		Model model = new ConcurrentModel();
+		String view = controller.listHocVien(model);
+		assertEquals("hocvien/list", view);
+		assertNotNull(model.getAttribute("hocvienList"));
+	}
+
+	@Test
+	void addHocVien_returnsAddViewAndModelHasHocVien() {
+		HocVienController controller = new HocVienController();
+		Model model = new ConcurrentModel();
+		String view = controller.addHocVien(model);
+		assertEquals("hocvien/add", view);
+		assertNotNull(model.getAttribute("hocVien"));
+	}
+
+	@Test
+	void saveHocVien_redirectsToList() {
+		HocVienController controller = new HocVienController();
+		HocVien hv = new HocVien(0, "Test", "t@example.com", "000");
+		String view = controller.saveHocVien(hv);
+		assertEquals("redirect:/hocvien", view);
+	}
+}
+

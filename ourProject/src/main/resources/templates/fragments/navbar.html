@@ -1,0 +1,38 @@
+<!-- Navbar fragment -->
+<div th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a th:href="@{/}" class="text-3xl font-bold" style="color: #00C853;">
+          Guitar 🎸
+        </a>
+      <div class="hidden md:flex md:items-center md:space-x-6">
+                <a th:href="@{/}" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+          <a th:href="@{/khoahoc}" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
+          <a th:href="@{/giaovien}" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
+          <a th:href="@{/gioithieu}" class="text-gray-700 hover:text-green-600 transition">Giới thiệu</a>
+
+          <!-- Admin only: Thêm giáo viên -->
+          <span sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/giaovien/add}" class="text-sm px-3 py-1 bg-indigo-600 text-white rounded">Thêm giáo viên</a>
+          </span>
+
+          <!-- Teacher: add course quick link -->
+          <span sec:authorize="hasRole('GIAOVIEN')">
+            <a th:href="@{/khoahoc/add}" class="text-sm px-3 py-1 bg-blue-600 text-white rounded">Thêm khóa học</a>
+          </span>
+
+          <!-- Login / Logout -->
+          <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
+          </span>
+          <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline">
+              <button type="submit" class="px-4 py-2 rounded-md font-semibold" style="background-color: #e53935; color: white;">Đăng xuất</button>
+            </form>
+          </span>
+
+      </div>
+    </nav>
+  </header>
+</div>
