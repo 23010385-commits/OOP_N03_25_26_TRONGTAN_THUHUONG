@@ -1,89 +1,80 @@
-:root {
-    --brand-green: #00C853;
-    --brand-blue: #2196F3;
-    --brand-orange: #FF9800;
-    --brand-purple: #9C27B0;
+/* File này định nghĩa các màu chủ đạo và kiểu nút */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff; /* Nền trắng mặc định */
 }
 
-body { font-family: 'Roboto', sans-serif; }
+/* Định nghĩa các biến màu chủ đạo (giống index.html) */
+:root {
+    --brand-green: #22c55e;
+    --brand-blue: #2563eb;
+    --brand-orange: #f97316;
+    --brand-gray-light: #f9fafb;
+    --brand-gray-dark: #111827;
+}
 
-/* Buttons */
+/* --- Kiểu cho Navbar (Giáo Viên) --- */
+.menu-link {
+    transition: color 0.3s ease;
+}
+.menu-link:hover {
+    color: var(--brand-green); /* Màu xanh lá khi hover */
+}
+/* Active link cho Giáo viên (Thêm sau) */
+.menu-link.active {
+    color: var(--brand-green);
+    font-weight: 500;
+}
+
+
+/* --- Kiểu cho Navbar (Học Viên) --- */
+.menu-link-blue {
+    transition: color 0.3s ease;
+}
+.menu-link-blue:hover {
+    color: var(--brand-blue); /* Màu xanh dương khi hover */
+}
+/* Active link cho Học viên (Thêm sau) */
+.menu-link-blue.active {
+    color: var(--brand-blue);
+    font-weight: 500;
+}
+
+
+/* --- Kiểu cho Nút Bấm (Button) --- */
 .btn-cta-green {
     background-color: var(--brand-green);
     color: white;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
 }
 .btn-cta-green:hover {
-    background-color: #00a746;
+    background-color: #16a34a; /* Đậm hơn */
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,200,83,0.4);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
 }
 
-.btn-secondary {
-    background-color: #f5f5f5;
-    color: #424242;
-    border: 1px solid #e0e0e0;
+.btn-cta-blue {
+    background-color: var(--brand-blue);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+.btn-cta-blue:hover {
+    background-color: #1d4ed8; /* Đậm hơn */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Kiểu cho Card Dashboard */
+.dashboard-card {
+    background-color: white;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
 }
-.btn-secondary:hover { background-color: #e0e0e0; }
-
-/* Input focus */
-.form-input { transition: all 0.3s ease; }
-.form-input:focus {
-    border-color: var(--brand-green);
-    box-shadow: 0 0 0 3px rgba(0,200,83,0.1);
-    outline: none;
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
-
-/* Errors & success */
-.error-message { color: #d32f2f; font-size: .875rem; margin-top: .25rem; display: none; }
-.error-message.show { display: block; }
-.input-error { border-color: #d32f2f !important; background-color: #ffebee; }
-
-.error-alert {
-    background-color: #ffebee;
-    color: #c62828;
-    border: 1px solid #ef5350;
-    padding: 1rem;
-    border-radius: .5rem;
-    display: none;
-    margin-bottom: 1rem;
-}
-.error-alert.show { display: block; }
-
-.success-message {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #c8e6c9;
-    padding: 1rem;
-    border-radius: .5rem;
-    display: none;
-    margin-bottom: 1rem;
-}
-.success-message.show { display: block; }
-
-/* Password strength */
-.password-strength { height: 4px; background-color: #e0e0e0; border-radius: 2px; margin-top: .5rem; overflow: hidden; }
-.password-strength-bar { height: 100%; width: 0; transition: width .3s ease, background-color .3s ease; }
-.password-strength-bar.weak { width: 33%; background-color: #d32f2f; }
-.password-strength-bar.medium { width: 66%; background-color: #ff9800; }
-.password-strength-bar.strong { width: 100%; background-color: var(--brand-green); }
-
-.strength-text { font-size: .75rem; margin-top: .25rem; color: #666; }
-
-/* Steps */
-.step-indicator { display:flex; justify-content:space-between; margin-bottom:2rem; }
-.step { flex:1; text-align:center; position:relative; }
-.step-number { width:40px; height:40px; border-radius:50%; background:#e0e0e0; color:#666; font-weight:bold; display:flex; align-items:center; justify-content:center; margin:0 auto .5rem; }
-.step.active .step-number, .step.completed .step-number { background-color: var(--brand-green); color:#fff; }
-.step-label { font-size:.875rem; color:#666; font-weight:500; }
-.step.active .step-label { color: var(--brand-green); }
-
-/* Form sections */
-.form-section { display:none; animation: fadeIn .3s ease-in; }
-.form-section.active { display:block; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(10px);} to { opacity:1; transform:translateY(0);} }
-
-/* responsive */
-.form-group-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-@media (max-width:640px) { .form-group-row { grid-template-columns:1fr; } }

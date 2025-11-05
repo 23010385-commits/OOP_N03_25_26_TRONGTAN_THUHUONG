@@ -19,7 +19,7 @@ public class DataInitializer implements CommandLineRunner {
         try {
             userService.registerNewGiaoVien(
                     "teacher1",
-                    "Testpass@123",
+                    "password123",
                     "Giao Vien Admin",
                     30,
                     "Quan tri he thong");
@@ -31,7 +31,7 @@ public class DataInitializer implements CommandLineRunner {
         try {
             userService.registerNewGiaoVien(
                     "teacher2",
-                    "Testpass@456",
+                    "password123",
                     "Giao Vien Guitar",
                     28,
                     "Guitar Co dien");
