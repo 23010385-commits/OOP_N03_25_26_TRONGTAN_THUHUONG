@@ -45,11 +45,42 @@ public class LessonController {
         return "lesson/edit";
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/update")
     @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
-    public String updateLesson(@PathVariable Long id, @ModelAttribute Lesson lesson) {
-        lesson.setId(id);
+    public String updateLesson(@ModelAttribute Lesson lesson) {
+        // If the form didn't include the associated KhoaHoc, preserve it from existing
+        // record
+        if (lesson.getKhoaHoc() == null && lesson.getId() != null) {
+            Lesson existing = lessonService.findById(lesson.getId());
+            if (existing != null) {
+                lesson.setKhoaHoc(existing.getKhoaHoc());
+            }
+        }
         lessonService.save(lesson);
+        if (lesson.getKhoaHoc() != null && lesson.getKhoaHoc().getId() != null) {
+            return "redirect:/khoahoc/detail/" + lesson.getKhoaHoc().getId();
+        }
+        return "redirect:/lesson";
+    }
+
+    // Handle create/save from form (used by lesson/add.html)
+    @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
+    public String saveLesson(@ModelAttribute Lesson lesson) {
+        // Preserve association: if form didn't submit khoaHoc, try to keep existing or
+        // redirect to lesson list
+        if (lesson.getKhoaHoc() == null && lesson.getId() != null) {
+            Lesson existing = lessonService.findById(lesson.getId());
+            if (existing != null) {
+                lesson.setKhoaHoc(existing.getKhoaHoc());
+            }
+        }
+        lessonService.save(lesson);
+        if (lesson.getKhoaHoc() != null) {
+            Long khId = lesson.getKhoaHoc().getId();
+            if (khId != null)
+                return "redirect:/khoahoc/detail/" + khId;
+        }
         return "redirect:/lesson";
     }
 
@@ -57,7 +88,15 @@ public class LessonController {
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String deleteLesson(@PathVariable Long id) {
+        // Try to capture parent course so we can redirect back to it after deletion
+        Lesson existing = lessonService.findById(id);
+        Long khId = null;
+        if (existing != null && existing.getKhoaHoc() != null) {
+            khId = existing.getKhoaHoc().getId();
+        }
         lessonService.deleteById(id);
+        if (khId != null)
+            return "redirect:/khoahoc/detail/" + khId;
         return "redirect:/lesson";
     }
 }

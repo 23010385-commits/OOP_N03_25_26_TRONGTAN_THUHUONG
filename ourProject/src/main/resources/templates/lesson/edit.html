@@ -17,15 +17,15 @@
 
 		<div class="bg-white p-6 rounded-lg shadow">
 			<form th:action="@{/lesson/update}" th:object="${lesson}" method="post" onsubmit="return validate(this)">
-				<input type="hidden" th:field="*{lessonID}" />
+				<input type="hidden" th:field="*{id}" />
 				<div class="grid grid-cols-1 gap-4">
 					<div>
 						<label class="block text-sm font-medium text-gray-700">Tiêu đề</label>
-						<input type="text" th:field="*{title}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
+						<input type="text" th:field="*{title}" name="title" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700">Nội dung</label>
-						<textarea th:field="*{noiDung}" rows="6" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
+						<textarea th:field="*{noiDung}" name="noiDung" rows="6" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
 					</div>
 				</div>
 
