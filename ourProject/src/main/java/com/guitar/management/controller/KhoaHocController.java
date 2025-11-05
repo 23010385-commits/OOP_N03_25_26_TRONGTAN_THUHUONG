@@ -1,47 +1,71 @@
-// File: src/main/java/com/guitar/management/controller/KhoaHocController.java
 package com.guitar.management.controller;
 
+import com.guitar.management.model.KhoaHoc;
+import com.guitar.management.service.GiaoVienService;
+import com.guitar.management.service.KhoaHocService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.guitar.management.model.KhoaHoc;
-import com.guitar.management.service.KhoaHocService; // <-- GỌI SERVICE
-import com.guitar.management.service.GiaoVienService; // Cần để lấy danh sách GV
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/khoahoc")
 public class KhoaHocController {
 
     private final KhoaHocService khoaHocService;
-    private final GiaoVienService giaoVienService; // Cần để chọn giáo viên
+    private final GiaoVienService giaoVienService;
 
-    // -> constructor injection
     public KhoaHocController(KhoaHocService khoaHocService, GiaoVienService giaoVienService) {
         this.khoaHocService = khoaHocService;
         this.giaoVienService = giaoVienService;
     }
 
-    // --- 1. READ (ĐỌC) ---
     @GetMapping("")
-    public String listKhoaHoc(Model model) {
-        List<KhoaHoc> listKhoaHoc = khoaHocService.findAll();
+    public String listKhoaHoc(@RequestParam(name = "level", required = false) String level, Model model) {
+        List<KhoaHoc> listKhoaHoc;
+        if (level != null && !level.trim().isEmpty()) {
+            listKhoaHoc = khoaHocService.findAllByLevel(level);
+        } else {
+            listKhoaHoc = khoaHocService.findAll();
+        }
         model.addAttribute("listKhoaHoc", listKhoaHoc);
+        try {
+            Set<Long> enrolled = khoaHocService.getEnrolledCourseIdsForCurrentUser();
+            model.addAttribute("enrolledCourseIds", enrolled);
+        } catch (Exception ex) {
+            // ignore when user not authenticated
+        }
         return "khoahoc/list";
     }
 
-    // --- 2. CREATE (TẠO) ---
+    // Pretty URLs for basic/advanced courses
+    @GetMapping("/co-ban")
+    public String listCoBan(Model model) {
+        // reuse the list handler with level=basic
+        return listKhoaHoc("basic", model);
+    }
+
+    @GetMapping("/nang-cao")
+    public String listNangCao(Model model) {
+        // reuse the list handler with level=advanced
+        return listKhoaHoc("advanced", model);
+    }
+
     @GetMapping("/add")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showAddForm(Model model) {
         model.addAttribute("khoaHoc", new KhoaHoc());
-        // Gửi danh sách giáo viên sang view để người dùng chọn
         model.addAttribute("listGiaoVien", giaoVienService.findAll());
+        model.addAttribute("giaoVienList", giaoVienService.findAll());
         return "khoahoc/add";
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String saveKhoaHoc(@ModelAttribute KhoaHoc khoaHoc,
             @RequestParam(name = "giaoVienId", required = false) Long giaoVienId) {
         if (giaoVienId != null) {
@@ -52,16 +76,18 @@ public class KhoaHocController {
         return "redirect:/khoahoc";
     }
 
-    // --- 3. UPDATE (SỬA) ---
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String showEditForm(@PathVariable Long id, Model model) {
         KhoaHoc khoaHoc = khoaHocService.findById(id);
         model.addAttribute("khoaHoc", khoaHoc);
         model.addAttribute("listGiaoVien", giaoVienService.findAll());
+        model.addAttribute("giaoVienList", giaoVienService.findAll());
         return "khoahoc/edit";
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String updateKhoaHoc(@PathVariable Long id, @ModelAttribute KhoaHoc khoaHoc,
             @RequestParam(name = "giaoVienId", required = false) Long giaoVienId) {
         khoaHoc.setId(id);
@@ -73,25 +99,28 @@ public class KhoaHocController {
         return "redirect:/khoahoc";
     }
 
-    // --- 4. DELETE (XÓA) ---
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String deleteKhoaHoc(@PathVariable Long id) {
         khoaHocService.deleteById(id);
         return "redirect:/khoahoc";
     }
 
-    // --- CHI TIẾT KHÓA HỌC (HIỂN THỊ LESSONS) ---
     @GetMapping("/detail/{id}")
     public String detailKhoaHoc(@PathVariable Long id, Model model) {
-        // Lưu ý: nếu KhoaHoc.lessons là LAZY, đảm bảo KhoaHocService.findById tải
-        // lessons (EntityGraph hoặc @Transactional)
         KhoaHoc khoaHoc = khoaHocService.findById(id);
         model.addAttribute("khoaHoc", khoaHoc);
+        try {
+            Set<Long> enrolled = khoaHocService.getEnrolledCourseIdsForCurrentUser();
+            model.addAttribute("isEnrolled", enrolled.contains(id));
+        } catch (Exception ex) {
+            model.addAttribute("isEnrolled", false);
+        }
         return "khoahoc/detail";
     }
 
-    // --- THÊM BÀI HỌC TRONG TRANG CHI TIẾT ---
     @PostMapping("/{id}/lessons")
+    @PreAuthorize("hasAnyRole('GIAOVIEN','ADMIN')")
     public String addLessonToCourse(@PathVariable("id") Long khoaHocId,
             @RequestParam String title,
             @RequestParam(required = false) String noiDung,
@@ -105,4 +134,30 @@ public class KhoaHocController {
         }
         return "redirect:/khoahoc/detail/" + khoaHocId;
     }
+
+    @PostMapping("/{id}/enroll")
+    @PreAuthorize("hasRole('HOCVIEN')")
+    public String enrollCurrentStudent(@PathVariable("id") Long khoaHocId, RedirectAttributes redirect) {
+        try {
+            khoaHocService.enrollCurrentStudentToCourse(khoaHocId);
+            redirect.addFlashAttribute("successMessage", "Đăng ký khóa học thành công");
+        } catch (RuntimeException ex) {
+            redirect.addFlashAttribute("errorMessage", ex.getMessage());
+        }
+        return "redirect:/khoahoc/detail/" + khoaHocId;
+    }
+
+    @PostMapping("/{id}/unenroll")
+    @PreAuthorize("hasRole('HOCVIEN')")
+    public String unenrollCurrentStudent(@PathVariable("id") Long khoaHocId, RedirectAttributes redirect) {
+        try {
+            khoaHocService.unenrollCurrentStudentFromCourse(khoaHocId);
+            redirect.addFlashAttribute("successMessage", "Hủy đăng ký khóa học thành công");
+        } catch (RuntimeException ex) {
+            redirect.addFlashAttribute("errorMessage", ex.getMessage());
+        }
+        // After unenrolling we return to the course list per request
+        return "redirect:/khoahoc";
+    }
+
 }

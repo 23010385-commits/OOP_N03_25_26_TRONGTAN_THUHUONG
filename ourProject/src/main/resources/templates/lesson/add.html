@@ -3,364 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Bài Học - Guitar 🎸</title>
+    <title>Thêm Bài Học</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-        .form-input {
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            border-color: #00C853;
-            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
-            outline: none;
-        }
-        .error-message {
-            color: #d32f2f;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: none;
-        }
-        .error-message.show {
-            display: block;
-        }
-        .input-error {
-            border-color: #d32f2f !important;
-            background-color: #ffebee;
-        }
-        .btn-submit {
-            background-color: #00C853;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-submit:hover {
-            background-color: #00a746;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
-        }
-        .btn-cancel {
-            background-color: #f5f5f5;
-            color: #424242;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .form-group-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-        @media (max-width: 768px) {
-            .form-group-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        .required::after {
-            content: " *";
-            color: #d32f2f;
-        }
-        .section-divider {
-            border-top: 2px solid #e0e0e0;
-            margin: 2rem 0;
-            padding-top: 2rem;
-        }
-        .char-count {
-            font-size: 0.75rem;
-            color: #999;
-            text-align: right;
-            margin-top: 0.25rem;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>body{font-family: 'Roboto', sans-serif}</style>
 </head>
-<body class="bg-gray-50">
+<body class="min-h-screen flex flex-col bg-gray-50">
 
-    <!-- =========== NAVBAR =========== -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-3xl font-bold" style="color: #00C853;">
-                    Guitar 🎸
-                </a>
-                <div class="hidden md:flex md:items-center md:space-x-6">
-                    <a href="/" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
-                    <a href="/khoahoc" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
-                    <a href="/login" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div th:replace="fragments/navbar :: navbar"></div>
 
-    <!-- =========== BREADCRUMB =========== -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center space-x-2 text-sm">
-                <a href="/" class="text-gray-600 hover:text-gray-900">Trang chủ</a>
-                <span class="text-gray-400">/</span>
-                <a href="/khoahoc" class="text-gray-600 hover:text-gray-900">Danh sách khóa học</a>
-                <span class="text-gray-400">/</span>
-                <span class="text-gray-900 font-semibold">Thêm bài học</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- =========== MAIN CONTENT =========== -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- Header -->
-        <div class="mb-8 fade-in">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Thêm Bài Học Mới</h1>
-            <p class="text-gray-600">Tạo một bài học mới cho khóa học</p>
+    <main class="max-w-3xl mx-auto p-6 flex-1">
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-2xl font-bold">Thêm bài học</h1>
+            <a th:href="@{/lesson}" class="text-sm text-gray-600">Quay lại</a>
         </div>
 
-        <!-- Form Card -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 fade-in">
-            
-            <!-- Form -->
-            <form id="addLessonForm" method="POST" action="/lesson/save" th:object="${lesson}">
-                
-                <!-- ========== THÔNG TIN CƠ BẢN ========== -->
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Thông Tin Bài Học</h2>
-
-                <!-- Khóa Học -->
-                <div class="mb-6">
-                    <label for="khoaHoc" class="block text-sm font-medium text-gray-700 mb-2 required">Khóa học</label>
-                    <select 
-                        id="khoaHoc" 
-                        name="khoaHocId"
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        required>
-                        <option value="">-- Chọn khóa học --</option>
-                        <option value="1">Guitar Cơ Bản Cho Người Mới</option>
-                        <option value="2">Fingerstyle Guitar</option>
-                        <option value="3">Guitar Solo & Improvisation</option>
-                        <option value="4">Đệm Hát Cơ Bản</option>
-                        <option value="5">Rock & Metal Guitar</option>
-                        <option value="6">Lý Thuyết Âm Nhạc Nâng Cao</option>
-                    </select>
-                    <div class="error-message" id="khoaHoc-error"></div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <form th:action="@{/lesson/save}" th:object="${lesson}" method="post" onsubmit="return validate(this)">
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tiêu đề</label>
+                        <input type="text" th:field="*{title}" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nội dung</label>
+                        <textarea th:field="*{noiDung}" rows="6" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
+                    </div>
                 </div>
 
-                <!-- Tiêu Đề Bài Học -->
-                <div class="mb-6">
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2 required">Tiêu đề bài học</label>
-                    <input 
-                        type="text" 
-                        id="title" 
-                        name="title"
-                        th:field="*{title}"
-                        placeholder="Ví dụ: Các hợp âm cơ bản" 
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        maxlength="100"
-                        required>
-                    <div class="char-count"><span id="titleCount">0</span>/100</div>
-                    <div class="error-message" id="title-error"></div>
+                <div class="mt-6 flex gap-3">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Lưu</button>
+                    <a th:href="@{/lesson}" class="px-4 py-2 bg-gray-200 rounded">Hủy</a>
                 </div>
-
-                <!-- Nội Dung Bài Học -->
-                <div class="mb-6">
-                    <label for="noiDung" class="block text-sm font-medium text-gray-700 mb-2">Nội dung chi tiết</label>
-                    <textarea 
-                        id="noiDung" 
-                        name="noiDung"
-                        th:field="*{noiDung}"
-                        placeholder="Mô tả chi tiết nội dung bài học..." 
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        rows="6"
-                        maxlength="1000"></textarea>
-                    <div class="char-count"><span id="noiDungCount">0</span>/1000</div>
-                    <div class="error-message" id="noiDung-error"></div>
-                </div>
-
-                <!-- ========== THÔNG TIN CHI TIẾT ========== -->
-                <div class="section-divider">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Thông Tin Chi Tiết</h2>
-                </div>
-
-                <!-- Thời Lượng -->
-                <div class="mb-6">
-                    <label for="thoiLuong" class="block text-sm font-medium text-gray-700 mb-2 required">Thời lượng (phút)</label>
-                    <input 
-                        type="number" 
-                        id="thoiLuong" 
-                        name="thoiLuong"
-                        th:field="*{thoiLuong}"
-                        placeholder="Ví dụ: 30" 
-                        min="1"
-                        max="300"
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg"
-                        required>
-                    <p class="text-xs text-gray-500 mt-1">Nhập thời lượng từ 1 đến 300 phút</p>
-                    <div class="error-message" id="thoiLuong-error"></div>
-                </div>
-
-                <!-- ========== CẤP ĐỘ ========== -->
-                <div class="mb-6">
-                    <label for="level" class="block text-sm font-medium text-gray-700 mb-2">Cấp độ</label>
-                    <select 
-                        id="level" 
-                        name="level"
-                        class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
-                        <option value="">-- Chọn cấp độ --</option>
-                        <option value="basic">🟢 Sơ cấp</option>
-                        <option value="intermediate">🔵 Trung cấp</option>
-                        <option value="advanced">🟠 Nâng cao</option>
-                    </select>
-                </div>
-
-                <!-- Info Box -->
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-                    <p class="text-sm text-blue-800">
-                        <span class="font-semibold">ℹ️ Lưu ý:</span> 
-                        Bài học sẽ được thêm vào khóa học đã chọn ngay sau khi tạo.
-                    </p>
-                </div>
-
-                <!-- Buttons -->
-                <div class="flex gap-4">
-                    <button 
-                        type="submit" 
-                        class="flex-1 py-3 rounded-lg font-semibold btn-submit">
-                        ✓ Tạo bài học
-                    </button>
-                    <a 
-                        href="/khoahoc" 
-                        class="flex-1 py-3 rounded-lg font-semibold btn-cancel text-center">
-                        ← Hủy
-                    </a>
-                </div>
-
             </form>
-
         </div>
-
-        <!-- Tips Section -->
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div class="bg-white rounded-lg p-6 shadow-md">
-                <div class="text-3xl mb-2">📝</div>
-                <h4 class="font-semibold text-gray-900 mb-2">Tiêu đề rõ ràng</h4>
-                <p class="text-sm text-gray-600">
-                    Sử dụng tiêu đề mô tả chính xác nội dung bài học
-                </p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-                <div class="text-3xl mb-2">⏱️</div>
-                <h4 class="font-semibold text-gray-900 mb-2">Thời lượng chính xác</h4>
-                <p class="text-sm text-gray-600">
-                    Ước tính thời lượng học tập cho bài học này
-                </p>
-            </div>
-
-            <div class="bg-white rounded-lg p-6 shadow-md">
-                <div class="text-3xl mb-2">🎯</div>
-                <h4 class="font-semibold text-gray-900 mb-2">Nội dung chi tiết</h4>
-                <p class="text-sm text-gray-600">
-                    Mô tả chi tiết giúp học viên hiểu bài tốt hơn
-                </p>
-            </div>
-
-        </div>
-
     </main>
 
-    <!-- =========== FOOTER =========== -->
-    <footer class="text-gray-300 py-8 mt-16" style="background-color: #424242;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-sm">© 2025 Guitar Management</p>
-        </div>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
 
-    <!-- =========== SCRIPTS =========== -->
     <script>
-        // Character counters
-        document.getElementById('title').addEventListener('input', function() {
-            document.getElementById('titleCount').textContent = this.value.length;
-        });
-
-        document.getElementById('noiDung').addEventListener('input', function() {
-            document.getElementById('noiDungCount').textContent = this.value.length;
-        });
-
-        // Form validation
-        function showError(inputId, message) {
-            const errorEl = document.getElementById(inputId + '-error');
-            const inputEl = document.getElementById(inputId);
-            if (errorEl && inputEl) {
-                errorEl.textContent = message;
-                errorEl.classList.add('show');
-                inputEl.classList.add('input-error');
-            }
+        function validate(form){
+            const title = form.querySelector('[name="title"]');
+            if(title && title.value.trim().length < 2){ alert('Tiêu đề quá ngắn'); title.focus(); return false; }
+            return true;
         }
-
-        function clearErrors() {
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.classList.remove('show');
-            });
-            document.querySelectorAll('input, select, textarea').forEach(el => {
-                el.classList.remove('input-error');
-            });
-        }
-
-        document.getElementById('addLessonForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            clearErrors();
-
-            const khoaHoc = document.getElementById('khoaHoc').value;
-            const title = document.getElementById('title').value.trim();
-            const thoiLuong = document.getElementById('thoiLuong').value;
-
-            let isValid = true;
-
-            // Validate khóa học
-            if (!khoaHoc) {
-                showError('khoaHoc', 'Vui lòng chọn khóa học');
-                isValid = false;
-            }
-
-            // Validate title
-            if (title.length < 3) {
-                showError('title', 'Tiêu đề phải ít nhất 3 ký tự');
-                isValid = false;
-            }
-
-            // Validate thời lượng
-            if (thoiLuong < 1 || thoiLuong > 300) {
-                showError('thoiLuong', 'Thời lượng phải từ 1 đến 300 phút');
-                isValid = false;
-            }
-
-            if (isValid) {
-                this.submit();
-            }
-        });
-
-        // Clear errors on input
-        document.querySelectorAll('input, select, textarea').forEach(el => {
-            el.addEventListener('input', function() {
-                const errorEl = document.getElementById(this.id + '-error');
-                if (errorEl) {
-                    errorEl.classList.remove('show');
-                }
-                this.classList.remove('input-error');
-            });
-        });
     </script>
-
 </body>
 </html>
+

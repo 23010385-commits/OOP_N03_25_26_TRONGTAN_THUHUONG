@@ -19,61 +19,61 @@
 </head>
 <body class="bg-white">
 
-    <!-- =========== THANH ĐIỀU HƯỚNG (NAVBAR) =========== --><header class="bg-white text-gray-900 shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo --><div class="flex-shrink-0 flex items-center">
-                    <a th:href="@{/}" class="text-3xl font-bold" style="color: var(--brand-green);">
-                        Guitar 🎸
-                    </a>
-                </div>
+  <!-- =========== THANH ĐIỀU HƯỚNG (NAVBAR) =========== --><header class="bg-white text-gray-900 shadow-md sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo --><div class="flex-shrink-0 flex items-center">
+          <a th:href="@{/}" class="text-3xl font-bold" style="color: var(--brand-green);">
+            Guitar 🎸
+          </a>
+        </div>
 
-                <!-- Menu chính (Desktop) --><div class="hidden md:flex md:items-center md:space-x-6">
-                    <a th:href="@{/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Khóa học</a>
-                    <a th:href="@{/giaovien}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giáo viên</a>
-                    <a th:href="@{/gioithieu}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giới thiệu</a>
-                </div>
+        <!-- Menu chính (Desktop) --><div class="hidden md:flex md:items-center md:space-x-6">
+          <a th:href="@{/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Khóa học</a>
+          <a th:href="@{/giaovien}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giáo viên</a>
+          <a th:href="@{/gioithieu}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link transition duration-150">Giới thiệu</a>
+        </div>
 
-                <!-- Tìm kiếm và Đăng nhập --><div class="flex items-center space-x-4">
-                    <!-- Thanh tìm kiếm --><form class="hidden sm:flex" th:action="@{/search}" method="get">
-                        <input 
-                            type="text" 
-                            name="keyword"
-                            placeholder="Tìm kiếm khóa học..." 
-                            class="px-3 py-2 rounded-l-md text-sm text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
-                        >
-                        <button type="submit" class="px-3 py-2 rounded-r-md btn-cta-green">
-                            <!-- Icon tìm kiếm (SVG) --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </button>
-                    </form>
+        <!-- Tìm kiếm và Đăng nhập --><div class="flex items-center space-x-4">
+          <!-- Thanh tìm kiếm --><form class="hidden sm:flex" th:action="@{/search}" method="get">
+            <input 
+              type="text" 
+              name="keyword"
+              placeholder="Tìm kiếm khóa học..." 
+              class="px-3 py-2 rounded-l-md text-sm text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
+            >
+            <button type="submit" class="px-3 py-2 rounded-r-md btn-cta-green">
+              <!-- Icon tìm kiếm (SVG) --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </form>
 
-                    <!-- Nút Đăng nhập -->
-                    <a th:href="@{/login}" 
-                        class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition">
-                        Đăng nhập
-                    </a>
+          <!-- Nút Đăng nhập -->
+          <a th:href="@{/login}" 
+            class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition">
+            Đăng nhập
+          </a>
 
                     
-                    <!-- Nút Menu (Mobile) --><div class="md:hidden flex items-center">
-                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-150">
-                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Menu (Mobile) - Ẩn/hiện bằng JS --><div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a th:href="@{/khoahoc}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Khóa học</a>
-            <a th:href="@{/giaovien}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giáo viên</a>
-            <a th:href="@{/gioithieu}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giới thiệu</a>
-            <a th:href="@{/login}" class="block px-3 py-2 rounded-md text-base font-medium btn-cta-green text-center">Đăng nhập</a>
+          <!-- Nút Menu (Mobile) --><div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-150">
+              <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+              </svg>
+            </button>
+          </div>
         </div>
-    </header>
+      </div>
+    </nav>
+
+    <!-- Menu (Mobile) - Ẩn/hiện bằng JS --><div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a th:href="@{/khoahoc}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Khóa học</a>
+      <a th:href="@{/giaovien}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giáo viên</a>
+      <a th:href="@{/gioithieu}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link">Giới thiệu</a>
+      <a th:href="@{/login}" class="block px-3 py-2 rounded-md text-base font-medium btn-cta-green text-center">Đăng nhập</a>
+    </div>
+  </header>
 
     <!-- =========== KHU VỰC CHÍNH (CAROUSEL) =========== -->
 <main>
@@ -173,9 +173,9 @@
                         <p class="text-gray-600 mb-6">
                             Dành cho người mới bắt đầu, từ cách cầm đàn, làm quen nốt nhạc đến các hợp âm đầu tiên.
                         </p>
-                        <a th:href="@{/khoahoc/co-ban}" class="px-6 py-2 rounded-md font-semibold btn-cta-green">
-                            Xem chi tiết
-                        </a>
+      <a th:href="@{/khoahoc}" class="px-6 py-2 rounded-md font-semibold btn-cta-green">
+              Xem chi tiết
+            </a>
                     </div>
 
                     <!-- Cột 2: Khóa học nâng cao --><div class="flex flex-col items-center p-8 bg-white rounded-xl course-card">
@@ -187,9 +187,9 @@
                         <p class="text-gray-600 mb-6">
                             Nâng tầm kỹ năng với fingerstyle, solo, đệm hát chuyên sâu và lý thuyết âm nhạc ứng dụng.
                         </p>
-                        <a th:href="@{/khoahoc/nang-cao}" class="px-6 py-2 rounded-md font-semibold btn-cta-green" style="background-color: var(--brand-blue);">
-                            Xem chi tiết
-                        </a>
+      <a th:href="@{/khoahoc}" class="px-6 py-2 rounded-md font-semibold btn-cta-green" style="background-color: var(--brand-blue);">
+              Xem chi tiết
+            </a>
                     </div>
 
                     <!-- Cột 3: Gặp gỡ giáo viên --><div class="flex flex-col items-center p-8 bg-white rounded-xl course-card">
@@ -218,8 +218,8 @@
 
                 <!-- iterate courses -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div th:each="course : ${featuredCourses}" class="course-card p-6 bg-white rounded">
-                    <img th:src="@{${course.thumbnail}}" alt="..." class="w-full h-40 object-cover rounded mb-4"/>
+        <div th:each="course : ${featuredCourses}" class="course-card p-6 bg-white rounded">
+          <img th:src="@{${course.thumbnail}}" alt="..." class="w-full h-40 object-cover rounded mb-4"/>
                     <h3 th:text="${course.title}" class="text-xl font-bold"></h3>
                     <p th:text="${course.shortDescription}" class="text-gray-600 mt-2"></p>
                     <div class="mt-4 flex justify-between items-center">
@@ -232,55 +232,56 @@
         </section>
     </main>
 
-    <!-- =========== CHÂN TRANG (FOOTER) =========== --><footer class="text-gray-300 pt-16 pb-8" style="background-color: var(--brand-gray-dark);">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <!-- =========== CHÂN TRANG (FOOTER) =========== --><footer class="text-gray-300 pt-16 pb-8" style="background-color: var(--brand-gray-dark);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <!-- Cột 1: Giới thiệu --><div>
-                    <h4 class="text-2xl font-bold mb-4" style="color: var(--brand-green);">Guitar 🎸</h4>
-                    <p class="text-gray-400 mb-4">
-                        Ứng dụng Quản lý khóa học Guitar hàng đầu, giúp bạn theo dõi tiến trình và chinh phục đam mê.
-                    </p>
-                    <p class="text-gray-400"><span class="font-semibold text-gray-200">Email:</span> contact@guitar.edu.vn</p>
-                    <p class="text-gray-400"><span class="font-semibold text-gray-200">Phone:</span> (+84) 234 567 890</p>
-                </div>
-                
-                <!-- Cột 2: Links nhanh --><div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
-                    <ul class="space-y-2">
-                        <li><a th:href="@{/khoahoc}" class="hover:text-green-400 transition">Các khóa học</a></li>
-                        <li><a th:href="@{/giaovien}" class="hover:text-green-400 transition">Đội ngũ giáo viên</a></li>
-                        <li><a th:href="@{/gioithieu}" class="hover:text-green-400 transition">Giới thiệu về chúng tôi</a></li>
-                        <li><a th:href="@{/chinhsach}" class="hover:text-green-400 transition">Chính sách bảo mật</a></li>
-                    </ul>
-                </div>
-
-                <!-- Cột 3: Mạng xã hội --><div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Theo dõi chúng tôi</h5>
-                    <div class="flex space-x-5">
-                        <a href="#" class="text-gray-400 transition social-icon facebook">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.36 9.5 5.32v2.14H6.1v4h3.4v10h4.3v-10h3.8l.4-4z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 transition social-icon youtube">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.94-.262-1.683-1.037-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.893 0 7.605.476c.94.262 1.683 1.037 1.938 2.022zM9.546 15.58V8.42L15.818 12 9.546 15.58z"/></svg>
-                        </a>
-                        <a href="#" class="text-gray-400 transition social-icon instagram">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.227-1.691 4.771-4.919 4.919-1.266.058-1.647.07-4.85.07s-3.584-.012-4.85-.07c-3.227-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.691 4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.193 0-3.535.012-4.782.069-2.695.123-3.89 1.319-4.014 4.014-.058 1.247-.069 1.589-.069 4.782s.011 3.535.069 4.782c.124 2.695 1.319 3.89 4.014 4.014 1.247.058 1.589.069 4.782.069s3.535-.011 4.782-.069c2.695-.124 3.89-1.319 4.014-4.014.058-1.247.069-1.589.069-4.782s-.011-3.535-.069-4.782c-.124-2.695-1.319-3.89-4.014-4.014-1.247-.058-1.589-.069-4.782-.069zm0 3.195c-2.438 0-4.414 1.976-4.414 4.414s1.976 4.414 4.414 4.414 4.414-1.976 4.414-4.414-1.976-4.414-4.414-4.414zm0 7.23c-1.554 0-2.816-1.262-2.816-2.816s1.262-2.816 2.816-2.816 2.816 1.262 2.816 2.816-1.262 2.816-2.816 2.816zm4.814-7.53c-.71 0-1.284.574-1.284 1.284s.574 1.284 1.284 1.284 1.284-.574 1.284-1.284-.574-1.284-1.284-1.284z"/></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Dòng Copyright --><div class="mt-12 pt-8 border-t border-gray-700 text-center">
-                <p class="text-gray-400 text-sm">
-                    © 2025 Quản lý khóa học Guitar. Phát triển bởi 
-                    <span class="font-semibold text-gray-200">Trần</span> & 
-                    <span class="font-semibold text-gray-200">Nguyễn</span>.
-                </p>
-            </div>
+        <!-- Cột 1: Giới thiệu --><div>
+          <h4 class="text-2xl font-bold mb-4" style="color: var(--brand-green);">Guitar 🎸</h4>
+          <p class="text-gray-400 mb-4">
+            Ứng dụng Quản lý khóa học Guitar hàng đầu, giúp bạn theo dõi tiến trình và chinh phục đam mê.
+          </p>
+          <p class="text-gray-400"><span class="font-semibold text-gray-200">Email:</span> contact@guitar.edu.vn</p>
+          <p class="text-gray-400"><span class="font-semibold text-gray-200">Phone:</span> (+84) 234 567 890</p>
         </div>
-    </footer>
+                
+        <!-- Cột 2: Links nhanh --><div>
+          <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
+          <ul class="space-y-2">
+            <li><a th:href="@{/khoahoc}" class="hover:text-green-400 transition">Các khóa học</a></li>
+            <li><a th:href="@{/giaovien}" class="hover:text-green-400 transition">Đội ngũ giáo viên</a></li>
+            <li><a th:href="@{/gioithieu}" class="hover:text-green-400 transition">Giới thiệu về chúng tôi</a></li>
+            <li><a th:href="@{/chinhsach}" class="hover:text-green-400 transition">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 3: Mạng xã hội --><div>
+          <h5 class="text-lg font-semibold text-white mb-4">Theo dõi chúng tôi</h5>
+          <div class="flex space-x-5">
+            <a href="#" class="text-gray-400 transition social-icon facebook">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.36 9.5 5.32v2.14H6.1v4h3.4v10h4.3v-10h3.8l.4-4z"/></svg>
+            </a>
+            <a href="#" class="text-gray-400 transition social-icon youtube">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.94-.262-1.683-1.037-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.893 0 7.605.476c.94.262 1.683 1.037 1.938 2.022zM9.546 15.58V8.42L15.818 12 9.546 15.58z"/></svg>
+            </a>
+            <a href="#" class="text-gray-400 transition social-icon instagram">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.227-1.691 4.771-4.919 4.919-1.266.058-1.647.07-4.85.07s-3.584-.012-4.85-.07c-3.227-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.691 4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.193 0-3.535.012-4.782.069-2.695.123-3.89 1.319-4.014 4.014-.058 1.247-.069 1.589-.069 4.782s.011 3.535.069 4.782c.124 2.695 1.319 3.89 4.014 4.014 1.247.058 1.589.069 4.782.069s3.535-.011 4.782-.069c2.695-.124 3.89-1.319 4.014-4.014.058-1.247.069-1.589.069-4.782s-.011-3.535-.069-4.782c-.124-2.695-1.319-3.89-4.014-4.014-1.247-.058-1.589-.069-4.782-.069zm0 3.195c-2.438 0-4.414 1.976-4.414 4.414s1.976 4.414 4.414 4.414 4.414-1.976 4.414-4.414-1.976-4.414-4.414-4.414zm0 7.23c-1.554 0-2.816-1.262-2.816-2.816s1.262-2.816 2.816-2.816 2.816 1.262 2.816 2.816-1.262 2.816-2.816 2.816zm4.814-7.53c-.71 0-1.284.574-1.284 1.284s.574 1.284 1.284 1.284 1.284-.574 1.284-1.284-.574-1.284-1.284-1.284z"/></svg>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Dòng Copyright --><div class="mt-12 pt-8 border-t border-gray-700 text-center">
+        <p class="text-gray-400 text-sm">
+          © 2025 Quản lý khóa học Guitar. Phát triển bởi 
+          <span class="font-semibold text-gray-200">Trần</span> & 
+          <span class="font-semibold text-gray-200">Nguyễn</span>.
+        </p>
+      </div>
+    </div>
+  </footer>
 
     <!-- =========== SCRIPT (JavaScript) =========== --><script th:src="@{/js/home.js}" defer></script>
 

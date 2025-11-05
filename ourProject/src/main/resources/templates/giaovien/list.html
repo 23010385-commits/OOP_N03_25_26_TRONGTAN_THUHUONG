@@ -1,366 +1,92 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách Giáo viên - Guitar 🎸</title>
+    <title>Danh Sách Giáo Viên</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-        .teacher-card {
-            transition: all 0.3s ease;
-            border: 1px solid #eeeeee;
-        }
-        .teacher-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 200, 83, 0.15);
-            border-color: #00C853;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .badge-primary {
-            background-color: rgba(0, 200, 83, 0.1);
-            color: #00C853;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #00C853;
-        }
-        .btn-contact {
-            background-color: #00C853;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-contact:hover {
-            background-color: #00a746;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
-        }
-        .filter-btn {
-            transition: all 0.3s ease;
-        }
-        .filter-btn.active {
-            background-color: #00C853;
-            color: white;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>body{font-family: 'Roboto', sans-serif}</style>
 </head>
-<body class="bg-gray-50">
+<body class="min-h-screen flex flex-col bg-gray-50">
 
-    <!-- =========== NAVBAR =========== -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-3xl font-bold" style="color: #00C853;">
-                    Guitar 🎸
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="max-w-6xl mx-auto p-6 flex-1">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold">Danh sách giáo viên</h1>
+            <span sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/giaovien/add}" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                    Thêm giáo viên
                 </a>
-                <div class="hidden md:flex md:items-center md:space-x-6">
-                    <a href="/" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
-                    <a href="/khoahoc" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
-                    <a href="/giaovien" class="font-bold" style="color: #00C853;">Giáo viên</a>
-                    <a href="/login" class="px-4 py-2 rounded-md font-semibold btn-contact">Đăng nhập</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- =========== HERO SECTION =========== -->
-    <section class="bg-gradient-to-r from-green-50 to-blue-50 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">Đội Ngũ Giáo Viên</h1>
-                <p class="text-xl text-gray-600">Các giáo viên Guitar chuyên nghiệp, tận tâm, sẵn sàng hướng dẫn bạn</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- =========== MAIN CONTENT =========== -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- Filter Section -->
-        <div class="mb-12 fade-in">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Lọc giáo viên</h2>
-                    <p class="text-gray-600">Tìm giáo viên phù hợp với chuyên môn của bạn</p>
-                </div>
-                <div class="flex flex-wrap gap-3">
-                    <button class="filter-btn active px-4 py-2 rounded-lg border border-gray-300 font-semibold" onclick="filterTeachers('all')">
-                        Tất cả
-                    </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-gray-300 font-semibold" onclick="filterTeachers('guitar-co-dien')">
-                        Guitar Cổ Điển
-                    </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-gray-300 font-semibold" onclick="filterTeachers('guitar-dien')">
-                        Guitar Điện
-                    </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-gray-300 font-semibold" onclick="filterTeachers('guitar-acoustic')">
-                        Guitar Acoustic
-                    </button>
-                </div>
-            </div>
+            </span>
         </div>
 
-        <!-- Teachers Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in" id="teachersContainer">
-            
-            <!-- Teacher Card 1 -->
-            <div class="teacher-card bg-white rounded-2xl overflow-hidden shadow-md p-6" data-category="guitar-co-dien">
-                <div class="text-center mb-6">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher1" alt="Giáo viên" class="avatar mx-auto mb-4">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-1">Nguyễn Văn A</h3>
-                    <p class="text-gray-600 mb-3">Giáo viên Guitar Cổ Điển</p>
-                    <div class="flex justify-center gap-2 mb-4">
-                        <span class="badge badge-primary">Guitar Cổ Điển</span>
+        <div class="mt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div th:each="g : ${giaoVienList}" class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:scale-[1.02]">
+                    
+                    <div class="h-40 bg-indigo-500 flex items-center justify-center relative">
+                        <span class="text-white text-lg font-medium">Ảnh giáo viên</span>
+                        
+                        <span class="absolute top-3 left-3 px-2 py-0.5 bg-white/30 backdrop-blur-sm text-white rounded-full text-xs font-medium" 
+                              th:text="${g.chuyenMon}">
+                            Chuyên môn
+                        </span>
                     </div>
-                </div>
-                <div class="border-t border-gray-200 pt-4 mb-4">
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">⭐</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Kinh nghiệm</p>
-                                <p class="text-gray-600">8 năm dạy Guitar chuyên nghiệp</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">👥</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Học viên</p>
-                                <p class="text-gray-600">150+ học viên đã hoàn thành khóa</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">📚</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Chuyên môn</p>
-                                <p class="text-gray-600">Từ cơ bản đến nâng cao</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="w-full py-2.5 rounded-lg font-semibold btn-contact">
-                    Liên hệ giáo viên
-                </button>
-            </div>
 
-            <!-- Teacher Card 2 -->
-            <div class="teacher-card bg-white rounded-2xl overflow-hidden shadow-md p-6" data-category="guitar-dien">
-                <div class="text-center mb-6">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher2" alt="Giáo viên" class="avatar mx-auto mb-4">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-1">Trần Thị B</h3>
-                    <p class="text-gray-600 mb-3">Giáo viên Guitar Điện</p>
-                    <div class="flex justify-center gap-2 mb-4">
-                        <span class="badge badge-primary">Guitar Điện</span>
-                    </div>
-                </div>
-                <div class="border-t border-gray-200 pt-4 mb-4">
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">⭐</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Kinh nghiệm</p>
-                                <p class="text-gray-600">6 năm dạy Guitar chuyên nghiệp</p>
-                            </div>
+                    <div class="p-4 flex flex-col flex-1">
+                        
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800" th:text="${g.ten}">Tên GV</h3>
+                            <span class="flex items-center text-sm text-gray-600">
+                                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.83 5.632h5.928c.969 0 1.371 1.24.588 1.81l-4.796 3.48h1.83c.3-.921 1.603-.921 1.902 0l1.83 5.632h5.928c.969 0 1.371 1.24.588 1.81l-4.796 3.48-1.83 5.632c-.3.921-1.603.921-1.902 0l-1.83-5.632H2.927c-.969 0-1.371-1.24-.588-1.81l4.796-3.48-1.83-5.632c-.3-.921.3-.921 1.902 0l1.83 5.632H16.07c.969 0 1.371-1.24.588-1.81l-4.796-3.48z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-1 font-medium text-yellow-600">4.9</span> </span>
                         </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">👥</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Học viên</p>
-                                <p class="text-gray-600">120+ học viên đã hoàn thành khóa</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">📚</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Chuyên môn</p>
-                                <p class="text-gray-600">Rock, Pop, Metal</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="w-full py-2.5 rounded-lg font-semibold btn-contact">
-                    Liên hệ giáo viên
-                </button>
-            </div>
 
-            <!-- Teacher Card 3 -->
-            <div class="teacher-card bg-white rounded-2xl overflow-hidden shadow-md p-6" data-category="guitar-acoustic">
-                <div class="text-center mb-6">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher3" alt="Giáo viên" class="avatar mx-auto mb-4">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-1">Lê Văn C</h3>
-                    <p class="text-gray-600 mb-3">Giáo viên Guitar Acoustic</p>
-                    <div class="flex justify-center gap-2 mb-4">
-                        <span class="badge badge-primary">Guitar Acoustic</span>
-                    </div>
-                </div>
-                <div class="border-t border-gray-200 pt-4 mb-4">
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">⭐</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Kinh nghiệm</p>
-                                <p class="text-gray-600">10 năm dạy Guitar chuyên nghiệp</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">👥</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Học viên</p>
-                                <p class="text-gray-600">200+ học viên đã hoàn thành khóa</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">📚</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Chuyên môn</p>
-                                <p class="text-gray-600">Fingerstyle, Đệm hát</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="w-full py-2.5 rounded-lg font-semibold btn-contact">
-                    Liên hệ giáo viên
-                </button>
-            </div>
+                        <p class="text-gray-600 text-sm mb-4 flex-1">
+                            Giáo viên chuyên ngành <span th:text="${#strings.toLowerCase(g.chuyenMon)}"></span> với nhiều năm kinh nghiệm.
+                        </p>
 
-            <!-- Teacher Card 4 -->
-            <div class="teacher-card bg-white rounded-2xl overflow-hidden shadow-md p-6" data-category="guitar-co-dien">
-                <div class="text-center mb-6">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher4" alt="Giáo viên" class="avatar mx-auto mb-4">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-1">Phạm Thị D</h3>
-                    <p class="text-gray-600 mb-3">Giáo viên Guitar Cổ Điển</p>
-                    <div class="flex justify-center gap-2 mb-4">
-                        <span class="badge badge-primary">Guitar Cổ Điển</span>
-                    </div>
-                </div>
-                <div class="border-t border-gray-200 pt-4 mb-4">
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">⭐</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Kinh nghiệm</p>
-                                <p class="text-gray-600">7 năm dạy Guitar chuyên nghiệp</p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-4">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                <span>Tuổi: <span th:text="${g.tuoi}">30</span></span>
                             </div>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.166-.599-8.747-1.745M16 10V6.5A2.5 2.5 0 0013.5 4h-3A2.5 2.5 0 008 6.5V10M4 10h16"></path></svg>
+                                <span>5+ năm kinh nghiệm</span> </div>
                         </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">👥</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Học viên</p>
-                                <p class="text-gray-600">130+ học viên đã hoàn thành khóa</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <span class="text-lg mr-3">📚</span>
-                            <div>
-                                <p class="font-semibold text-gray-700">Chuyên môn</p>
-                                <p class="text-gray-600">Lý thuyết nhạc, Sáng tác</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="w-full py-2.5 rounded-lg font-semibold btn-contact">
-                    Liên hệ giáo viên
-                </button>
-            </div>
 
+                        <div class="mt-auto pt-4 border-t border-gray-100">
+                            <div class="flex justify-between items-center">
+                                <a href="#" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition-colors">
+                                    Xem chi tiết
+                                </a>
+                                
+                                <span sec:authorize="hasRole('ADMIN')" class="flex gap-2">
+                                    <a th:href="@{/giaovien/edit/{id}(id=${g.id})}" class="px-3 py-2 bg-yellow-400 text-yellow-900 rounded-lg text-sm font-medium hover:bg-yellow-500 transition-colors">Sửa</a>
+                                    <button onclick="confirmDelete(this)" th:data-url="@{/giaovien/delete/{id}(id=${g.id})}" class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">Xóa</button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
         </div>
-
-        <!-- Empty State -->
-        <div class="empty-state hidden" id="emptyState">
-            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-            </svg>
-            <h3 class="text-xl font-semibold text-gray-700 mb-2">Không tìm thấy giáo viên</h3>
-            <p class="text-gray-500">Vui lòng chọn mục lọc khác hoặc quay lại sau</p>
-        </div>
-
     </main>
 
-    <!-- =========== FOOTER =========== -->
-    <footer class="text-gray-300 py-12 mt-16" style="background-color: #424242;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h4 class="text-2xl font-bold mb-4" style="color: #00C853;">Guitar 🎸</h4>
-                    <p class="text-gray-400 mb-4">Ứng dụng quản lý khóa học Guitar hàng đầu</p>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="hover:text-green-400 transition">Trang chủ</a></li>
-                        <li><a href="/khoahoc" class="hover:text-green-400 transition">Khóa học</a></li>
-                        <li><a href="/giaovien" class="hover:text-green-400 transition">Giáo viên</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên hệ</h5>
-                    <p class="text-gray-400">Email: contact@guitar.edu.vn</p>
-                    <p class="text-gray-400">Phone: (+84) 234 567 890</p>
-                </div>
-            </div>
-            <div class="mt-12 pt-8 border-t border-gray-700 text-center">
-                <p class="text-gray-400 text-sm">© 2025 Guitar Management</p>
-            </div>
-        </div>
-    </footer>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-    <!-- =========== SCRIPTS =========== -->
     <script>
-        function filterTeachers(category) {
-            const cards = document.querySelectorAll('.teacher-card');
-            const emptyState = document.getElementById('emptyState');
-            const buttons = document.querySelectorAll('.filter-btn');
-            let visibleCount = 0;
-
-            // Update active button
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // Filter cards
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.5s ease-in';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Show/hide empty state
-            if (visibleCount === 0) {
-                emptyState.classList.remove('hidden');
-            } else {
-                emptyState.classList.add('hidden');
-            }
+        function confirmDelete(btn){
+            const target = btn.getAttribute('data-url') || btn.getAttribute('th:data-url');
+            if(confirm('Bạn có chắc muốn xóa giáo viên này?')){ if(target) window.location.href = target; }
         }
     </script>
-
 </body>
 </html>
