@@ -376,34 +376,7 @@
 
     </main>
 
-    <!-- =========== FOOTER =========== -->
-    <footer class="text-gray-300 py-12 mt-16" style="background-color: #424242;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h4 class="text-2xl font-bold mb-4" style="color: #00C853;">Guitar 🎸</h4>
-                    <p class="text-gray-400">Ứng dụng quản lý khóa học Guitar hàng đầu</p>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h5>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="hover:text-green-400 transition">Trang chủ</a></li>
-                        <li><a href="/khoahoc" class="hover:text-green-400 transition">Khóa học</a></li>
-                        <li><a href="/giaovien" class="hover:text-green-400 transition">Giáo viên</a></li>
-                        <li><a href="/gioithieu" class="hover:text-green-400 transition">Giới thiệu</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-lg font-semibold text-white mb-4">Liên hệ</h5>
-                    <p class="text-gray-400">Email: contact@guitar.edu.vn</p>
-                    <p class="text-gray-400">Phone: (+84) 234 567 890</p>
-                </div>
-            </div>
-            <div class="mt-12 pt-8 border-t border-gray-700 text-center">
-                <p class="text-gray-400 text-sm">© 2025 Guitar Management</p>
-            </div>
-        </div>
-    </footer>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

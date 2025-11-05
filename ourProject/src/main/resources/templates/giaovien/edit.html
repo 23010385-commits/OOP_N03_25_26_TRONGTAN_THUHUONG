@@ -19,7 +19,7 @@
 		</div>
 
 		<div class="bg-white p-6 rounded-lg shadow">
-			<form th:action="@{/giaovien/update}" th:object="${giaoVien}" method="post" onsubmit="return validate(this)">
+			<form th:action="@{/giaovien/update/{id}(id=${giaoVien.id})}" th:object="${giaoVien}" method="post" onsubmit="return validate(this)">
 				<input type="hidden" th:field="*{id}">
 				<div class="grid grid-cols-1 gap-4">
 					<div>
@@ -46,7 +46,7 @@
 		</div>
 	</main>
 
-	<div th:replace="fragments/footer :: footer"></div>
+	<div th:insert="~{fragments/footer :: footer}"></div>
 
 	<script>
 		function validate(form){

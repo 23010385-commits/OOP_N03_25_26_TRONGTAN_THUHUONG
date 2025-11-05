@@ -42,6 +42,10 @@ public class GiaoVienController {
     @GetMapping("")
     public String listGiaoVien(Model model) {
         List<GiaoVien> listGiaoVien = giaoVienService.findAll();
+        // Template expects attribute named `giaoVienList`; some controllers/tests
+        // expect `listGiaoVien`.
+        // Add both to be backwards-compatible.
+        model.addAttribute("giaoVienList", listGiaoVien);
         model.addAttribute("listGiaoVien", listGiaoVien);
         return "giaovien/list";
     }
@@ -77,6 +81,13 @@ public class GiaoVienController {
     // --- 4. DELETE (XÓA) ---
     @GetMapping("/delete/{id}")
     public String deleteGiaoVien(@PathVariable Long id) {
+        giaoVienService.deleteById(id);
+        return "redirect:/giaovien";
+    }
+
+    // Accept POST deletes from templates that use method="post" for safety
+    @PostMapping("/delete/{id}")
+    public String deleteGiaoVienPost(@PathVariable Long id) {
         giaoVienService.deleteById(id);
         return "redirect:/giaovien";
     }

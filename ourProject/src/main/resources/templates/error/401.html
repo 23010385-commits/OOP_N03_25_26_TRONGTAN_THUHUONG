@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,9 +115,16 @@
                     📝 Tạo tài khoản mới
                 </a>
                 <br>
-                <a href="/" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-600 hover:text-gray-900 transition duration-300">
-                    ← Quay lại trang chủ
-                </a>
+                <!-- Role-aware home links -->
+                <span sec:authorize="hasRole('HOCVIEN')">
+                    <a th:href="@{/hocvien/home}" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-600 hover:text-gray-900 transition duration-300">← Quay lại trang chủ</a>
+                </span>
+                <span sec:authorize="hasRole('GIAOVIEN')">
+                    <a th:href="@{/giaovien/home}" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-600 hover:text-gray-900 transition duration-300">← Quay lại trang chủ</a>
+                </span>
+                <span sec:authorize="isAnonymous() or hasRole('ADMIN')">
+                    <a th:href="@{/}" class="inline-block px-6 py-3 rounded-lg font-semibold text-gray-600 hover:text-gray-900 transition duration-300">← Quay lại trang chủ</a>
+                </span>
             </div>
 
         </div>

@@ -51,6 +51,30 @@ public class KhoaHocService {
   }
 
   /**
+   * Initialize lazy collections and relations for a list of courses.
+   * Call this from controllers before rendering templates to avoid
+   * LazyInitializationException when Thymeleaf accesses relations.
+   */
+  @Transactional(readOnly = true)
+  public void initializeList(java.util.List<KhoaHoc> list) {
+    if (list == null)
+      return;
+    for (KhoaHoc khoaHoc : list) {
+      if (khoaHoc == null)
+        continue;
+      if (khoaHoc.getLessons() != null) {
+        khoaHoc.getLessons().size();
+      }
+      if (khoaHoc.getDsHocVien() != null) {
+        khoaHoc.getDsHocVien().size();
+      }
+      if (khoaHoc.getGiaoVien() != null) {
+        khoaHoc.getGiaoVien().getId();
+      }
+    }
+  }
+
+  /**
    * Lấy danh sách khóa học lọc theo level (basic|advanced) — đơn giản dựa trên từ
    * khoá trong
    * tiêu đề/mô tả: 'sơ cấp' cho basic, 'nâng cao' cho advanced.
@@ -71,9 +95,25 @@ public class KhoaHocService {
     return khoaHocRepository.findByTenKhoaHocContainingIgnoreCaseOrMoTaContainingIgnoreCase(keyword, keyword);
   }
 
+  @Transactional(readOnly = true)
   public KhoaHoc findById(Long id) {
-    return khoaHocRepository.findById(id)
+    KhoaHoc khoaHoc = khoaHocRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Không tìm thấy khóa học với id: " + id));
+
+    // Eagerly initialize lazy collections to avoid LazyInitializationException when
+    // templates (Thymeleaf) access them outside a transaction.
+    if (khoaHoc.getLessons() != null) {
+      khoaHoc.getLessons().size();
+    }
+    if (khoaHoc.getDsHocVien() != null) {
+      khoaHoc.getDsHocVien().size();
+    }
+    // Touch giaoVien to ensure it's loaded
+    if (khoaHoc.getGiaoVien() != null) {
+      khoaHoc.getGiaoVien().getId();
+    }
+
+    return khoaHoc;
   }
 
   // Hàm save cơ bản (khi không thay đổi giáo viên)
