@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-GuitarManagementApplication<guitar-management>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.guitar.management.GuitarManagementApplication",
+      "projectName": "guitar-management",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
