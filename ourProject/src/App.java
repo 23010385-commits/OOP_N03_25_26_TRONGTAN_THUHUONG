@@ -15,8 +15,8 @@ public class App {
         Lesson l1 = new Lesson(1, "Gioi thieu dan guitar", "Ten cac bo phan cua dan", 30);
         Lesson l2 = new Lesson(2, "Hop am co ban", "Hoc hop am C, D, G", 45);
 
-        // Tao khoa hoc
-        KhoaHoc khoaHoc = new KhoaHoc(1, "Khoa hoc Guitar co ban", "Hoc cac kien thuc nen tang", gv);
+    // Tao khoa hoc
+    KhoaHoc khoaHoc = new KhoaHoc(1, "Khoa hoc Guitar co ban", "Hoc cac kien thuc nen tang", gv);
         khoaHoc.addBaihoc(l1);
         khoaHoc.addBaihoc(l2);
 
