@@ -5,7 +5,15 @@
 </head>
 <body>
     <!-- Fragment: Footer chung -->
-    <footer th:fragment="footer" class="text-gray-300 pt-16 pb-8" style="background-color: var(--brand-gray-dark);">
+    <footer th:fragment="footer" class="site-footer text-gray-300 pt-16 pb-8" style="background-color: #111827;">
+        <style>
+            /* Fallback styles so footer looks correct even if Tailwind or home.css aren't loaded */
+            .site-footer{color:#d1d5db}
+            .site-footer a{color:#9ca3af}
+            .site-footer .text-2xl{color:#e5e7eb}
+            .site-footer .text-gray-400{color:#9ca3af}
+            .site-footer .border-t{border-top:1px solid rgba(255,255,255,0.08)}
+        </style>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
