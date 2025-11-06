@@ -16,7 +16,7 @@
 ## 3. Thông tin
 Link Repo:https://github.com/23010385-commits/OOP_N03_25_26_TRONGTAN_THUHUONG.git
 
-Link Demo:***********
+Link Demo:https://youtu.be/eHRudUVIoPw
 
 Link Deploy:**********
 
