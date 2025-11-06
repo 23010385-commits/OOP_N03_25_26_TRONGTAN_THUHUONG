@@ -50,10 +50,4 @@ public class HocVienController {
         repo.deleteHocVien(id);
         return "redirect:/hocvien";
     }
-
-    @PostMapping("/delete/{id}")
-    public String deleteHocVienPost(@PathVariable Long id) {
-        hocVienService.deleteById(id);
-        return "redirect:/hocvien";
-    }
 }
