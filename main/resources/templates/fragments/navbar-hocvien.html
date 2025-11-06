@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- Fragment: Navbar cho Học viên -->
+    <header th:fragment="navbar" class="bg-white text-gray-900 shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a th:href="@{/hocvien/home}" class="text-3xl font-bold" style="color: var(--brand-blue);">
+                        Guitar 🎸
+                    </a>
+                </div>
+
+                <!-- Menu chính (Desktop) -->
+                <div class="hidden md:flex md:items-center md:space-x-6">
+                    <a th:href="@{/hocvien/home}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link-blue transition duration-150">Trang chủ</a>
+                    <a th:href="@{/hocvien/khoahoc}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link-blue transition duration-150">Khóa học của tôi</a>
+                    <a th:href="@{/hocvien/tiendo}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link-blue transition duration-150">Tiến độ</a>
+                    <a th:href="@{/hocvien/tailieu}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 menu-link-blue transition duration-150">Tài liệu</a>
+                </div>
+
+                <!-- Tên người dùng và Đăng xuất -->
+                <div class="flex items-center space-x-4">
+                    <span class="hidden md:inline-block text-sm font-medium text-gray-700">
+                        Xin chào, <span th:text="${username}">Học viên</span>
+                    </span>
+                    
+                    <!-- Nút Đăng xuất -->
+                    <a th:href="@{/logout}" 
+                        class="hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium bg-red-600 hover:bg-red-700 text-white transition">
+                        Đăng xuất
+                    </a>
+
+                    <!-- Nút Menu (Mobile) -->
+                    <div class="md:hidden flex items-center">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-150">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Menu (Mobile) - Ẩn/hiện bằng JS -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a th:href="@{/hocvien/home}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link-blue">Trang chủ</a>
+            <a th:href="@{/hocvien/khoahoc}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link-blue">Khóa học của tôi</a>
+            <a th:href="@{/hocvien/tiendo}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link-blue">Tiến độ</a>
+            <a th:href="@{/hocvien/tailieu}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 menu-link-blue">Tài liệu</a>
+            <a th:href="@{/logout}" class="block px-3 py-2 rounded-md text-base font-medium bg-red-600 hover:bg-red-700 text-white text-center">Đăng xuất</a>
+        </div>
+    </header>
+
+    <!-- Script toggle mobile menu -->
+    <script>
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
