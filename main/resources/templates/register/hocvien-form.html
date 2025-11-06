@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký Học Viên - Guitar 🎸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #00C853;
+            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
+            outline: none;
+        }
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+        .input-error {
+            border-color: #d32f2f !important;
+            background-color: #ffebee;
+        }
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+            margin-bottom: 1rem;
+        }
+        .success-message.show {
+            display: block;
+        }
+        .btn-submit {
+            background-color: #00C853;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background-color: #00a746;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
+        }
+        .password-toggle {
+            cursor: pointer;
+            color: #666;
+        }
+        .password-toggle:hover {
+            color: #00C853;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+
+    <!-- =========== NAVBAR =========== -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="text-3xl font-bold" style="color: #00C853;">
+                Guitar 🎸
+            </a>
+            <a href="/register" class="text-gray-600 hover:text-gray-900 transition">← Quay lại</a>
+        </nav>
+    </header>
+
+    <!-- =========== MAIN CONTENT =========== -->
+    <main class="min-h-screen flex items-center justify-center py-12 px-4">
+        <div class="w-full max-w-2xl fade-in">
+            <!-- Card -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div class="p-8 md:p-12">
+                    
+                    <!-- Header -->
+                    <div class="mb-8">
+                        <h1 class="text-4xl font-bold text-gray-900 mb-2">Đăng ký Học Viên</h1>
+                        <p class="text-gray-600">Tạo tài khoản để bắt đầu học Guitar ngay</p>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div class="success-message" id="success-message">
+                        ✓ Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.
+                    </div>
+
+                    <!-- Form -->
+                    <form id="registerForm" method="POST" action="/register/hocvien">
+                        
+                        <!-- Username -->
+                        <div class="mb-5">
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                                Tên đăng nhập <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username"
+                                placeholder="Ví dụ: nguyenvana" 
+                                class="form-input w-full px-4 py-2.5 border border-gray-300 rounded-lg"
+                                required>
+                            <div class="error-message" id="username-error"></div>
+                        </div>
+
+                        <!-- Full Name -->
+                        <div class="mb-5">
+                            <label for="ten" class="block text-sm font-medium text-gray-700 mb-2">
+                                Họ và tên <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="ten" 
+                                name="ten"
+                                placeholder="Ví dụ: Nguyễn Văn A" 
+                                class="form-input w-full px-4 py-2.5 border border-gray-300 rounded-lg"
+                                required>
+                            <div class="error-message" id="ten-error"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-5">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                                Email <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email"
+                                placeholder="Ví dụ: nguyen@example.com" 
+                                class="form-input w-full px-4 py-2.5 border border-gray-300 rounded-lg"
+                                required>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-5">
+                            <label for="sdt" class="block text-sm font-medium text-gray-700 mb-2">
+                                Số điện thoại <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="sdt" 
+                                name="sdt"
+                                placeholder="Ví dụ: 0123456789" 
+                                class="form-input w-full px-4 py-2.5 border border-gray-300 rounded-lg"
+                                required>
+                            <div class="error-message" id="sdt-error"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-5">
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                                Mật khẩu <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password"
+                                    placeholder="Tối thiểu 6 ký tự" 
+                                    class="form-input w-full px-4 py-2.5 border border-gray-300 rounded-lg"
+                                    required>
+                                <button 
+                                    type="button" 
+                                    class="absolute right-3 top-3 password-toggle"
+                                    onclick="togglePassword('password')">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="error-message" id="password-error"></div>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <input 
+                                    type="checkbox" 
+                                    id="terms"
+                                    class="mt-1"
+                                    style="accent-color: #00C853;">
+                                <label for="terms" class="ml-3 text-sm text-gray-600">
+                                    Tôi đồng ý với <a href="#" class="text-green-600 hover:underline font-medium">Điều khoản sử dụng</a> 
+                                    và <a href="#" class="text-green-600 hover:underline font-medium">Chính sách bảo mật</a>
+                                </label>
+                            </div>
+                            <div class="error-message" id="terms-error"></div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            class="w-full py-3 rounded-lg font-semibold btn-submit mb-4">
+                            Đăng ký
+                        </button>
+
+                        <!-- Login Link -->
+                        <p class="text-center text-gray-600 text-sm">
+                            Đã có tài khoản? <a href="/login" class="font-semibold hover:underline" style="color: #00C853;">Đăng nhập</a>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="mt-8 bg-white rounded-xl shadow-md p-6">
+                <h3 class="font-semibold text-gray-900 mb-4">ℹ️ Lợi ích khi đăng ký:</h3>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span style="color: #00C853;" class="mr-3 font-bold">✓</span>
+                        Truy cập tất cả khóa học Guitar
+                    </li>
+                    <li class="flex items-center">
+                        <span style="color: #00C853;" class="mr-3 font-bold">✓</span>
+                        Theo dõi tiến độ học tập
+                    </li>
+                    <li class="flex items-center">
+                        <span style="color: #00C853;" class="mr-3 font-bold">✓</span>
+                        Nhận hỗ trợ từ giáo viên chuyên nghiệp
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- =========== SCRIPTS =========== -->
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function showError(inputId, message) {
+            const errorEl = document.getElementById(inputId + '-error');
+            const inputEl = document.getElementById(inputId);
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.add('show');
+                inputEl.classList.add('input-error');
+            }
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show');
+            });
+            document.querySelectorAll('input').forEach(el => {
+                el.classList.remove('input-error');
+            });
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearErrors();
+
+            const username = document.getElementById('username').value.trim();
+            const ten = document.getElementById('ten').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const sdt = document.getElementById('sdt').value.trim();
+            const password = document.getElementById('password').value;
+            const terms = document.getElementById('terms').checked;
+
+            let isValid = true;
+
+            // Validate username
+            if (username.length < 3) {
+                showError('username', 'Tên đăng nhập phải ít nhất 3 ký tự');
+                isValid = false;
+            }
+
+            // Validate name
+            if (ten.length < 2) {
+                showError('ten', 'Họ tên phải ít nhất 2 ký tự');
+                isValid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('email', 'Email không hợp lệ');
+                isValid = false;
+            }
+
+            // Validate phone
+            const phoneRegex = /^0\d{9}$/;
+            if (!phoneRegex.test(sdt)) {
+                showError('sdt', 'Số điện thoại phải là 10 chữ số bắt đầu bằng 0');
+                isValid = false;
+            }
+
+            // Validate password
+            if (password.length < 6) {
+                showError('password', 'Mật khẩu phải ít nhất 6 ký tự');
+                isValid = false;
+            }
+
+            // Validate terms
+            if (!terms) {
+                showError('terms', 'Vui lòng đồng ý với điều khoản');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Form hợp lệ, gửi về server
+                this.submit();
+            }
+        });
+    </script>
+
+</body>
+</html>
