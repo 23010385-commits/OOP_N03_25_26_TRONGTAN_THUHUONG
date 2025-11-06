@@ -1,68 +1,45 @@
-// File: src/main/java/com/guitar/management/model/HocVienKhoaHoc.java
 package com.guitar.management.model;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "hoc_vien_khoa_hoc") // Bảng trung gian
 public class HocVienKhoaHoc {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "hoc_vien_id")
+    private int id;
     private HocVien hocVien;
-
-    @ManyToOne
-    @JoinColumn(name = "khoa_hoc_id")
     private KhoaHoc khoaHoc;
+    private Lesson lesson;
+    private Date ngayHoc;
+    private String trangThai; // vd: "Đang học", "Hoàn thành"
 
-    private Date ngayDangKy;
-    private String trangThai; // "Đang học", "Hoàn thành"
-
-    public HocVienKhoaHoc() {
-    } // Hàm tạo rỗng
-
-    // --- Getters & Setters (Xóa hết logic) ---
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public HocVienKhoaHoc(int id, HocVien hocVien, KhoaHoc khoaHoc, Lesson lesson, Date ngayHoc, String trangThai) {
         this.id = id;
-    }
-
-    public HocVien getHocVien() {
-        return hocVien;
-    }
-
-    public void setHocVien(HocVien hocVien) {
         this.hocVien = hocVien;
-    }
-
-    public KhoaHoc getKhoaHoc() {
-        return khoaHoc;
-    }
-
-    public void setKhoaHoc(KhoaHoc khoaHoc) {
         this.khoaHoc = khoaHoc;
+        this.lesson = lesson;
+        this.ngayHoc = ngayHoc;
+        this.trangThai = trangThai;
     }
 
-    public Date getNgayDangKy() {
-        return ngayDangKy;
-    }
-
-    public void setNgayDangKy(Date ngayDangKy) {
-        this.ngayDangKy = ngayDangKy;
-    }
-
-    public String getTrangThai() {
-        return trangThai;
-    }
+    // Getter và Setter
+    public int getId() { return id; }
+    public HocVien getHocVien() { return hocVien; }
+    public KhoaHoc getKhoaHoc() { return khoaHoc; }
+    public Lesson getLesson() { return lesson; }
+    public Date getNgayHoc() { return ngayHoc; }
+    public String getTrangThai() { return trangThai; }
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    @Override
+    public String toString() {
+        return "HocVienKhoaHoc{" +
+                "id=" + id +
+                ", hocVien=" + hocVien.getTen() +
+                ", khoaHoc=" + khoaHoc.getTenKhoaHoc() +
+                ", lesson=" + lesson.getTitle() +
+                ", ngayHoc=" + ngayHoc +
+                ", trangThai='" + trangThai + '\'' +
+                '}';
     }
 }

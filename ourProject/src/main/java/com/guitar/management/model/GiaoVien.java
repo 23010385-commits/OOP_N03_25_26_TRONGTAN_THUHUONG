@@ -1,36 +1,31 @@
-// File: src/main/java/com/guitar/management/model/GiaoVien.java
 package com.guitar.management.model;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "giao_vien")
 public class GiaoVien {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    // thuoc tinh
+    private int id;
     private String ten;
     private int tuoi;
     private String chuyenMon;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @OneToMany(mappedBy = "giaoVien")
     private List<KhoaHoc> dsKhoaHoc = new ArrayList<>();
 
-    public GiaoVien() {
-    } // Hàm tạo rỗng
+    // ham tao
+    public GiaoVien(int id, String ten, int tuoi, String chuyenMon) {
+        this.id = id;
+        this.ten = ten;
+        this.tuoi = tuoi;
+        this.chuyenMon = chuyenMon;
+    }
 
-    // --- Getters & Setters (Xóa hết logic) ---
-    public Long getId() {
+    // getter va setter
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,19 +53,29 @@ public class GiaoVien {
         this.chuyenMon = chuyenMon;
     }
 
-    public User getUser() {
-        return user;
+    // phuong thuc in thong tin giao vien
+    public void showInfo() {
+        System.out.println("------ Giao vien ------");
+        System.out.println("ID         : " + id);
+        System.out.println("Ten        : " + ten);
+        System.out.println("Tuoi       : " + tuoi);
+        System.out.println("Chuyen mon : " + chuyenMon);
+        System.out.println("-----------------------\n");
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void DanhGia(HocVien hocVien) {
+        System.out.println("Danh gia hoc vien: " + hocVien.getTen());
     }
 
-    public List<KhoaHoc> getDsKhoaHoc() {
-        return dsKhoaHoc;
+    public void themKhoaHoc(KhoaHoc khoaHoc) {
+        dsKhoaHoc.add(khoaHoc);
+        System.out.println("Da them khoa hoc: " + khoaHoc.getTenKhoaHoc());
     }
 
-    public void setDsKhoaHoc(List<KhoaHoc> dsKhoaHoc) {
-        this.dsKhoaHoc = dsKhoaHoc;
+    public void showKhoaHocPhuTrach() {
+        System.out.println("Danh sach khoa hoc phu trach:");
+        for (KhoaHoc khoaHoc : dsKhoaHoc) {
+            System.out.println("- " + khoaHoc.getTenKhoaHoc());
+        }
     }
 }
