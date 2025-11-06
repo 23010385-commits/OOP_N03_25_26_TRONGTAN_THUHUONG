@@ -1,0 +1,80 @@
+/* File này định nghĩa các màu chủ đạo và kiểu nút */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff; /* Nền trắng mặc định */
+}
+
+/* Định nghĩa các biến màu chủ đạo (giống index.html) */
+:root {
+    --brand-green: #22c55e;
+    --brand-blue: #2563eb;
+    --brand-orange: #f97316;
+    --brand-gray-light: #f9fafb;
+    --brand-gray-dark: #111827;
+}
+
+/* --- Kiểu cho Navbar (Giáo Viên) --- */
+.menu-link {
+    transition: color 0.3s ease;
+}
+.menu-link:hover {
+    color: var(--brand-green); /* Màu xanh lá khi hover */
+}
+/* Active link cho Giáo viên (Thêm sau) */
+.menu-link.active {
+    color: var(--brand-green);
+    font-weight: 500;
+}
+
+
+/* --- Kiểu cho Navbar (Học Viên) --- */
+.menu-link-blue {
+    transition: color 0.3s ease;
+}
+.menu-link-blue:hover {
+    color: var(--brand-blue); /* Màu xanh dương khi hover */
+}
+/* Active link cho Học viên (Thêm sau) */
+.menu-link-blue.active {
+    color: var(--brand-blue);
+    font-weight: 500;
+}
+
+
+/* --- Kiểu cho Nút Bấm (Button) --- */
+.btn-cta-green {
+    background-color: var(--brand-green);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+}
+.btn-cta-green:hover {
+    background-color: #16a34a; /* Đậm hơn */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
+.btn-cta-blue {
+    background-color: var(--brand-blue);
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+.btn-cta-blue:hover {
+    background-color: #1d4ed8; /* Đậm hơn */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Kiểu cho Card Dashboard */
+.dashboard-card {
+    background-color: white;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
