@@ -1,106 +1,53 @@
-// File: src/main/java/com/guitar/management/controller/GiaoVienController.java
 package com.guitar.management.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import com.guitar.management.model.GiaoVien;
-import com.guitar.management.model.User;
-import com.guitar.management.service.GiaoVienService; // <-- GỌI SERVICE
-import com.guitar.management.service.UserService;
-import java.util.List;
+import com.guitar.management.repository.GiaoVienRepository;
 
 @Controller
-@RequestMapping("/giaovien")
 public class GiaoVienController {
 
-    private final GiaoVienService giaoVienService;
-    private final UserService userService;
+    private final GiaoVienRepository repo = new GiaoVienRepository();
 
-    // -> constructor injection
-    public GiaoVienController(GiaoVienService giaoVienService, UserService userService) {
-        this.giaoVienService = giaoVienService;
-        this.userService = userService;
-    }
-
-    // --- ĐÃ SỬA LỖI ---
-    @GetMapping("/home")
-    public String home(Model model, Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                model.addAttribute("username", userDetails.getUsername());
-            } else {
-                model.addAttribute("username", String.valueOf(principal));
-            }
-        } else {
-            model.addAttribute("username", "Giáo viên");
-        }
-        return "giaovien/home";
-    }
-
-    // --- 1. READ (ĐỌC) ---
-    @GetMapping("")
+    @GetMapping("/giaovien")
     public String listGiaoVien(Model model) {
-        List<GiaoVien> listGiaoVien = giaoVienService.findAll(); // Gọi Service
-        // expose canonical 'giaoVienList' for templates; keep 'teachers' as an alias
-        model.addAttribute("giaoVienList", listGiaoVien);
-        model.addAttribute("teachers", listGiaoVien);
+        model.addAttribute("giaovienList", repo.getAllGiaoVien());
         return "giaovien/list";
     }
 
-    // --- 2. CREATE (TẠO) ---
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        GiaoVien gv = new GiaoVien();
-        // initialize nested User so Thymeleaf can bind user.username / user.password
-        gv.setUser(new User());
-        model.addAttribute("giaoVien", gv);
+    @GetMapping("/giaovien/add")
+    public String addGiaoVien(Model model) {
+        model.addAttribute("giaoVien", new GiaoVien(0, "", 18, ""));
         return "giaovien/add";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/giaovien/save")
     public String saveGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        // If nested User provided, use UserService to register (handles hashing and
-        // transactional save)
-        if (giaoVien.getUser() != null && giaoVien.getUser().getUsername() != null
-                && !giaoVien.getUser().getUsername().isBlank() && giaoVien.getUser().getPassword() != null
-                && !giaoVien.getUser().getPassword().isBlank()) {
-            userService.registerNewGiaoVien(giaoVien.getUser().getUsername().trim(),
-                    giaoVien.getUser().getPassword(), giaoVien.getTen(), giaoVien.getTuoi(),
-                    giaoVien.getChuyenMon());
-        } else {
-            // fallback: save GiaoVien only
-            giaoVienService.save(giaoVien);
-        }
-        return "redirect:/giaovien"; // Quay về trang danh sách
-    }
-
-    // --- 3. UPDATE (SỬA) ---
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        GiaoVien giaoVien = giaoVienService.findById(id);
-        model.addAttribute("giaoVien", giaoVien);
-        return "giaovien/edit";
-    }
-
-    // Bước 3b: Xử lý nút "Cập nhật" (POST form includes hidden id)
-    @PostMapping("/update")
-    public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
-        // nếu form gửi id trong giaoVien.id thì save sẽ hiểu đây là UPDATE
-        if (giaoVien.getId() != null) {
-            giaoVienService.save(giaoVien); // Gọi Service (save handles create/update)
-        }
+        int id = repo.getAllGiaoVien().size() + 1;
+        giaoVien.setId(id);
+        repo.addGiaoVien(giaoVien);
         return "redirect:/giaovien";
     }
 
-    // --- 4. DELETE (XÓA) ---
-    @GetMapping("/delete/{id}")
-    public String deleteGiaoVien(@PathVariable Long id) {
-        giaoVienService.deleteById(id);
+    @GetMapping("/giaovien/edit/{id}")
+    public String editGiaoVien(@PathVariable int id, Model model) {
+        GiaoVien gv = repo.getGiaoVienById(id);
+        model.addAttribute("giaoVien", gv);
+        return "giaovien/edit";
+    }
+
+    @PostMapping("/giaovien/update")
+    public String updateGiaoVien(@ModelAttribute GiaoVien giaoVien) {
+        repo.updateGiaoVien(giaoVien);
+        return "redirect:/giaovien";
+    }
+
+    @GetMapping("/giaovien/delete/{id}")
+    public String deleteGiaoVien(@PathVariable int id) {
+        repo.deleteGiaoVien(id);
         return "redirect:/giaovien";
     }
 }
