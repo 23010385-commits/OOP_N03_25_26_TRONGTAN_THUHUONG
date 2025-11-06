@@ -1,0 +1,85 @@
+/* Định nghĩa các biến màu thương hiệu (cho Bản 2) */
+:root {
+  --brand-green: #22c55e;  /* green-500 */
+  --brand-blue: #3b82f6;   /* blue-500 */
+  --brand-orange: #f97316; /* orange-500 */
+  --brand-gray-light: #f9fafb; /* gray-50 */
+  --brand-gray-dark: #111827;  /* gray-900 */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--brand-gray-light);
+}
+
+/* --- CSS cho Navbar (Bản 2) --- */
+.menu-link {
+    position: relative;
+    padding-bottom: 4px;
+    overflow: hidden;
+}
+.menu-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--brand-green);
+    transform: translateX(-101%);
+    transition: transform 0.3s ease-out;
+}
+.menu-link:hover::after {
+    transform: translateX(0);
+}
+.menu-link.active::after {
+     transform: translateX(0);
+}
+
+/* Màu xanh dương cho Hoc Vien */
+.menu-link-blue::after {
+    background-color: var(--brand-blue);
+}
+
+/* --- CSS cho Nút bấm (Button) --- */
+.btn-cta {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem; /* 8px */
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+.btn-green {
+    background-color: var(--brand-green);
+}
+.btn-green:hover {
+    background-color: #16a34a; /* green-600 */
+}
+.btn-blue {
+    background-color: var(--brand-blue);
+}
+.btn-blue:hover {
+    background-color: #2563eb; /* blue-600 */
+}
+
+/* --- CSS cho Card (Bản 2) --- */
+.dashboard-card {
+    background-color: white;
+    border-radius: 0.75rem; /* 12px */
+    padding: 1.5rem; /* 24px */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #e5e7eb; /* gray-200 */
+    transition: all 0.3s ease;
+}
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    border-color: var(--brand-green);
+}

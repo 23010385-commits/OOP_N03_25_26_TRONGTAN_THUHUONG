@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm - Guitar 🎸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .search-box {
+            transition: all 0.3s ease;
+        }
+        .search-box:focus-within {
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.2);
+        }
+        .result-card {
+            transition: all 0.3s ease;
+            border: 1px solid #eeeeee;
+        }
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 200, 83, 0.15);
+            border-color: #00C853;
+        }
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background-color: #00C853;
+            color: white;
+        }
+        .pagination-btn {
+            transition: all 0.3s ease;
+        }
+        .pagination-btn.active {
+            background-color: #00C853;
+            color: white;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-course {
+            background-color: rgba(0, 200, 83, 0.1);
+            color: #00C853;
+        }
+        .badge-teacher {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- =========== NAVBAR =========== -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="text-3xl font-bold" style="color: #00C853;">
+                    Guitar 🎸
+                </a>
+                <div class="hidden md:flex md:items-center md:space-x-6">
+                    <a href="/" class="text-gray-700 hover:text-green-600 transition">Trang chủ</a>
+                    <a href="/khoahoc" class="text-gray-700 hover:text-green-600 transition">Khóa học</a>
+                    <a href="/giaovien" class="text-gray-700 hover:text-green-600 transition">Giáo viên</a>
+                    <a href="/login" class="px-4 py-2 rounded-md font-semibold" style="background-color: #00C853; color: white;">Đăng nhập</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- =========== SEARCH HERO =========== -->
+    <section class="bg-gradient-to-r from-green-50 to-blue-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Kết quả tìm kiếm</h1>
+                <p class="text-gray-600">
+                    Tìm kiếm cho: <span class="font-semibold" th:text="${keyword}">guitar cơ bản</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== MAIN CONTENT =========== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- ========== SIDEBAR (FILTERS) ========== -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+                    
+                    <!-- New Search -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">Tìm kiếm mới</h3>
+                        <form method="GET" action="/search" class="flex gap-2">
+                            <input 
+                                type="text" 
+                                name="keyword"
+                                placeholder="Nhập từ khóa..." 
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                                th:value="${keyword}">
+                            <button type="submit" class="px-4 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">
+                                🔍
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <!-- Filter by Type -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">Loại kết quả</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;" checked>
+                                <span class="ml-2 text-sm text-gray-700">Khóa học</span>
+                                <span class="ml-auto text-xs text-gray-500">12</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;" checked>
+                                <span class="ml-2 text-sm text-gray-700">Giáo viên</span>
+                                <span class="ml-auto text-xs text-gray-500">5</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <!-- Filter by Level -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">Cấp độ</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;">
+                                <span class="ml-2 text-sm text-gray-700">Sơ cấp</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;" checked>
+                                <span class="ml-2 text-sm text-gray-700">Trung cấp</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;">
+                                <span class="ml-2 text-sm text-gray-700">Nâng cao</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <!-- Filter by Category -->
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-3">Chuyên môn</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;" checked>
+                                <span class="ml-2 text-sm text-gray-700">Guitar Cổ Điển</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;">
+                                <span class="ml-2 text-sm text-gray-700">Guitar Điện</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="rounded" style="accent-color: #00C853;">
+                                <span class="ml-2 text-sm text-gray-700">Guitar Acoustic</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+
+            <!-- ========== RESULTS ========== -->
+            <div class="lg:col-span-3">
+                
+                <!-- Results Header -->
+                <div class="mb-6 fade-in">
+                    <div class="flex justify-between items-center">
+                        <p class="text-gray-600">
+                            Tìm thấy <span class="font-bold text-gray-900">17</span> kết quả
+                        </p>
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option>Sắp xếp: Liên quan nhất</option>
+                            <option>Mới nhất</option>
+                            <option>Lượt xem nhiều</option>
+                            <option>Đánh giá cao</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Course Results -->
+                <div class="space-y-4 fade-in" id="resultsContainer">
+                    
+                    <!-- Result 1 - Course -->
+                    <div class="result-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-20 h-20 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-3xl">🎸</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 hover:text-green-600">Guitar Cơ Bản Cho Người Mới</h3>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            Khóa học <span class="badge badge-course">Khóa học</span>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-yellow-500 text-sm">⭐ 4.8 (120 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 mb-3">
+                                    Học cách cầm <span class="highlight">guitar</span> cơ bản, làm quen nốt nhạc, các hợp âm đầu tiên và những bài hát đơn giản...
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-2">
+                                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Cấp độ: Sơ cấp</span>
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">10 bài học</span>
+                                    </div>
+                                    <a href="#" class="text-green-600 hover:text-green-700 font-semibold">Xem chi tiết →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result 2 - Course -->
+                    <div class="result-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-20 h-20 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <span class="text-3xl">👨‍🏫</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 hover:text-green-600">Nguyễn Văn A - Giáo viên Guitar</h3>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            Giáo viên <span class="badge badge-teacher">Giáo viên</span>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-yellow-500 text-sm">⭐ 4.9 (80 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 mb-3">
+                                    Giáo viên Guitar cơ bản chuyên nghiệp với 8 năm kinh nghiệm dạy. Chuyên môn: <span class="highlight">Guitar</span> Cổ Điển, đệm hát, sáng tác...
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-2">
+                                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">8 năm kinh nghiệm</span>
+                                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">150+ học viên</span>
+                                    </div>
+                                    <a href="/giaovien" class="text-green-600 hover:text-green-700 font-semibold">Xem tất cả →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result 3 - Course -->
+                    <div class="result-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-20 h-20 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <span class="text-3xl">📚</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 hover:text-green-600">Khóa học Guitar Nâng Cao</h3>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            Khóa học <span class="badge badge-course">Khóa học</span>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-yellow-500 text-sm">⭐ 4.7 (95 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 mb-3">
+                                    Nâng tầm kỹ năng <span class="highlight">guitar</span> của bạn với fingerstyle, solo, đệm hát chuyên sâu và lý thuyết âm nhạc ứng dụng...
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-2">
+                                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Cấp độ: Nâng cao</span>
+                                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded">20 bài học</span>
+                                    </div>
+                                    <a href="#" class="text-green-600 hover:text-green-700 font-semibold">Xem chi tiết →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result 4 - Course -->
+                    <div class="result-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-20 h-20 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <span class="text-3xl">🎼</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 hover:text-green-600">Lý Thuyết Âm Nhạc Cho Guitarists</h3>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            Khóa học <span class="badge badge-course">Khóa học</span>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-yellow-500 text-sm">⭐ 4.6 (70 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 mb-3">
+                                    Hiểu sâu hơn về lý thuyết âm nhạc và cách áp dụng vào chơi <span class="highlight">guitar</span>. Các chủ đề: âm giai, hợp âm, tiến trình v.v...
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-2">
+                                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Cấp độ: Trung cấp</span>
+                                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">15 bài học</span>
+                                    </div>
+                                    <a href="#" class="text-green-600 hover:text-green-700 font-semibold">Xem chi tiết →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-12 flex justify-center gap-2 fade-in">
+                    <button class="pagination-btn px-4 py-2 rounded-lg border border-gray-300 hover:border-gray-400">← Trước</button>
+                    <button class="pagination-btn active px-4 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">1</button>
+                    <button class="pagination-btn px-4 py-2 rounded-lg border border-gray-300 hover:border-gray-400">2</button>
+                    <button class="pagination-btn px-4 py-2 rounded-lg border border-gray-300 hover:border-gray-400">3</button>
+                    <button class="pagination-btn px-4 py-2 rounded-lg border border-gray-300 hover:border-gray-400">Sau →</button>
+                </div>
+
+                <!-- No Results State (Hidden) -->
+                <div class="empty-state hidden">
+                    <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Không tìm thấy kết quả</h3>
+                    <p class="text-gray-500 mb-6">Vui lòng thử với từ khóa khác hoặc điều chỉnh bộ lọc</p>
+                    <a href="/" class="inline-block px-6 py-2 rounded-lg font-semibold text-white" style="background-color: #00C853;">
+                        Quay lại trang chủ
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
