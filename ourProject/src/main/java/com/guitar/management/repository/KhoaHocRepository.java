@@ -1,48 +1,13 @@
+// File: src/main/java/com/guitar/management/repository/KhoaHocRepository.java
 package com.guitar.management.repository;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.guitar.management.model.KhoaHoc;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class KhoaHocRepository {
-    private List<KhoaHoc> khoaHocList;
-
-    public KhoaHocRepository() {
-        this.khoaHocList = new ArrayList<>();
-    }
-
-    // Create
-    public void addKhoaHoc(KhoaHoc khoaHoc) {
-        khoaHocList.add(khoaHoc);
-    }
-
-    // Read
-    public KhoaHoc getKhoaHocById(int id) {
-        for (KhoaHoc khoaHoc : khoaHocList) {
-            if (khoaHoc.getId() == id) {
-                return khoaHoc;
-            }
-        }
-        return null;
-    }
-
-    // Update
-    public void updateKhoaHoc(KhoaHoc updatedKhoaHoc) {
-        for (int i = 0; i < khoaHocList.size(); i++) {
-            if (khoaHocList.get(i).getId() == updatedKhoaHoc.getId()) {
-                khoaHocList.set(i, updatedKhoaHoc);
-                return;
-            }
-        }
-    }
-
-    // Delete
-    public void deleteKhoaHoc(int id) {
-        khoaHocList.removeIf(khoaHoc -> khoaHoc.getId() == id);
-    }
-
-    // Get all KhoaHoc
-    public List<KhoaHoc> getAllKhoaHoc() {
-        return new ArrayList<>(khoaHocList);
-    }
+@Repository // <-- Báo cho Spring: "Đây là một 'Bean'!"
+public interface KhoaHocRepository extends JpaRepository<KhoaHoc, Long> {
+    // Tìm khóa học theo từ khoá trong tiêu đề hoặc mô tả (dùng cho filter Cơ bản /
+    // Nâng cao)
+    java.util.List<KhoaHoc> findByTenKhoaHocContainingIgnoreCaseOrMoTaContainingIgnoreCase(String ten, String moTa);
 }
