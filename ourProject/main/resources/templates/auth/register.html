@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - Quản lý khóa học Guitar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-green: #10b981;
+            --brand-blue: #3b82f6;
+            --brand-orange: #f97316;
+        }
+        body { font-family: 'Roboto', sans-serif; }
+        .btn-cta-green {
+            background-color: var(--brand-green);
+            color: white;
+            font-weight: 600;
+        }
+        .btn-cta-green:hover {
+            background-color: #059669;
+        }
+        .role-card {
+            transition: all 0.3s ease;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .role-card.active {
+            border-color: var(--brand-green);
+            background-color: #f0fdf4;
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a th:href="@{/}" class="text-3xl font-bold" style="color: var(--brand-green);">
+                    Guitar 🎸
+                </a>
+                <a th:href="@{/}" class="text-gray-600 hover:text-gray-900">← Quay lại</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen flex items-center justify-center py-12 px-4">
+        <div class="max-w-2xl w-full">
+            <!-- Title -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Đăng Ký Tài Khoản</h1>
+                <p class="text-gray-600">Chọn vai trò của bạn để bắt đầu</p>
+            </div>
+
+            <!-- Info Box -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+                <p class="text-blue-700 text-sm">
+                    <strong>ℹ️ Lưu ý:</strong> Nếu bạn là giáo viên, vui lòng liên hệ admin để nhận tài khoản.
+                </p>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="grid grid-cols-1 gap-6 mb-8" id="roleSelection">
+                <!-- Học viên Card -->
+                <div class="role-card border-2 border-gray-300 rounded-xl p-8 cursor-pointer bg-white" onclick="selectRole('hocvien', this)">
+                    <div class="text-5xl text-center mb-4">👨‍🎓</div>
+                    <h2 class="text-2xl font-bold text-center mb-3 text-gray-900">Đăng Ký Học Viên</h2>
+                    <p class="text-center text-gray-600 text-sm mb-4">
+                        Tôi muốn học guitar và phát triển kỹ năng âm nhạc của mình
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>✓ Truy cập các khóa học</li>
+                        <li>✓ Theo dõi tiến độ học tập</li>
+                        <li>✓ Gặp gỡ giáo viên</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Registration Form (Hidden by default) -->
+            <div id="registerForm" class="bg-white rounded-xl shadow-lg p-8 hidden">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900" id="formTitle">Đăng Ký Học Viên</h3>
+
+                <!-- Error Message -->
+                <div th:if="${param.error}" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p class="text-red-700 font-semibold">❌ Đăng ký thất bại!</p>
+                    <p class="text-red-600 text-sm">Vui lòng kiểm tra lại thông tin.</p>
+                </div>
+
+                <!-- Form -->
+                <form id="registerFormElement" th:action="@{/register/hocvien}" method="POST" class="space-y-4" onsubmit="validateForm(event)">
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Tên đăng nhập <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username"
+                            name="username" 
+                            placeholder="Ví dụ: guitarhero123"
+                            required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Tối thiểu 4 ký tự, chỉ chứa chữ cái, số và dấu gạch dưới</p>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Email <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email"
+                            name="email" 
+                            placeholder="example@gmail.com"
+                            required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                    </div>
+
+                    <!-- Tên -->
+                    <div>
+                        <label for="ten" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Họ và tên <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="ten"
+                            name="ten" 
+                            placeholder="Ví dụ: Nguyễn Văn A"
+                            required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                    </div>
+
+                    <!-- Số điện thoại -->
+                    <div>
+                        <label for="sdt" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Số điện thoại <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="sdt"
+                            name="sdt" 
+                            placeholder="0912345678"
+                            pattern="[0-9]{10}"
+                            required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Nhập 10 chữ số</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Mật khẩu <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password"
+                            name="password" 
+                            placeholder="Tối thiểu 6 ký tự"
+                            required
+                            minlength="6"
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Phải chứa chữ cái, số và ký tự đặc biệt</p>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Xác nhận mật khẩu <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword"
+                            name="confirmPassword" 
+                            placeholder="Nhập lại mật khẩu"
+                            required
+                            minlength="6"
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                        >
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="flex items-start">
+                        <input 
+                            type="checkbox" 
+                            id="terms" 
+                            name="terms"
+                            required
+                            class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 mt-1"
+                        >
+                        <label for="terms" class="ml-2 text-sm text-gray-600">
+                            Tôi đồng ý với <a href="#" class="text-green-600 hover:underline">Điều khoản dịch vụ</a> 
+                            và <a href="#" class="text-green-600 hover:underline">Chính sách bảo mật</a>
+                        </label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex gap-4 pt-4">
+                        <button 
+                            type="button"
+                            onclick="resetRole()"
+                            class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition"
+                        >
+                            ← Quay lại
+                        </button>
+                        <button 
+                            type="submit"
+                            class="flex-1 btn-cta-green py-3 rounded-lg font-semibold hover:opacity-90 transition"
+                        >
+                            Đăng Ký
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center mt-8" id="loginLink">
+                <p class="text-gray-600">
+                    Đã có tài khoản?
+                    <a th:href="@{/login}" class="font-semibold text-green-600 hover:text-green-700">
+                        Đăng nhập ngay
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 mt-16">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>© 2025 Quản lý khóa học Guitar. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedRole = null;
+
+        function selectRole(role, element) {
+            selectedRole = role;
+            
+            // Update cards
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('active', 'border-green-500');
+                card.classList.add('border-gray-300');
+            });
+            element.classList.add('active', 'border-green-500');
+            element.classList.remove('border-gray-300');
+
+            // Show form
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginLink').classList.add('hidden');
+
+            // Update form action and title
+            const form = document.getElementById('registerFormElement');
+            form.action = role === 'hocvien' ? '/register/hocvien' : '/register/giaovien';
+            document.getElementById('formTitle').textContent = role === 'hocvien' 
+                ? 'Đăng Ký Học Viên' 
+                : 'Đăng Ký Giáo Viên';
+
+            // Scroll to form
+            document.getElementById('registerForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetRole() {
+            selectedRole = null;
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('active', 'border-green-500');
+                card.classList.add('border-gray-300');
+            });
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginLink').classList.remove('hidden');
+            document.getElementById('registerFormElement').reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function validateForm(event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                alert('❌ Mật khẩu không khớp!');
+                return false;
+            }
+
+            // Check password strength (optional)
+            if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+                event.preventDefault();
+                alert('❌ Mật khẩu phải chứa cả chữ cái và số');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Validate password match on change
+        document.getElementById('confirmPassword')?.addEventListener('change', function() {
+            const password = document.getElementById('password').value;
+            if (this.value !== password) {
+                this.setCustomValidity('Mật khẩu không khớp');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // Validate username on change
+        document.getElementById('username')?.addEventListener('change', function() {
+            if (!/^[a-zA-Z0-9_]{4,}$/.test(this.value)) {
+                this.setCustomValidity('Tên đăng nhập tối thiểu 4 ký tự, chỉ chứa chữ cái, số và dấu gạch dưới');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // Validate phone on change
+        document.getElementById('sdt')?.addEventListener('change', function() {
+            if (!/^[0-9]{10}$/.test(this.value)) {
+                this.setCustomValidity('Số điện thoại phải có 10 chữ số');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+</body>
+</html>
