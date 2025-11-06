@@ -1,12 +1,48 @@
-// File: src/main/java/com/guitar/management/repository/HocVienRepository.java
 package com.guitar.management.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.guitar.management.model.HocVien;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository // <-- Báo cho Spring: "Đây là một 'Bean'!"
-public interface HocVienRepository extends JpaRepository<HocVien, Long> {
-    // Tìm HocVien theo user id (dùng khi cần lấy hồ sơ học viên từ username)
-    java.util.Optional<HocVien> findByUserId(Long userId);
+public class HocVienRepository {
+    private List<HocVien> hocVienList;
+
+    public HocVienRepository() {
+        this.hocVienList = new ArrayList<>();
+    }
+
+    // Create
+    public void addHocVien(HocVien hocVien) {
+        hocVienList.add(hocVien);
+    }
+
+    // Read
+    public HocVien getHocVienById(int id) {
+        for (HocVien hocVien : hocVienList) {
+            if (hocVien.getId() == id) {
+                return hocVien;
+            }
+        }
+        return null;
+    }
+
+    // Update
+    public void updateHocVien(HocVien updatedHocVien) {
+        for (int i = 0; i < hocVienList.size(); i++) {
+            if (hocVienList.get(i).getId() == updatedHocVien.getId()) {
+                hocVienList.set(i, updatedHocVien);
+                return;
+            }
+        }
+    }
+
+    // Delete
+    public void deleteHocVien(int id) {
+        hocVienList.removeIf(hocVien -> hocVien.getId() == id);
+    }
+
+    // Get all HocVien
+    public List<HocVien> getAllHocVien() {
+        return new ArrayList<>(hocVienList);
+    }
 }
