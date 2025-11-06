@@ -94,21 +94,24 @@ Báo cáo: Thống kê báo cáo tiến trình theo từng học viên hoặc th
 
 
 ## 9.2 UML Sequence Diagram
-### 9.2.1. Học viên đăng ký khóa
+### 9.2.1. Người dùng xem khóa học
 
-<img width="784" height="462" alt="hocvien_dangky_khoahoc" src="https://github.com/user-attachments/assets/1585dfc8-f5f4-437a-911e-d6c76b1a64ee" />
+<img width="712" height="339" alt="user_khoahoc" src="https://github.com/user-attachments/assets/b7d182ea-6847-42bb-b169-ba6de799d991" />
 
-### 9.2.2. Học viên học bài
 
-<img width="620" height="420" alt="hocvien_hocbai" src="https://github.com/user-attachments/assets/ecef2cd0-acbf-4f18-8c66-077bbaa1f4a2" />
+### 9.2.2. Học viên đăng ký khóa học
 
-### 9.2.3. Học viên hoàn thành bài học
+<img width="1365" height="432" alt="hocvien_dangky" src="https://github.com/user-attachments/assets/f40b5f21-75f8-4d67-944f-10b1cdbabfff" />
 
-<img width="650" height="382" alt="hocvien_hoanthanh_baihoc" src="https://github.com/user-attachments/assets/c650650a-b612-4649-84fc-bd42d9fd658c" />
 
-### 9.2.4. Giáo viên đánh giá học viên
+### 9.2.3. Giáo viên,Admin xóa khóa học
 
-<img width="678" height="369" alt="giaovien_danhgia_hocvien" src="https://github.com/user-attachments/assets/e7270a08-9af6-4d98-b532-ff789691e1fb" />
+<img width="1118" height="374" alt="giaovien_khoahoc" src="https://github.com/user-attachments/assets/da1b28f3-f137-41ae-9029-1291886a86d6" />
+
+
+### 9.2.4. Giáo viên xem chi tiết khóa học
+
+<img width="1256" height="397" alt="giaovien_detail_khoahoc" src="https://github.com/user-attachments/assets/8332cf9b-7328-4aac-8b2b-95faede31447" />
 
 ## 9.3 UML Activity Diagram
 ### 9.3.1. Khóa học
