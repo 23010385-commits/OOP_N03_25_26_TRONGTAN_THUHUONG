@@ -7,3 +7,4 @@ src/temp*
 target/
 *.class
 .DS_Store
+ourProject/.env
